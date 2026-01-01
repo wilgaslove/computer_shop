@@ -1,10 +1,12 @@
 <script setup>
-  import AppLayout from '../Layouts/AppLayout.vue';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
 </script>
 
 <template>
-  <AppLayout>
-    <h1>Boutique d’ordinateurs 💻</h1>
-    <p>Vue + Inertia fonctionnent 🎉</p>
-  </AppLayout>
+  <AuthenticatedLayout>
+    <h1 class="text-2xl font-bold">
+      Boutique d’ordinateurs 💻
+    </h1>
+    <p>Utilisateur connecté 🎉</p>
+  </AuthenticatedLayout>
 </template>
