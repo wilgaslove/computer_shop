@@ -1,6 +1,10 @@
-<script setup></script>
+<script setup>
+  import AppLayout from '../Layouts/AppLayout.vue';
+</script>
 
 <template>
-  <h1>Boutique d’ordinateurs 💻</h1>
-  <p>Vue + Inertia fonctionnent 🎉</p>
+  <AppLayout>
+    <h1>Boutique d’ordinateurs 💻</h1>
+    <p>Vue + Inertia fonctionnent 🎉</p>
+  </AppLayout>
 </template>
