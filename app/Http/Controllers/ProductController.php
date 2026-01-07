@@ -1,7 +1,11 @@
+<?php
+
+namespace App\Http\Controllers;
+
 use App\Models\Product;
 use App\Models\Category;
-use Inertia\Inertia;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class ProductController extends Controller
 {
@@ -22,12 +26,12 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'name' => 'required',
-            'price' => 'required|numeric',
-            'stock' => 'required|integer',
+            'name'        => 'required|string|max:255',
+            'price'       => 'required|numeric',
+            'stock'       => 'required|integer',
             'category_id' => 'required|exists:categories,id',
-            'description' => 'nullable',
-            'image' => 'nullable|image|max:2048',
+            'description' => 'nullable|string',
+            'image'       => 'nullable|image|max:2048',
         ]);
 
         if ($request->hasFile('image')) {
