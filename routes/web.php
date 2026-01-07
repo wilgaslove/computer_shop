@@ -1,15 +1,13 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\ProductController;
-use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Application;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CategoryController;
 
 
-Route::middleware(['auth'])->group(function () {
-    Route::resource('products', ProductController::class);
-});
 
 
 Route::get('/', function () {
@@ -20,6 +18,22 @@ Route::get('/', function () {
         'phpVersion' => PHP_VERSION,
     ]);
 });
+
+
+
+// route pour les produits
+Route::middleware(['auth'])->group(function () {
+    Route::resource('products', ProductController::class);
+});
+
+
+// route pour les categorie de produits
+
+Route::middleware(['auth'])->group(function () {
+    Route::resource('categories', CategoryController::class);
+});
+
+
 
 Route::get('/dashboard', function () {
     return Inertia::raender('Dashboard');
