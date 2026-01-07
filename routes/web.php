@@ -33,6 +33,13 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('categories', CategoryController::class);
 });
 
+// route admin
+use App\Http\Controllers\Admin\DashboardController;
+
+Route::middleware(['auth'])->prefix('admin')->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])
+        ->name('admin.dashboard');
+});
 
 
 Route::get('/dashboard', function () {
