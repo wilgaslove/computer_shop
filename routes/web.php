@@ -24,10 +24,12 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
         ->name('admin.dashboard');
 });
 
+
 // dashboard utilisateur
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
 
 // profile
 Route::middleware('auth')->group(function () {
