@@ -8,17 +8,6 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 
-// Route::get('/', function () {
-//     return Inertia::render('Welcome', [
-//         'canLogin' => Route::has('login'),
-//         'canRegister' => Route::has('register'),
-//         'laravelVersion' => Application::VERSION,
-//         'phpVersion' => PHP_VERSION,
-//     ]);
-// });
-
-
-
 // page d'accueil → produits
 Route::get('/', function () {
     return redirect()->route('products.index');
