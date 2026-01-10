@@ -19,10 +19,15 @@ Route::middleware(['auth'])->group(function () {
 });
 
 // admin
-Route::middleware(['auth'])->prefix('admin')->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'index'])
-        ->name('admin.dashboard');
-});
+// Route::middleware(['auth'])->prefix('admin')->group(function () {
+//     Route::get('/dashboard', [DashboardController::class, 'index'])
+//         ->name('admin.dashboard');
+// });
+
+Route::get('/dashboard', function () {
+    return redirect()->route('admin.dashboard');
+})->middleware(['auth'])->name('dashboard');
+
 
 // dashboard utilisateur
 Route::get('/dashboard', function () {
