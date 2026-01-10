@@ -6,7 +6,7 @@ defineProps({ stats: Object })
 
 <template>
   <AdminLayout>
-    <h1 class="text-2xl font-bold mb-6">Dashboard Admin</h1>
+    <h1 class="text-2xl font-bold mb-6">Dashboard Admi</h1>
 
     <div class="grid grid-cols-2 gap-6">
       <div class="bg-white p-4 shadow rounded">

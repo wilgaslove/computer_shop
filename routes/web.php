@@ -7,7 +7,6 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-
 // page d'accueil → produits
 Route::get('/', function () {
     return redirect()->route('products.index');
@@ -25,12 +24,10 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
         ->name('admin.dashboard');
 });
 
-
 // dashboard utilisateur
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
-
 
 // profile
 Route::middleware('auth')->group(function () {

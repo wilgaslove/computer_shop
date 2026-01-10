@@ -179,6 +179,14 @@ const showingNavigationDropdown = ref(false);
                 </div>
             </nav>
 
+            <Link
+  href="/admin/dashboard"
+  class="block px-4 py-2"
+>
+  Admin Dashboard
+</Link>
+
+
             <!-- Page Heading -->
             <header
                 class="bg-white shadow"

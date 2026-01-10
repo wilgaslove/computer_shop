@@ -23,6 +23,6 @@ class AppServiceProvider extends ServiceProvider
         Vite::prefetch(concurrency: 3);
     }
 
-    public const HOME = '/admin/dashboard';
+    public const HOME = '/dashboard';
 
 }
