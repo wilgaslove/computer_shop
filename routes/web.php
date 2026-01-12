@@ -12,17 +12,26 @@ Route::get('/', function () {
     return redirect()->route('products.index');
 });
 
-// produits
-Route::middleware(['auth'])->group(function () {
-    Route::resource('products', ProductController::class);
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('/admin/dashboard', [DashboardController::class, 'index'])
+        ->name('admin.dashboard');
+
     Route::resource('categories', CategoryController::class);
+    Route::resource('products', ProductController::class);
 });
 
 
+// // produits
+// Route::middleware(['auth'])->group(function () {
+//     Route::resource('products', ProductController::class);
+//     Route::resource('categories', CategoryController::class);
+// });
 
-Route::get('/dashboard', function () {
-    return redirect()->route('admin.dashboard');
-})->middleware(['auth'])->name('dashboard');
+
+
+// Route::get('/dashboard', function () {
+//     return redirect()->route('admin.dashboard');
+// })->middleware(['auth'])->name('dashboard');
 
 
 // dashboard utilisateur
