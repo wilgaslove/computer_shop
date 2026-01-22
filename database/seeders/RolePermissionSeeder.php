@@ -2,44 +2,50 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\PermissionRegistrar;
 
 class RolePermissionSeeder extends Seeder
 {
     public function run()
     {
+        // Reset cache
+        app()[PermissionRegistrar::class]->forgetCachedPermissions();
+
         // Permissions
-        Permission::create(['name' => 'manage categories']);
-        Permission::create(['name' => 'manage products']);
-        Permission::create(['name' => 'view dashboard']);
+        $permissions = [
+            // Dashboard
+            'dashboard.view',
 
-
-        Permission::create(['name' => 'category.view']);
-        Permission::create(['name' => 'category.create']);
-        Permission::create(['name' => 'category.edit']);
-        Permission::create(['name' => 'category.delete']);
-
-
-       
-        // Roles
-        $admin = Role::create(['name' => 'admin']);
-        $user  = Role::create(['name' => 'user']);
-
-        
-        $admin->givePermissionTo([
+            // Categories
             'category.view',
             'category.create',
             'category.edit',
             'category.delete',
-        ]);
 
-        
-        // Attribution permissions
-        $admin->givePermissionTo(Permission::all());
-        $user->givePermissionTo('view dashboard');
+            // Products (prévu pour la suite)
+            'product.view',
+            'product.create',
+            'product.edit',
+            'product.delete',
+        ];
+
+        foreach ($permissions as $permission) {
+            Permission::firstOrCreate(['name' => $permission]);
+        }
+
+        // Roles
+        $admin = Role::firstOrCreate(['name' => 'admin']);
+        $user  = Role::firstOrCreate(['name' => 'user']);
+
+        // Admin → tout
+        $admin->syncPermissions($permissions);
+
+        // User → accès limité
+        $user->syncPermissions([
+            'dashboard.view',
+        ]);
     }
 }
