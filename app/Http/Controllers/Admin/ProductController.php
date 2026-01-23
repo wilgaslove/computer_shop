@@ -21,6 +21,7 @@ class ProductController extends Controller
     public function create()
     {
         //
+        $this->middleware('permission:product.create')->only(['create', 'store']);
     }
 
     /**
@@ -36,6 +37,7 @@ class ProductController extends Controller
      */
     public function show(string $id)
     {
+        $this->middleware('permission:product.view')->only(['index', 'show']);
         //
     }
 
@@ -45,6 +47,7 @@ class ProductController extends Controller
     public function edit(string $id)
     {
         //
+        $this->middleware('permission:product.edit')->only(['edit', 'update']);
     }
 
     /**
@@ -61,5 +64,6 @@ class ProductController extends Controller
     public function destroy(string $id)
     {
         //
+        $this->middleware('permission:product.delete')->only(['destroy']);
     }
 }
