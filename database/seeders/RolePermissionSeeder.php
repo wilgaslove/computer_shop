@@ -25,7 +25,7 @@ class RolePermissionSeeder extends Seeder
             'category.edit',
             'category.delete',
 
-            // Products (prévu pour la suite)
+            // Products 
             'product.view',
             'product.create',
             'product.edit',
@@ -39,6 +39,11 @@ class RolePermissionSeeder extends Seeder
         // Roles
         $admin = Role::firstOrCreate(['name' => 'admin']);
         $user  = Role::firstOrCreate(['name' => 'user']);
+
+        // Role Super Admin → tout
+        // Role::firstOrCreate(['name' => 'super-admin'])
+        //     ->givePermissionTo(Permission::all());
+
 
         // Admin → tout
         $admin->syncPermissions($permissions);
