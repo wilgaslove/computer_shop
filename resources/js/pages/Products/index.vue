@@ -40,7 +40,7 @@ defineProps({
       <tbody>
         <tr v-for="product in products.data" :key="product.id">
           <td>{{ product.name }}</td>
-          <td>{{ product.price }} €</td>
+          <td>{{ product.price }}F CFA</td> 
           <td class="space-x-2">
             <Link
               v-if="can.edit"
