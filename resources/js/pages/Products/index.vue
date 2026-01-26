@@ -2,7 +2,10 @@
 import { Link } from '@inertiajs/vue3'
 
 defineProps({
-  products: Object,
+  products: {
+    type: Array,
+    required: true,
+  },
   can: {
     type: Object,
     default: () => ({
@@ -12,12 +15,13 @@ defineProps({
     }),
   },
 })
+
 </script>
 
 
 <template>
   <div>
-    <pre>{{ can }} </pre>
+    <!-- <pre>{{ can }} </pre> -->
     <h1 class="text-2xl font-bold mb-4">Produits</h1>
 
     <Link

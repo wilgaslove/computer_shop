@@ -6,16 +6,27 @@ use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Auth;
+
 
 class ProductController extends Controller
 {
-    public function index()
-    {
-        return Inertia::render('Products/Index', [
-            'products' => Product::with('category')->get(),
-        ]);
-    }
-
+// public function share(Request $request): array
+// {
+//     return array_merge(parent::share($request), [
+//         'auth' => [
+//             'user' => Auth::user(),
+//             'can' => [
+//                 'product' => [
+//                     'view'   => Auth::user()?->can('product.view') ?? false,
+//                     'create' => Auth::user()?->can('product.create') ?? false,
+//                     'edit'   => Auth::user()?->can('product.edit') ?? false,
+//                     'delete' => Auth::user()?->can('product.delete') ?? false,
+//                 ],
+//             ],
+//         ],
+//     ]);
+// }
     public function create()
     {
         return Inertia::render('Products/Create', [
