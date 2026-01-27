@@ -7,28 +7,41 @@ use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
     public function __construct()
-    {
-        $this->middleware('permission:product.view')->only(['index', 'show']);
-        $this->middleware('permission:product.create')->only(['create', 'store']);
-        $this->middleware('permission:product.edit')->only(['edit', 'update']);
-        $this->middleware('permission:product.delete')->only(['destroy']);
-    }
+{
+    $this->middleware('auth');
+
+    $this->middleware('permission:product.view')->only(['index', 'show']);
+    $this->middleware('permission:product.create')->only(['create', 'store']);
+    $this->middleware('permission:product.edit')->only(['edit', 'update']);
+    $this->middleware('permission:product.delete')->only(['destroy']);
+}
 
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        $products = Product::with('category')->latest()->get();
+public function index()
+{
+    $user = request()->user(); // ✅ SAFE
 
-        return Inertia::render('Admin/Products/Index', [
-            'products' => $products,
-        ]);
-    }
+    $products = Product::with('category')
+        ->latest()
+        ->paginate(10);
+
+    return Inertia::render('Admin/Products/Index', [
+        'products' => $products,
+        'can' => [
+            'create' => $user->can('product.create'),
+            'edit'   => $user->can('product.edit'),
+            'delete' => $user->can('product.delete'),
+        ],
+    ]);
+}
+
 
     /**
      * Show the form for creating a new resource.
@@ -56,7 +69,7 @@ class ProductController extends Controller
         Product::create($validated);
 
         return redirect()
-            ->route('products.index')
+            ->route('admin.products.index')
             ->with('success', 'Produit créé avec succès');
     }
 
@@ -97,7 +110,7 @@ class ProductController extends Controller
         $product->update($validated);
 
         return redirect()
-            ->route('products.index')
+            ->route('admin.products.index')
             ->with('success', 'Produit mis à jour');
     }
 

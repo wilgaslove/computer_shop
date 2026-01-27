@@ -2,26 +2,13 @@
 import { Link } from '@inertiajs/vue3'
 
 defineProps({
-  products: {
-    type: Array,
-    required: true,
-  },
-  can: {
-    type: Object,
-    default: () => ({
-      create: true,
-      edit: true,
-      delete: true,
-    }),
-  },
+  products: Object,
+  can: Object,
 })
-
 </script>
-
 
 <template>
   <div>
-    <pre>{{ can }} </pre>
     <h1 class="text-2xl font-bold mb-4">Produits</h1>
 
     <Link
@@ -44,7 +31,7 @@ defineProps({
       <tbody>
         <tr v-for="product in products.data" :key="product.id">
           <td>{{ product.name }}</td>
-          <td>{{ product.price }}F CFA</td> 
+          <td>{{ product.price }} FCFA</td>
           <td class="space-x-2">
             <Link
               v-if="can.edit"
