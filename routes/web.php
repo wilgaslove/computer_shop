@@ -10,19 +10,7 @@ use Inertia\Inertia;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Shop\ProductController as ShopProductController;
 
-/*
-|--------------------------------------------------------------------------
-| Public (users)
-|--------------------------------------------------------------------------
-*/
-// Route::get('/', [ShopProductController::class, 'index'])
-//     ->name('shop.products.index');
 
-/*
-|--------------------------------------------------------------------------
-| Admin
-|--------------------------------------------------------------------------
-*/
 Route::middleware(['auth', 'role:admin'])
     ->prefix('admin')
     ->name('admin.')
@@ -31,8 +19,8 @@ Route::middleware(['auth', 'role:admin'])
         Route::get('/dashboard', [DashboardController::class, 'index'])
             ->name('dashboard');
 
-        Route::resource('products', AdminProductController::class);
-        // Route::resource('categories', CategoryController::class);
+        Route::resource('products', \App\Http\Controllers\Admin\ProductController::class);
+        // Route::resource('categories', \App\Http\Controllers\Admin\CategoryController::class);
     });
 
 

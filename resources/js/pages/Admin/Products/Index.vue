@@ -8,7 +8,7 @@ defineProps({
 </script>
 
 <template>
-  <div>
+  <div class="p-6 mt-[15%]">
     <h1 class="text-2xl font-bold mb-4">Produits</h1>
 
     <Link
