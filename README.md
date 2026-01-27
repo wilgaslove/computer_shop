@@ -92,3 +92,14 @@ Gestion des commandes
 Gestion des utilisateurs
 
 Statistiques (ventes, revenus)
+
+
+
+
+le CRUD Produits Admin complet
+
+permissions Spatie propres
+
+interface Shop côté client
+
+commandes + panier (plus tard)

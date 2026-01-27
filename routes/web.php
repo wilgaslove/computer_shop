@@ -7,23 +7,33 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-// Admin
-Route::prefix('admin')
+use App\Http\Controllers\Admin\ProductController as AdminProductController;
+use App\Http\Controllers\Shop\ProductController as ShopProductController;
+
+/*
+|--------------------------------------------------------------------------
+| Public (users)
+|--------------------------------------------------------------------------
+*/
+// Route::get('/', [ShopProductController::class, 'index'])
+//     ->name('shop.products.index');
+
+/*
+|--------------------------------------------------------------------------
+| Admin
+|--------------------------------------------------------------------------
+*/
+Route::middleware(['auth', 'role:admin'])
+    ->prefix('admin')
     ->name('admin.')
-    ->middleware(['auth', 'role:admin'])
     ->group(function () {
+
         Route::get('/dashboard', [DashboardController::class, 'index'])
             ->name('dashboard');
 
-        Route::resource('products', Admin\ProductController::class);
-        Route::resource('categories', Admin\CategoryController::class);
-        // Route::resource('orders', Admin\OrderController::class);
+        Route::resource('products', AdminProductController::class);
+        // Route::resource('categories', CategoryController::class);
     });
-
-// Front (clients)
-// Route::get('/', [Shop\ProductController::class, 'home'])->name('shop.home');
-// Route::get('/products', [Shop\ProductController::class, 'index'])->name('shop.products');
-// Route::get('/products/{product}', [Shop\ProductController::class, 'show'])->name('shop.products.show');
 
 
 require __DIR__.'/auth.php';
