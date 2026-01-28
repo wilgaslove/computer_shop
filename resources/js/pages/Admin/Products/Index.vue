@@ -11,11 +11,7 @@ defineProps({
   <div class="p-6 mt-[15%]">
     <h1 class="text-2xl font-bold mb-4">Produits</h1>
 
-    <Link
-      v-if="can.create"
-      :href="route('admin.products.create')"
-      class="btn btn-primary mb-4"
-    >
+    <Link v-if="can.create" :href="route('admin.products.create')" class=" bg-blue-600 text-white px-4 py-2 rounded">
       + Nouveau produit
     </Link>
 
@@ -33,19 +29,12 @@ defineProps({
           <td>{{ product.name }}</td>
           <td>{{ product.price }} FCFA</td>
           <td class="space-x-2">
-            <Link
-              v-if="can.edit"
-              :href="route('admin.products.edit', product.id)"
-            >
-              ✏️
+            <Link v-if="can.edit" :href="route('admin.products.edit', product.id)" class="text-blue-600">
+              Modifier
             </Link>
 
-            <Link
-              v-if="can.delete"
-              method="delete"
-              as="button"
-              :href="route('admin.products.destroy', product.id)"
-            >
+
+            <Link v-if="can.delete" method="delete" as="button" :href="route('admin.products.destroy', product.id)">
               🗑️
             </Link>
           </td>

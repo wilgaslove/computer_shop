@@ -12,35 +12,35 @@ use Illuminate\Support\Facades\Auth;
 class ProductController extends Controller
 {
     public function __construct()
-{
-    $this->middleware('auth');
+    {
+        $this->middleware('auth');
 
-    $this->middleware('permission:product.view')->only(['index', 'show']);
-    $this->middleware('permission:product.create')->only(['create', 'store']);
-    $this->middleware('permission:product.edit')->only(['edit', 'update']);
-    $this->middleware('permission:product.delete')->only(['destroy']);
-}
+        $this->middleware('permission:product.view')->only(['index', 'show']);
+        $this->middleware('permission:product.create')->only(['create', 'store']);
+        $this->middleware('permission:product.edit')->only(['edit', 'update']);
+        $this->middleware('permission:product.delete')->only(['destroy']);
+    }
 
     /**
      * Display a listing of the resource.
      */
-public function index()
-{
-    $user = request()->user(); // ✅ SAFE
+    public function index()
+    {
+        $user = request()->user(); // ✅ SAFE
 
-    $products = Product::with('category')
-        ->latest()
-        ->paginate(10);
+        $products = Product::with('category')
+            ->latest()
+            ->paginate(10);
 
-    return Inertia::render('Admin/Products/Index', [
-        'products' => $products,
-        'can' => [
-            'create' => $user->can('product.create'),
-            'edit'   => $user->can('product.edit'),
-            'delete' => $user->can('product.delete'),
-        ],
-    ]);
-}
+        return Inertia::render('Admin/Products/Index', [
+            'products' => $products,
+            'can' => [
+                'create' => $user->can('product.create'),
+                'edit'   => $user->can('product.edit'),
+                'delete' => $user->can('product.delete'),
+            ],
+        ]);
+    }
 
 
     /**
@@ -86,13 +86,22 @@ public function index()
     /**
      * Show the form for editing the specified resource.
      */
+    // public function edit(Product $product)
+    // {
+    //     return Inertia::render('Admin/Products/Edit', [
+    //         'product'    => $product,
+    //         'categories' => Category::all(),
+    //     ]);
+    // }
+
     public function edit(Product $product)
     {
         return Inertia::render('Admin/Products/Edit', [
-            'product'    => $product,
+            'product' => $product->load('category'),
             'categories' => Category::all(),
         ]);
     }
+
 
     /**
      * Update the specified resource in storage.
