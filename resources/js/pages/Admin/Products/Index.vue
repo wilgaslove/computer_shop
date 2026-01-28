@@ -28,6 +28,10 @@ defineProps({
         <tr v-for="product in products.data" :key="product.id">
           <td>{{ product.name }}</td>
           <td>{{ product.price }} FCFA</td>
+          <td>
+            <img v-if="product.image" :src="`/storage/${product.image}`" class="w-16 h-16 object-cover rounded" />
+          </td>
+
           <td class="space-x-2">
             <Link v-if="can.edit" :href="route('admin.products.edit', product.id)" class="text-blue-600">
               Modifier
