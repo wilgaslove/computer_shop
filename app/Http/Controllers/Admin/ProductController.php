@@ -131,7 +131,7 @@ class ProductController extends Controller
         if ($request->hasFile('image')) {
             if ($product->image) {
                Storage::disk('public')->delete($product->image);
-
+ 
             }
 
             $validated['image'] = $request->file('image')
