@@ -158,3 +158,7 @@ class ProductController extends Controller
             ->with('success', 'Produit supprimé');
     }
 }
+
+
+
+
