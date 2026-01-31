@@ -24,4 +24,5 @@ Route::middleware(['auth', 'role:admin'])
     });
 
 
+    
 require __DIR__.'/auth.php';

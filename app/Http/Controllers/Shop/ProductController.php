@@ -12,6 +12,15 @@ use Illuminate\Support\Facades\Auth;
 class ProductController extends Controller
 {
 
+     public function index()
+    {
+        return Inertia::render('Shop/Products/Index', [
+            'products' => Product::where('active', true)
+                ->latest()
+                ->paginate(12),
+        ]);
+    }
+
     public function create()
     {
         return Inertia::render('Products/Create', [
