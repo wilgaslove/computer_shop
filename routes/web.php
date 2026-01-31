@@ -24,5 +24,9 @@ Route::middleware(['auth', 'role:admin'])
     });
 
 
+Route::get('/shop', [ShopProductController::class, 'index'])
+    ->name('shop.products');
+
+
     
 require __DIR__.'/auth.php';
