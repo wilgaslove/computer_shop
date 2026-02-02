@@ -19,6 +19,10 @@ import { useForm, Link } from '@inertiajs/vue3'
 
 defineProps({ categories: Array })
 
+const props = defineProps({
+  categories: Array,
+})
+
 const form = useForm({
   name: '',
   price: '',
@@ -92,7 +96,7 @@ function submit() {
     </form>
   </div> -->
 
-   <div>
+  <div>
     <h1 class="text-xl font-bold mb-4">Nouveau produit</h1>
 
     <form @submit.prevent="submit" class="space-y-4">
@@ -107,11 +111,12 @@ function submit() {
         </option>
       </select>
 
+
       <input type="file" @change="e => form.image = e.target.files[0]" />
 
       <textarea v-model="form.description" placeholder="Description" />
 
-      <button class="btn btn-primary">Créer</button>
+      <button type="submit" class="btn btn-primary">Créer</button>
     </form>
   </div>
 </template>
