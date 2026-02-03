@@ -18,10 +18,12 @@ const form = useForm({
 })
 
 function submit() {
+  console.log(form)
   form.post(route('admin.products.store'), {
     forceFormData: true,
   })
 }
+
 </script>
 
 <template>
@@ -43,7 +45,8 @@ function submit() {
 
       <input type="file" @change="e => form.image = e.target.files[0]" />
 
-      <textarea v-model="form.description" placeholder="Description" />
+      <textarea v-model="form.description"></textarea>
+
 
       <button type="submit" class="btn btn-primary">Créer</button>
     </form>
