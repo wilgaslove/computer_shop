@@ -57,3 +57,49 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+
+# plan de travail 
+📦 Fonctionnalités de la boutique
+👤 Côté client
+
+Page d’accueil
+
+Liste des ordinateurs
+
+Filtrage (marque, prix, RAM, stockage)
+
+Détails produit
+
+Panier
+
+Commande
+
+Paiement
+
+Historique des commandes
+
+🧑‍💼 Côté admin
+
+Gestion des produits
+
+Gestion du stock
+
+Gestion des catégories
+
+Gestion des commandes
+
+Gestion des utilisateurs
+
+Statistiques (ventes, revenus)
+
+
+
+
+le CRUD Produits Admin complet
+
+permissions Spatie propres
+
+interface Shop côté client
+
+commandes + panier (plus tard)
