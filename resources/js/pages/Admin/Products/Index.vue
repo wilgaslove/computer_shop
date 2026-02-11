@@ -22,6 +22,7 @@ defineProps({
           <th>Prix</th>
           <th>Actions</th>
         </tr>
+        
       </thead>
 
       <tbody>
