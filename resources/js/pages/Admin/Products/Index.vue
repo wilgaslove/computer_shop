@@ -34,7 +34,7 @@ defineProps({
 
           <td class="space-x-2">
             <Link v-if="can.edit" :href="route('admin.products.edit', product.id)" class="text-blue-600">
-              Modifier
+              Modifier le produit
             </Link>
 
 
