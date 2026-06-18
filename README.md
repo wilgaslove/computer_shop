@@ -103,3 +103,24 @@ permissions Spatie propres
 interface Shop côté client
 
 commandes + panier (plus tard)
+
+resources/js/pages
+
+Admin/
+├── Dashboard.vue
+├── Products/
+│   ├── Index.vue
+│   ├── Create.vue
+│   ├── Edit.vue
+│   └── Show.vue
+├── Categories/
+└── Orders/
+
+Shop/
+├── Home.vue
+├── Products/
+│   ├── Index.vue
+│   └── Show.vue
+├── Cart.vue
+├── Checkout.vue
+└── Orders/
