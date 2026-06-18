@@ -18,7 +18,7 @@ class ProductController extends Controller
         return Inertia::render('Shop/Products/Index', [
             'products' => Product::where('active', true)
                 ->latest()
-                ->paginate(12),
+                // ->paginate(12),
         ]);
     }
 
