@@ -19,8 +19,8 @@ Route::middleware(['auth', 'role:admin'])
         Route::get('/dashboard', [DashboardController::class, 'index'])
             ->name('dashboard');
 
-        Route::resource('products', \App\Http\Controllers\Admin\ProductController::class);
-         Route::resource('categories', \App\Http\Controllers\Admin\CategoryController::class);
+        Route::resource('products', ProductController::class);
+         Route::resource('categories', CategoryController::class);
     });
 
 
