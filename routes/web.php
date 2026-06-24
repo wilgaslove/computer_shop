@@ -25,27 +25,22 @@ Route::get('/shop', [ShopProductController::class, 'index'])
 |--------------------------------------------------------------------------
 */
 
-// Route::middleware(['auth', 'role:admin'])
-//     ->prefix('admin')
-//     ->name('admin.')
-//     ->group(function () {
+Route::middleware(['auth', 'role:admin'])
+    ->prefix('admin')
+    ->name('admin.')
+    ->group(function () {
 
-//         Route::get('/dashboard', [DashboardController::class, 'index'])
-//             ->name('dashboard');
+        Route::get('/dashboard', [DashboardController::class, 'index'])
+            ->name('dashboard');
 
-//         Route::resource('products', AdminProductController::class);
+        Route::resource('products', AdminProductController::class);
 
-//         // Plus tard
-//         // Route::resource('categories', CategoryController::class);
-//         // Route::resource('orders', OrderController::class);
-//         // Route::resource('users', UserController::class);
-//     });
+        // Plus tard
+        // Route::resource('categories', CategoryController::class);
+        // Route::resource('orders', OrderController::class);
+        // Route::resource('users', UserController::class);
+    });
 
-
-Route::middleware(['auth'])->prefix('admin')->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'index'])
-        ->name('admin.dashboard');
-});
 
 /*
 |--------------------------------------------------------------------------
