@@ -3,11 +3,8 @@
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
-use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Shop\ProductController as ShopProductController;
 
 
