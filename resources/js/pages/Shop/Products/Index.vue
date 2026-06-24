@@ -7,6 +7,9 @@ const props = defineProps({
 })
 </script>
 <template>
+
+  <p class="text-2xl font-bold mb-4">Nos produits</p>
+
   <div class="grid grid-cols-4 gap-4">
     <div v-for="product in props.products.data"  :key="product.id">
       <img
