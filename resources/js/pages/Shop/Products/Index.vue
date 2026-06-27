@@ -1,5 +1,6 @@
 <script setup>
-import productCard from '@/Components/ProductCard.vue'  
+import ProductCard from '@/Components/ProductCard.vue'  
+import ShopLayout from '@/Layouts/ShopLayout.vue'
 
 defineProps({
     products: {
@@ -9,6 +10,9 @@ defineProps({
 })
 </script>
 <template>
+
+<ShopLayout>
+
   <h1 class="text-2xl font-bold mb-6">Produits</h1>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <ProductCard
@@ -17,4 +21,5 @@ defineProps({
             :product="product"
         />
     </div>
+</ShopLayout>
 </template>

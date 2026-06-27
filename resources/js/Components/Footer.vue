@@ -5,7 +5,7 @@
     <div class="max-w-7xl mx-auto px-4 py-10">
 
         <h2 class="text-xl font-bold">
-            ComputerShop
+            LogInova Tech   
         </h2>
 
         <p class="text-gray-400 mt-2">
@@ -16,7 +16,7 @@
         <div class="border-t border-slate-700 mt-8 pt-6 text-sm text-gray-400">
 
             © {{ new Date().getFullYear() }}
-            ComputerShop.
+            LogInova Tech.
             Tous droits réservés.
 
         </div>
