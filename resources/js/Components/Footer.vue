@@ -4,7 +4,7 @@
 
     <div class="max-w-7xl mx-auto px-4 py-10">
 
-        <h2 class="text-xl font-bold">
+        <h2 class="text-xl font-bold text-center">
             LogInova Tech   
         </h2>
 
