@@ -11,68 +11,104 @@ defineProps({
 
 <template>
     <div
-        class="bg-white rounded-xl shadow-md hover:shadow-xl transition duration-300 overflow-hidden border border-gray-100"
+        class="group bg-white rounded-2xl overflow-hidden border border-gray-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
     >
+        <!-- Badge -->
+        <div class="absolute z-10 m-3">
+            <span
+                v-if="product.stock > 0"
+                class="bg-green-600 text-white text-xs px-3 py-1 rounded-full"
+            >
+                Disponible
+            </span>
+
+            <span
+                v-else
+                class="bg-red-600 text-white text-xs px-3 py-1 rounded-full"
+            >
+                Rupture
+            </span>
+        </div>
+
         <!-- Image -->
-        <div class="h-56 bg-gray-100 flex items-center justify-center">
+        <div class="relative h-60 bg-gray-100 overflow-hidden">
+
             <img
                 v-if="product.image"
                 :src="`/storage/${product.image}`"
                 :alt="product.name"
-                class="h-full w-full object-cover"
+                class="w-full h-full object-cover group-hover:scale-105 transition duration-500"
             />
 
             <div
                 v-else
-                class="text-gray-400 text-sm"
+                class="flex items-center justify-center h-full text-gray-400"
             >
                 Aucune image
             </div>
+
+            <!-- Favoris -->
+            <button
+                class="absolute top-3 right-3 bg-white rounded-full shadow p-2 hover:bg-red-50"
+            >
+                ❤️
+            </button>
+
         </div>
 
         <!-- Informations -->
-        <div class="p-4">
+        <div class="p-5">
 
-            <p class="text-xs text-gray-500 mb-1">
+            <p class="text-sm text-blue-600 font-semibold">
                 {{ product.category?.name }}
             </p>
 
-            <h2 class="text-lg font-bold text-gray-900 line-clamp-2">
+            <h2
+                class="mt-2 text-lg font-bold text-gray-900 line-clamp-2"
+            >
                 {{ product.name }}
             </h2>
 
-            <p class="text-sm text-gray-500 mt-2 line-clamp-2">
+            <p
+                class="mt-2 text-sm text-gray-500 line-clamp-2"
+            >
                 {{ product.description }}
             </p>
 
-            <div class="flex items-center justify-between mt-4">
+            <div class="mt-4 flex justify-between items-center">
 
-                <span class="text-2xl font-bold text-blue-600">
+                <span
+                    class="text-2xl font-bold text-blue-700"
+                >
                     {{ Number(product.price).toLocaleString() }} FCFA
                 </span>
 
                 <span
-                    v-if="product.stock > 0"
-                    class="text-green-600 text-sm font-medium"
+                    class="text-xs text-gray-500"
                 >
-                    En stock
-                </span>
-
-                <span
-                    v-else
-                    class="text-red-500 text-sm font-medium"
-                >
-                    Rupture
+                    Stock :
+                    <strong>{{ product.stock }}</strong>
                 </span>
 
             </div>
 
-            <Link
-                :href="route('shop.products.show', product.id)"
-                class="mt-5 w-full inline-flex justify-center items-center bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg transition"
-            >
-                Voir le produit
-            </Link>
+            <div class="mt-5 grid grid-cols-2 gap-2">
+
+                <Link
+                    :href="route('shop.products.show', product.id)"
+                    class="text-center bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg transition"
+                >
+                    Voir
+                </Link>
+
+                <button
+                    class="bg-gray-900 hover:bg-black text-white py-2 rounded-lg transition"
+                    :disabled="product.stock <= 0"
+                >
+                    🛒 Panier
+                </button>
+
+            </div>
 
         </div>
     </div>
