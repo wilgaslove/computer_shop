@@ -1,23 +1,20 @@
 <script setup>
-const props = defineProps({
-  products: {
-    type: Object,
-    required: true
-  }
+import productCard from '@/Components/ProductCard.vue'  
+
+defineProps({
+    products: {
+        type: Object,
+        required: true,
+    },
 })
 </script>
 <template>
-
-  <p class="text-2xl font-bold mb-4">Nos produits</p>
-
-  <div class="grid grid-cols-4 gap-4">
-    <div v-for="product in props.products.data"  :key="product.id">
-      <img
-        :src="`/storage/${product.image}`"
-        class="w-full h-48 object-cover"
-      />
-      <h3>{{ product.name }}</h3>
-      <p>{{ product.price }} FCFA</p>
+  <h1 class="text-2xl font-bold mb-6">Produits</h1>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <ProductCard
+            v-for="product in products.data"
+            :key="product.id"
+            :product="product"
+        />
     </div>
-  </div>
 </template>
