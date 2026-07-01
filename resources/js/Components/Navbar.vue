@@ -1,5 +1,10 @@
 <script setup>
-import { Link } from '@inertiajs/vue3'
+import { Link, usePage } from '@inertiajs/vue3'
+import { computed } from 'vue'
+
+const page = usePage()
+
+const user = computed(() => page.props?.auth?.user ?? null)
 </script>
 
 <template>
@@ -7,11 +12,12 @@ import { Link } from '@inertiajs/vue3'
 <header class="sticky top-0 z-50">
 
     <!-- Barre principale -->
+
     <div class="bg-slate-900 text-white">
 
-        <div class="max-w-7xl mx-auto px-5">
+        <div class="max-w-7xl mx-auto px-6">
 
-            <div class="h-20 flex items-center gap-6">
+            <div class="flex items-center h-20 gap-6">
 
                 <!-- Logo -->
 
@@ -29,13 +35,12 @@ import { Link } from '@inertiajs/vue3'
                     <div class="flex">
 
                         <input
-                            type="text"
+                            class="w-full px-4 py-3 rounded-l-lg text-black outline-none"
                             placeholder="Rechercher un ordinateur..."
-                            class="w-full rounded-l-lg px-4 py-3 text-black outline-none"
                         >
 
                         <button
-                            class="bg-blue-600 hover:bg-blue-700 px-5 rounded-r-lg"
+                            class="bg-blue-600 hover:bg-blue-700 px-6 rounded-r-lg"
                         >
                             🔍
                         </button>
@@ -46,36 +51,74 @@ import { Link } from '@inertiajs/vue3'
 
                 <!-- Favoris -->
 
-                <button
-                    class="hover:text-blue-400 transition"
-                >
+                <button class="text-xl hover:text-blue-400">
                     ❤️
                 </button>
 
                 <!-- Panier -->
 
-                <button
-                    class="relative hover:text-blue-400 transition"
-                >
+                <button class="relative text-xl hover:text-blue-400">
 
                     🛒
 
                     <span
-                        class="absolute -top-2 -right-3 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center"
+                        class="absolute -top-2 -right-2 bg-red-500 text-xs h-5 w-5 rounded-full flex items-center justify-center"
                     >
                         0
                     </span>
 
                 </button>
 
-                <!-- Compte -->
+                <!-- Utilisateur -->
 
-                <Link
-                    :href="route('login')"
-                    class="hover:text-blue-400"
+                <div v-if="user">
+
+                    <div class="flex items-center gap-3">
+
+                        <div
+                            class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center font-bold"
+                        >
+                            {{ user.name.charAt(0).toUpperCase() }}
+                        </div>
+
+                        <div>
+
+                            <div class="text-sm">
+                                Bonjour
+                            </div>
+
+                            <div class="font-semibold">
+                                {{ user.name }}
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Non connecté -->
+
+                <div
+                    v-else
+                    class="flex gap-3"
                 >
-                    👤
-                </Link>
+
+                    <Link
+                        :href="route('login')"
+                        class="hover:text-blue-400"
+                    >
+                        Connexion
+                    </Link>
+
+                    <Link
+                        :href="route('register')"
+                        class="bg-blue-600 px-4 py-2 rounded-lg hover:bg-blue-700"
+                    >
+                        Inscription
+                    </Link>
+
+                </div>
 
             </div>
 
@@ -83,32 +126,36 @@ import { Link } from '@inertiajs/vue3'
 
     </div>
 
-    <!-- Barre de navigation -->
+    <!-- Menu -->
 
     <div class="bg-white shadow">
 
         <div class="max-w-7xl mx-auto">
 
-            <nav class="h-14 flex items-center gap-8 px-5">
+            <nav class="flex gap-8 h-14 items-center px-6">
 
-                <Link :href="route('home')" class="hover:text-blue-600">
+                <Link :href="route('home')">
                     Accueil
                 </Link>
 
-                <Link :href="route('shop.products')" class="hover:text-blue-600">
+                <Link :href="route('shop.products')">
                     Produits
                 </Link>
 
                 <a href="#">
-                    PC Portables
+                    HP
                 </a>
 
                 <a href="#">
-                    Gaming
+                    Dell
                 </a>
 
                 <a href="#">
-                    Accessoires
+                    Lenovo
+                </a>
+
+                <a href="#">
+                    Asus
                 </a>
 
                 <a href="#">
