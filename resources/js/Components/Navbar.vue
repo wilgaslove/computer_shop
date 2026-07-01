@@ -1,142 +1,130 @@
 <script setup>
 import { Link } from '@inertiajs/vue3'
-
-const page = usePage()
-const user = page.props.value.auth.user
-
 </script>
 
 <template>
 
-    <header class="sticky top-0 z-50">
+<header class="sticky top-0 z-50">
 
-        <!-- Barre principale -->
-        <div class="flex items-center gap-5">
+    <!-- Barre principale -->
+    <div class="bg-slate-900 text-white">
 
-            <button>
-                ❤️
-            </button>
+        <div class="max-w-7xl mx-auto px-5">
 
-            <button class="relative">
+            <div class="h-20 flex items-center gap-6">
 
-                🛒
+                <!-- Logo -->
 
-                <span class="absolute -top-2 -right-2
-                   bg-red-500
-                   text-white
-                   rounded-full
-                   w-5
-                   h-5
-                   text-xs
-                   flex
-                   items-center
-                   justify-center">
-                    0
-                </span>
+                <Link
+                    :href="route('home')"
+                    class="text-3xl font-extrabold whitespace-nowrap"
+                >
+                    💻 ComputerShop
+                </Link>
 
-            </button>
+                <!-- Recherche -->
 
-            <!-- Utilisateur connecté -->
+                <div class="flex-1">
 
-            <template v-if="user">
+                    <div class="flex">
 
-                <div class="relative group">
+                        <input
+                            type="text"
+                            placeholder="Rechercher un ordinateur..."
+                            class="w-full rounded-l-lg px-4 py-3 text-black outline-none"
+                        >
 
-                    <button class="font-semibold hover:text-blue-400">
-                        {{ user.name }} ▼
-                    </button>
-
-                    <div class="absolute right-0 mt-2
-                       w-56
-                       bg-white
-                       text-black
-                       rounded-lg
-                       shadow-xl
-                       hidden
-                       group-hover:block">
-
-                        <Link href="/profile" class="block px-4 py-3 hover:bg-gray-100">
-                            Mon profil
-                        </Link>
-
-                        <Link href="#" class="block px-4 py-3 hover:bg-gray-100">
-                            Mes commandes
-                        </Link>
-
-                        <Link v-if="user.roles.includes('admin')" :href="route('admin.dashboard')"
-                            class="block px-4 py-3 hover:bg-gray-100">
-                            Dashboard Admin
-                        </Link>
-
-                        <Link method="post" :href="route('logout')" as="button"
-                            class="w-full text-left px-4 py-3 hover:bg-gray-100">
-                            Déconnexion
-                        </Link>
+                        <button
+                            class="bg-blue-600 hover:bg-blue-700 px-5 rounded-r-lg"
+                        >
+                            🔍
+                        </button>
 
                     </div>
 
                 </div>
 
-            </template>
+                <!-- Favoris -->
 
-            <!-- Visiteur -->
+                <button
+                    class="hover:text-blue-400 transition"
+                >
+                    ❤️
+                </button>
 
-            <template v-else>
+                <!-- Panier -->
 
-                <Link :href="route('login')">
-                    Connexion
+                <button
+                    class="relative hover:text-blue-400 transition"
+                >
+
+                    🛒
+
+                    <span
+                        class="absolute -top-2 -right-3 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center"
+                    >
+                        0
+                    </span>
+
+                </button>
+
+                <!-- Compte -->
+
+                <Link
+                    :href="route('login')"
+                    class="hover:text-blue-400"
+                >
+                    👤
                 </Link>
-
-                <Link :href="route('register')" class="bg-blue-600 text-white px-4 py-2 rounded-lg">
-                    Inscription
-                </Link>
-
-            </template>
-
-        </div>
-
-        <!-- Barre de navigation -->
-
-        <div class="bg-white shadow">
-
-            <div class="max-w-7xl mx-auto">
-
-                <nav class="h-14 flex items-center gap-8 px-5">
-
-                    <Link :href="route('home')" class="hover:text-blue-600">
-                        Accueil
-                    </Link>
-
-                    <Link :href="route('shop.products')" class="hover:text-blue-600">
-                        Produits
-                    </Link>
-
-                    <a href="#">
-                        PC Portables
-                    </a>
-
-                    <a href="#">
-                        Gaming
-                    </a>
-
-                    <a href="#">
-                        Accessoires
-                    </a>
-
-                    <a href="#">
-                        Promotions
-                    </a>
-
-                    <a href="#">
-                        Contact
-                    </a>
-
-                </nav>
 
             </div>
 
         </div>
 
-    </header>
+    </div>
+
+    <!-- Barre de navigation -->
+
+    <div class="bg-white shadow">
+
+        <div class="max-w-7xl mx-auto">
+
+            <nav class="h-14 flex items-center gap-8 px-5">
+
+                <Link :href="route('home')" class="hover:text-blue-600">
+                    Accueil
+                </Link>
+
+                <Link :href="route('shop.products')" class="hover:text-blue-600">
+                    Produits
+                </Link>
+
+                <a href="#">
+                    PC Portables
+                </a>
+
+                <a href="#">
+                    Gaming
+                </a>
+
+                <a href="#">
+                    Accessoires
+                </a>
+
+                <a href="#">
+                    Promotions
+                </a>
+
+                <a href="#">
+                    Contact
+                </a>
+
+            </nav>
+
+        </div>
+
+    </div>
+
+</header>
 
 </template>
