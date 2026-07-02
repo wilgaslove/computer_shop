@@ -1,7 +1,7 @@
 <script setup>
-import ProductCard from '@/Components/ProductCard.vue'
+import ProductCard from '@/Components/Shop/ProductCard.vue'
 import ShopLayout from '@/Layouts/ShopLayout.vue'
-import Hero from '@/Components/Hero.vue'
+import Hero from '@/Components/Shop/Hero.vue'
 
 defineProps({
     products: {
