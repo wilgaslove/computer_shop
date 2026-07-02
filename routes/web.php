@@ -39,7 +39,9 @@ Route::middleware(['auth', 'role:admin'])
         // Route::resource('categories', CategoryController::class);
         // Route::resource('orders', OrderController::class);
         // Route::resource('users', UserController::class);
+        Route::resource('hero-sliders', \App\Http\Controllers\Admin\HeroSliderController::class);
     });
+
 
 
 /*
@@ -59,4 +61,4 @@ Route::middleware('auth')->group(function () {
         ->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
