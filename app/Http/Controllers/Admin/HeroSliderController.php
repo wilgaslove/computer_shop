@@ -3,64 +3,64 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\HeroSlider;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class HeroSliderController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    public function __construct()
+    {
+        $this->middleware('permission:hero-slider.view')
+            ->only(['index','show']);
+
+        $this->middleware('permission:hero-slider.create')
+            ->only(['create','store']);
+
+        $this->middleware('permission:hero-slider.edit')
+            ->only(['edit','update']);
+
+        $this->middleware('permission:hero-slider.delete')
+            ->only(['destroy']);
+    }
+
     public function index()
     {
-        //
-        
+        $sliders = HeroSlider::orderBy('position')->get();
+
+        return Inertia::render('Admin/HeroSliders/Index', [
+            'sliders' => $sliders,
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return Inertia::render('Admin/HeroSliders/Create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         //
-        
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show(HeroSlider $heroSlider)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit(HeroSlider $heroSlider)
+    {
+        return Inertia::render('Admin/HeroSliders/Edit', [
+            'slider' => $heroSlider,
+        ]);
+    }
+
+    public function update(Request $request, HeroSlider $heroSlider)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(HeroSlider $heroSlider)
     {
         //
     }
