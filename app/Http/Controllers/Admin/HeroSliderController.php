@@ -13,6 +13,7 @@ class HeroSliderController extends Controller
     public function index()
     {
         //
+        
     }
 
     /**
