@@ -30,6 +30,7 @@ class HeroSliderController extends Controller
     public function store(Request $request)
     {
         //
+        
     }
 
     /**

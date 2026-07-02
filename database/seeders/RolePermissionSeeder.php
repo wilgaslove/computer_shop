@@ -30,6 +30,12 @@ class RolePermissionSeeder extends Seeder
             'product.create',
             'product.edit',
             'product.delete',
+
+            // Hero Slider
+            'hero-slider.view',
+            'hero-slider.create',
+            'hero-slider.edit',
+            'hero-slider.delete',
         ];
 
         foreach ($permissions as $permission) {
