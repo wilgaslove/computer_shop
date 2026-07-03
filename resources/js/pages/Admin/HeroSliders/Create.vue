@@ -25,14 +25,36 @@ function selectImage(e) {
     preview.value = URL.createObjectURL(file)
 }
 
+// function submit() {
+
+//     form.post(route('admin.hero-sliders.store'), {
+
+//         forceFormData: true,
+
+//     })
+
+// }
+
 function submit() {
-
     form.post(route('admin.hero-sliders.store'), {
-
         forceFormData: true,
 
-    })
+        onStart: () => {
+            console.log('Envoi du formulaire...');
+        },
 
+        onSuccess: () => {
+            console.log('Bannière créée avec succès');
+        },
+
+        onError: (errors) => {
+            console.log('Erreurs :', errors);
+        },
+
+        onFinish: () => {
+            console.log('Fin de la requête');
+        }
+    });
 }
 </script>
 
