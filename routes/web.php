@@ -6,6 +6,27 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Shop\ProductController as ShopProductController;
 
+use App\Http\Controllers\AuthController; 
+
+/*
+Enregistremtn et Connexion  utilisateur
+|-------------------------------------------------------------------------- 
+*/
+
+Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
+
+Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
+Route::post('/register', [AuthController::class, 'register']);
+
+Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth');
+
+Route::get('/dashboard', function () {
+    return \Inertia\Inertia::render('Dashboard');
+})->middleware('auth');
+
+
+
 /*
 |--------------------------------------------------------------------------
 | Boutique (publique)
@@ -41,6 +62,8 @@ Route::middleware(['auth', 'role:admin'])
         // Route::resource('users', UserController::class);
         Route::resource('hero-sliders', \App\Http\Controllers\Admin\HeroSliderController::class);
     });
+
+
 
 
 

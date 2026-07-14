@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Shop;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\HeroSlider;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -12,12 +13,18 @@ use Inertia\Inertia;
 class ProductController extends Controller
 {
 
-     public function index()
+    public function index()
     {
         return Inertia::render('Shop/Products/Index', [
+
             'products' => Product::where('active', true)
                 ->latest()
-                 ->paginate(12),
+                ->paginate(12),
+
+            'sliders' => HeroSlider::where('active', true)
+                ->orderBy('position')
+                ->get(),
+
         ]);
     }
 

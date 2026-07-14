@@ -1,104 +1,77 @@
 <script setup>
 import { Link } from '@inertiajs/vue3'
+import { Swiper, SwiperSlide } from 'swiper/vue'
+import { Navigation, Pagination } from 'swiper'
+import { Autoplay } from 'swiper/modules'
+
+import 'swiper/css'
+import 'swiper/css/navigation'
+import 'swiper/css/pagination'
+import 'swiper/css/autoplay'
+
+defineProps({
+    sliders: {
+        type: Array,
+        // required: true,
+    },
+})
 </script>
 
 <template>
 
-<section
-    class="relative overflow-hidden rounded-3xl
-           bg-gradient-to-r
-           from-slate-900
-           via-blue-900
-           to-slate-800
-           text-white"
->
+    <Swiper :modules="[Navigation, Pagination, Autoplay]" :slides-per-view="1" :loop="true" :autoplay="{
+        delay: 4000
+    }" navigation pagination>
 
-    <div class="max-w-7xl mx-auto px-8 py-20">
+        <SwiperSlide v-for="slider in sliders" :key="slider.id">
 
-        <div class="grid lg:grid-cols-2 gap-10 items-center">
+            <section
+                class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-slate-900 via-blue-900 to-slate-800 text-white">
 
-            <!-- Texte -->
+                <div class="max-w-7xl mx-auto px-8 py-20">
 
-            <div>
+                    <div class="grid lg:grid-cols-2 gap-10 items-center">
 
-                <span
-                    class="inline-block
-                           bg-blue-600
-                           px-4
-                           py-2
-                           rounded-full
-                           text-sm
-                           font-semibold"
-                >
-                    🔥 Promotions de la semaine
-                </span>
+                        <div>
 
-                <h1
-                    class="text-5xl lg:text-6xl
-                           font-extrabold
-                           mt-6
-                           leading-tight"
-                >
-                    Les meilleurs PC
-                    <br>
+                            <h1 class="text-6xl font-bold">
 
-                    au meilleur prix
-                </h1>
+                                {{ slider.title }}
 
-                <p
-                    class="mt-6
-                           text-lg
-                           text-gray-300
-                           leading-8"
-                >
-                    Découvrez notre sélection de PC portables,
-                    ordinateurs Gaming,
-                    stations de travail et accessoires
-                    informatiques au meilleur prix.
-                </p>
+                            </h1>
 
-                <div class="flex gap-4 mt-10">
+                            <p class="mt-6 text-xl">
 
-                    <Link
-                        :href="route('shop.products')"
-                        class="bg-blue-600 hover:bg-blue-700
-                               px-8 py-4 rounded-xl
-                               font-semibold"
-                    >
-                        Acheter maintenant
-                    </Link>
+                                {{ slider.subtitle }}
 
-                    <Link
-                        :href="route('shop.products')"
-                        class="border border-white
-                               hover:bg-white
-                               hover:text-black
-                               px-8 py-4
-                               rounded-xl"
-                    >
-                        Voir les produits
-                    </Link>
+                            </p>
+
+                            <div class="mt-10">
+
+                                <Link :href="slider.button_link" class="bg-blue-600 px-8 py-4 rounded-xl">
+
+                                    {{ slider.button_text }}
+
+                                </Link>
+
+                            </div>
+
+                        </div>
+
+                        <div>
+
+                            <img :src="'/storage/' + slider.image" class="rounded-2xl w-full">
+
+                        </div>
+
+                    </div>
 
                 </div>
 
-            </div>
+            </section>
 
-            <!-- Image -->
+        </SwiperSlide>
 
-            <div class="flex justify-center">
-
-                <img
-                    src="/images/hero-laptop.png"
-                    alt="Laptop"
-                    class="w-full max-w-xl drop-shadow-2xl"
-                >
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
+    </Swiper>
 
 </template>
