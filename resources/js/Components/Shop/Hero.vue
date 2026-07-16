@@ -12,7 +12,7 @@ import 'swiper/css/autoplay'
 defineProps({
     sliders: {
         type: Array,
-        // required: true,
+        required: true,
     },
 })
 </script>

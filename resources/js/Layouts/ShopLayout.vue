@@ -1,6 +1,7 @@
 <script setup>
 import Navbar from '@/Components/Shop/Navbar.vue'
 import Footer from '@/Components/Shop/Footer.vue'
+
 </script>
 
 <template>
