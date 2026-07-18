@@ -5,6 +5,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Shop\ProductController as ShopProductController;
+use App\http\Controllers\Auth\RegisterController;
 
 use App\Http\Controllers\AuthController; 
 
@@ -24,6 +25,14 @@ Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth');
 Route::get('/dashboard', function () {
     return \Inertia\Inertia::render('Dashboard');
 })->middleware('auth');
+
+Route::middleware('guest')->group(function () {
+
+    Route::get('/register', [RegisterController::class, 'create'])
+        ->name('register');
+
+    Route::post('/register', [RegisterController::class, 'store']);
+});
 
 
 
