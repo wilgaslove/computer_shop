@@ -35,10 +35,6 @@ Route::middleware(['auth', 'role:admin'])
 
         Route::resource('products', AdminProductController::class);
 
-        // Plus tard
-        //  Route::resource('categories', CategoryController::class);
-        //  Route::resource('orders', OrderController::class);
-        //  Route::resource('users', UserController::class);
     });
 
 
