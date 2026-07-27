@@ -7,7 +7,8 @@ use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Shop\ProductController as ShopProductController;
 use App\http\Controllers\Auth\RegisterController;
 
-use App\Http\Controllers\AuthController; 
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Auth\RegisteredUserController;
 
 /*
 Enregistremtn et Connexion  utilisateur
@@ -28,10 +29,10 @@ Enregistremtn et Connexion  utilisateur
 
 Route::middleware('guest')->group(function () {
 
-    Route::get('/register', [RegisterController::class, 'create'])
+    Route::get('/register', [RegisteredUserController::class, 'create'])
         ->name('register');
 
-    Route::post('/register', [RegisterController::class, 'store']);
+    Route::post('/register', [RegisteredUserController::class, 'store']);
 });
 
 

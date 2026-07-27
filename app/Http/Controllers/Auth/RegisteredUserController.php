@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rules\Password;
 use Inertia\Inertia;
 
-class RegisterController extends Controller
+class RegisteredUserController extends Controller
 {
     /**
      * Affiche la page d'inscription.
