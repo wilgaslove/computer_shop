@@ -29,8 +29,8 @@ return new class extends Migration
             $table->string('password');
 
             // Nouveau champ
-            $table->enum('role', ['admin', 'manager', 'customer'])
-                ->default('customer');
+            // $table->enum('role', ['admin', 'manager', 'customer'])
+            //     ->default('customer');
 
             $table->rememberToken();
             $table->timestamps();
