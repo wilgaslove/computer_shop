@@ -24,41 +24,62 @@ class RegisteredUserController extends Controller
     /**
      * Enregistre un nouvel utilisateur.
      */
+    // public function store(Request $request)
+    // {
+    //     $validated = $request->validate([
+    //         'name' => ['required', 'string', 'max:255'],
+    //         'email' => ['required', 'email', 'max:255', 'unique:users,email'],
+    //         'password' => ['required', 'confirmed', Password::defaults()],
+    //     ]);
+
+    //     DB::beginTransaction();
+
+    //     try {
+
+    //         $user = User::create([
+    //             'name' => $validated['name'],
+    //             'email' => $validated['email'],
+    //             'password' => Hash::make($validated['password']),
+    //             'role' => 'customer',
+    //         ]);
+
+    //         // Attribution du rôle Spatie
+    //         $user->assignRole('customer');
+
+    //         DB::commit();
+
+    //         Auth::login($user);
+
+    //         return redirect()->route('shop.products');
+
+    //     } catch (\Throwable $e) {
+
+    //         DB::rollBack();
+
+    //         return back()->withErrors([
+    //             'register' => $e->getMessage(),
+    //         ]);
+    //     }
+    // }
+
     public function store(Request $request)
     {
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', 'max:255', 'unique:users,email'],
+            'email' => ['required', 'email', 'unique:users,email'],
             'password' => ['required', 'confirmed', Password::defaults()],
         ]);
 
-        DB::beginTransaction();
+        $user = User::create([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'password' => Hash::make($validated['password']),
+        ]);
 
-        try {
+        $user->syncRoles('customer');
 
-            $user = User::create([
-                'name' => $validated['name'],
-                'email' => $validated['email'],
-                'password' => Hash::make($validated['password']),
-                'role' => 'customer',
-            ]);
+        Auth::login($user);
 
-            // Attribution du rôle Spatie
-            $user->assignRole('customer');
-
-            DB::commit();
-
-            Auth::login($user);
-
-            return redirect()->route('shop.products');
-
-        } catch (\Throwable $e) {
-
-            DB::rollBack();
-
-            return back()->withErrors([
-                'register' => $e->getMessage(),
-            ]);
-        }
+        return redirect()->route('home');
     }
 }
