@@ -56,25 +56,24 @@ class AuthenticatedSessionController extends Controller
     //     return redirect()->route('shop.products');
     // }
 
-    public function store(LoginRequest $request)
+    public function store(LoginRequest $request): RedirectResponse
     {
         $request->authenticate();
 
         $request->session()->regenerate();
 
-        $user = Auth::user();
+        $user = auth()->user();
 
-        if ($user->role === 'admin') {
+        if ($user->hasRole('admin')) {
             return redirect()->route('admin.dashboard');
         }
 
-        if ($user->role === 'manager') {
+        if ($user->hasRole('manager')) {
             return redirect()->route('admin.dashboard');
         }
 
-        return redirect()->route('home');
+        return redirect()->route('shop.products');
     }
-
 
     /**
      * Destroy an authenticated session.

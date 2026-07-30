@@ -21,7 +21,6 @@ class DatabaseSeeder extends Seeder
             'name' => 'Wilgas',
             'email' => 'test@gmail.com',
             'password' => bcrypt('a'), // Assurez-vous de hacher le mot de passe
-
         ]);
         $this->call([
             RolePermissionSeeder::class,
