@@ -79,7 +79,14 @@ class RegisteredUserController extends Controller
         $user->syncRoles('customer');
 
         Auth::login($user);
+        if ($user->hasRole('admin')) {
+            return redirect()->route('admin.dashboard');
+        }
 
-        return redirect()->route('home');
+        if ($user->hasRole('manager')) {
+            return redirect()->route('admin.dashboard');
+        }
+
+        return redirect()->route('shop.products');
     }
 }
