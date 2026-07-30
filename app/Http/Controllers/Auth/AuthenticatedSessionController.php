@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Inertia\Response;
 
+
 class AuthenticatedSessionController extends Controller
 {
     /**
@@ -36,7 +37,26 @@ class AuthenticatedSessionController extends Controller
     //     return redirect()->intended(route('dashboard', absolute: false));
     // }
 
-    public function store(LoginRequest $request): RedirectResponse
+    // public function store(LoginRequest $request): RedirectResponse
+    // {
+    //     $request->authenticate();
+
+    //     $request->session()->regenerate();
+
+    //     $user = Auth::user();
+
+    //     if ($user->role === 'admin') {
+    //         return redirect()->route('admin.dashboard');
+    //     }
+
+    //     if ($user->role === 'manager') {
+    //         return redirect()->route('admin.dashboard');
+    //     }
+
+    //     return redirect()->route('shop.products');
+    // }
+
+    public function store(LoginRequest $request)
     {
         $request->authenticate();
 
@@ -52,9 +72,9 @@ class AuthenticatedSessionController extends Controller
             return redirect()->route('admin.dashboard');
         }
 
-        return redirect()->route('shop.products');
+        return redirect()->route('home');
     }
-    
+
 
     /**
      * Destroy an authenticated session.
