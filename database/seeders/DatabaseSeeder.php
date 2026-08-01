@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => 'Wilgas',
             'email' => 'test@gmail.com',
-            'password' => bcrypt('a'), // Assurez-vous de hacher le mot de passe
+            'password' => bcrypt('a'), 
         ]);
         $this->call([
             RolePermissionSeeder::class,
