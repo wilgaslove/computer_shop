@@ -6,8 +6,13 @@ import Hero from '@/Components/Shop/Hero.vue'
 defineProps({
     products: {
         type: Object,
-        sliders: Array,
+        // sliders: Array,
+        required: true, 
     },
+    sliders: {
+        type: Array,
+        required: true,
+    }
 })
 </script>
 <template>

@@ -1,8 +1,8 @@
 <script setup>
 import { Link } from '@inertiajs/vue3'
 import { Swiper, SwiperSlide } from 'swiper/vue'
-import { Navigation, Pagination } from 'swiper'
-import { Autoplay } from 'swiper/modules'
+// import { Navigation, Pagination } from 'swiper'
+import { Navigation, Pagination, Autoplay } from 'swiper/modules'
 
 import 'swiper/css'
 import 'swiper/css/navigation'
