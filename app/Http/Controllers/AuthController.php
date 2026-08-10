@@ -43,6 +43,15 @@ class AuthController extends Controller
 
     }
 
+    private function redirectPathForUser(User $user): string
+    {
+        if ($user->hasRole('admin')) return route('admin.dashboard');
+        if ($user->hasRole('manager')) return route('admin.dashboard');
+        if ($user->hasRole('customer')) return route('home');
+        return route('home');
+    }
+   
+
     public function login(Request $request)
     {
         $credentials = $request->validate([
