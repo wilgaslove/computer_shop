@@ -56,7 +56,7 @@ Route::get('/shop', [ShopProductController::class, 'index'])
 |--------------------------------------------------------------------------
 */
 
-Route::middleware(['auth', 'role:admin'])
+Route::middleware(['auth', 'role:admin'||'role.manager'])
     ->prefix('admin')
     ->name('admin.')
     ->group(function () {
