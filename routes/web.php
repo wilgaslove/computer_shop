@@ -67,8 +67,6 @@ Route::middleware(['auth', 'role:admin'||'role.manager'])
         Route::resource('products', AdminProductController::class);
 
         // Plus tard
-        Route::resource('users', UserController::class);
-        Route::resource('hero-sliders', \App\Http\Controllers\Admin\HeroSliderController::class);
     });
 
 
