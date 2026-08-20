@@ -123,9 +123,9 @@ const user = computed(() => page.props?.auth?.user ?? null)
                         Produits
                     </Link>
 
-                    <Link :href="route('admin.hero-sliders.index')" class="flex items-center gap-2">
+                    <!-- <Link :href="route('admin.hero-sliders.index')" class="flex items-center gap-2">
                         🖼 Hero Slider
-                    </Link>
+                    </Link> -->
 
                     <a href="#">
                         HP
