@@ -1,9 +1,8 @@
 <?php
 
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use Illuminate\Support\Facades\Route;
-
-Route::post('/register', [RegisteredUserController::class, 'apiRegister']);
 
 Route::get('/test', function () {
     return response()->json([
@@ -11,3 +10,13 @@ Route::get('/test', function () {
         'message' => 'API Laravel fonctionne correctement.',
     ]);
 });
+
+Route::post('/register', [
+    RegisteredUserController::class,
+    'apiRegister'
+]);
+
+Route::post('/login', [
+    AuthenticatedSessionController::class,
+    'apiLogin'
+]);
