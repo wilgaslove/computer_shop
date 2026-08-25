@@ -62,34 +62,6 @@ class RegisteredUserController extends Controller
     //     }
     // }
 
-    public function apiRegister(Request $request)
-    {
-        $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', 'max:255', 'unique:users,email'],
-            'password' => ['required', 'confirmed', \Illuminate\Validation\Rules\Password::defaults()],
-        ]);
-
-        $user = User::create([
-            'name' => $validated['name'],
-            'email' => $validated['email'],
-            'password' => \Illuminate\Support\Facades\Hash::make($validated['password']),
-        ]);
-
-        $user->assignRole('customer');
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Utilisateur créé avec succès.',
-            'user' => [
-                'id' => $user->id,
-                'name' => $user->name,
-                'email' => $user->email,
-                'role' => $user->getRoleNames()->first(),
-            ],
-        ], 201);
-    }
-
     public function store(Request $request)
     {
         $validated = $request->validate([

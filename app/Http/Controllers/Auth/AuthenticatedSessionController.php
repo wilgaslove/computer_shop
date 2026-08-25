@@ -56,24 +56,24 @@ class AuthenticatedSessionController extends Controller
     //     return redirect()->route('shop.products');
     // }
 
-    // public function store(LoginRequest $request): RedirectResponse
-    // {
-    //     $request->authenticate();
+    public function store(LoginRequest $request): RedirectResponse
+    {
+        $request->authenticate();
 
-    //     $request->session()->regenerate();
+        $request->session()->regenerate();
 
-    //     $user = auth()->user();
+        $user = auth()->user();
 
-    //     if ($user->hasRole('admin')) {
-    //         return redirect()->route('admin.dashboard');
-    //     }
+        if ($user->hasRole('admin')) {
+            return redirect()->route('admin.dashboard');
+        }
 
-    //     if ($user->hasRole('manager')) {
-    //         return redirect()->route('admin.dashboard');
-    //     }
+        if ($user->hasRole('manager')) {
+            return redirect()->route('admin.dashboard');
+        }
 
-    //     return redirect()->route('shop.products');
-    // }
+        return redirect()->route('shop.products');
+    }
 
     /**
      * Destroy an authenticated session.
@@ -88,34 +88,4 @@ class AuthenticatedSessionController extends Controller
 
         return redirect('/');
     }
-
-    public function apiLogin(Request $request)
-{
-    $credentials = $request->validate([
-        'email' => ['required', 'email'],
-        'password' => ['required', 'string'],
-    ]);
-
-    if (!Auth::attempt($credentials)) {
-        return response()->json([
-            'success' => false,
-            'message' => 'Email ou mot de passe incorrect.',
-        ], 401);
-    }
-
-    $request->session()->regenerate();
-
-    $user = Auth::user();
-
-    return response()->json([
-        'success' => true,
-        'message' => 'Connexion réussie.',
-        'user' => [
-            'id' => $user->id,
-            'name' => $user->name,
-            'email' => $user->email,
-            'roles' => method_exists($user, 'getRoleNames') ? $user->getRoleNames()->toArray() : [],
-        ],
-    ]);
-}
 }
