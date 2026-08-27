@@ -12,14 +12,54 @@ use Inertia\Inertia;
 
 class RegisteredUserController extends Controller
 {
+    
+    /**
+     * Affiche le formulaire d'inscription.
+     */
+    public function create()
+    {
+        return Inertia::render('Auth/Register');
+    }
 
-public function store(Request $request)
-{
-    dd([
-        'controller' => 'RegisteredUserController',
-        'method' => $request->method(),
-        'data' => $request->all(),
-    ]);
-}
-  
+    /**
+     * Enregistre un nouvel utilisateur.
+     */
+    public function store(Request $request)
+    {
+
+
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+
+            'email' => [
+                'required',
+                'string',
+                'email',
+                'max:255',
+                'unique:users,email',
+            ],
+
+            'password' => [
+                'required',
+                'confirmed',
+                Password::defaults(),
+            ],
+        ]);
+
+        $user = User::create([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'password' => Hash::make($validated['password']),
+        ]);
+
+        // Tous les nouveaux utilisateurs sont customer
+        $user->assignRole('customer');
+
+        // Connexion automatique
+        Auth::login($user);
+
+        $request->session()->regenerate();
+
+        return redirect()->route('shop.products');
+    }
 }
