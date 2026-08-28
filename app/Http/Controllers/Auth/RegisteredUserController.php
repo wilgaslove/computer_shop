@@ -12,9 +12,8 @@ use Inertia\Inertia;
 
 class RegisteredUserController extends Controller
 {
-    
     /**
-     * Affiche le formulaire d'inscription.
+     * Afficher la page d'inscription.
      */
     public function create()
     {
@@ -22,71 +21,60 @@ class RegisteredUserController extends Controller
     }
 
     /**
-     * Enregistre un nouvel utilisateur.
+     * Enregistrer un nouvel utilisateur.
      */
+    public function store(Request $request)
+    {
+        $validated = $request->validate(
+            [
+                'name' => [
+                    'required',
+                    'string',
+                    'max:255',
+                ],
 
-public function store(Request $request)
-{
-    $validated = $request->validate([
-        'name' => ['required', 'string', 'max:255'],
-        'email' => ['required', 'email', 'max:255', 'unique:users,email'],
-        'password' => ['required', 'confirmed'],
-    ]);
+                'email' => [
+                    'required',
+                    'string',
+                    'email',
+                    'max:255',
+                    'unique:users,email',
+                ],
 
-    $user = User::create([
-        'name' => $validated['name'],
-        'email' => $validated['email'],
-        'password' => Hash::make($validated['password']),
-    ]);
+                'password' => [
+                    'required',
+                    'confirmed',
+                    Password::defaults(),
+                ],
+            ],
+            [
+                'name.required' => 'Le nom est obligatoire.',
+                'name.max' => 'Le nom ne peut pas dépasser 255 caractères.',
 
-    // Attribution du rôle par Spatie
-    $user->assignRole('customer');
+                'email.required' => 'L’adresse email est obligatoire.',
+                'email.email' => 'L’adresse email n’est pas valide.',
+                'email.unique' => 'Cette adresse email est déjà utilisée.',
 
-    // Connexion automatique
-    Auth::login($user);
+                'password.required' => 'Le mot de passe est obligatoire.',
+                'password.confirmed' => 'Les mots de passe ne correspondent pas.',
+            ]
+        );
 
-    // Régénération de la session
-    $request->session()->regenerate();
+        $user = User::create([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'password' => Hash::make($validated['password']),
+        ]);
 
-    // Redirection vers la boutique
-    return redirect()->route('shop.products');
-}
-  // public function store(Request $request)
-    // {
+        // Attribution du rôle par Spatie
+        $user->assignRole('customer');
 
+        // Connexion automatique
+        Auth::login($user);
 
-    //     $validated = $request->validate([
-    //         'name' => ['required', 'string', 'max:255'],
+        // Régénération de la session
+        $request->session()->regenerate();
 
-    //         'email' => [
-    //             'required',
-    //             'string',
-    //             'email',
-    //             'max:255',
-    //             'unique:users,email',
-    //         ],
-
-    //         'password' => [
-    //             'required',
-    //             'confirmed',
-    //             Password::defaults(),
-    //         ],
-    //     ]);
-
-    //     $user = User::create([
-    //         'name' => $validated['name'],
-    //         'email' => $validated['email'],
-    //         'password' => Hash::make($validated['password']),
-    //     ]);
-
-    //     // Tous les nouveaux utilisateurs sont customer
-    //     $user->assignRole('customer');
-
-    //     // Connexion automatique
-    //     Auth::login($user);
-
-    //     $request->session()->regenerate();
-
-    //     return redirect()->route('shop.products');
-    // }
+        return redirect()->route('shop.products');
+    }
 }

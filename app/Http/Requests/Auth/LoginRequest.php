@@ -24,13 +24,38 @@ class LoginRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
+    // public function rules(): array
+    // {
+    //     return [
+    //         'email' => ['required', 'string', 'email'],
+    //         'password' => ['required', 'string'],
+    //     ];
+    // }
+
     public function rules(): array
-    {
-        return [
-            'email' => ['required', 'string', 'email'],
-            'password' => ['required', 'string'],
-        ];
-    }
+{
+    return [
+        'email' => [
+            'required',
+            'string',
+            'email',
+        ],
+
+        'password' => [
+            'required',
+            'string',
+        ],
+    ];
+}
+
+public function messages(): array
+{
+    return [
+        'email.required' => 'L’adresse email est obligatoire.',
+        'email.email' => 'L’adresse email n’est pas valide.',
+        'password.required' => 'Le mot de passe est obligatoire.',
+    ];
+}
 
     /**
      * Attempt to authenticate the request's credentials.
@@ -45,7 +70,7 @@ class LoginRequest extends FormRequest
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
-                'email' => trans('auth.failed'),
+                'email' => 'Email ou mot de passe incorrect.',
             ]);
         }
 
