@@ -24,42 +24,69 @@ class RegisteredUserController extends Controller
     /**
      * Enregistre un nouvel utilisateur.
      */
-    public function store(Request $request)
-    {
+
+public function store(Request $request)
+{
+    $validated = $request->validate([
+        'name' => ['required', 'string', 'max:255'],
+        'email' => ['required', 'email', 'max:255', 'unique:users,email'],
+        'password' => ['required', 'confirmed'],
+    ]);
+
+    $user = User::create([
+        'name' => $validated['name'],
+        'email' => $validated['email'],
+        'password' => Hash::make($validated['password']),
+    ]);
+
+    // Attribution du rôle par Spatie
+    $user->assignRole('customer');
+
+    // Connexion automatique
+    Auth::login($user);
+
+    // Régénération de la session
+    $request->session()->regenerate();
+
+    // Redirection vers la boutique
+    return redirect()->route('shop.products');
+}
+  // public function store(Request $request)
+    // {
 
 
-        $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
+    //     $validated = $request->validate([
+    //         'name' => ['required', 'string', 'max:255'],
 
-            'email' => [
-                'required',
-                'string',
-                'email',
-                'max:255',
-                'unique:users,email',
-            ],
+    //         'email' => [
+    //             'required',
+    //             'string',
+    //             'email',
+    //             'max:255',
+    //             'unique:users,email',
+    //         ],
 
-            'password' => [
-                'required',
-                'confirmed',
-                Password::defaults(),
-            ],
-        ]);
+    //         'password' => [
+    //             'required',
+    //             'confirmed',
+    //             Password::defaults(),
+    //         ],
+    //     ]);
 
-        $user = User::create([
-            'name' => $validated['name'],
-            'email' => $validated['email'],
-            'password' => Hash::make($validated['password']),
-        ]);
+    //     $user = User::create([
+    //         'name' => $validated['name'],
+    //         'email' => $validated['email'],
+    //         'password' => Hash::make($validated['password']),
+    //     ]);
 
-        // Tous les nouveaux utilisateurs sont customer
-        $user->assignRole('customer');
+    //     // Tous les nouveaux utilisateurs sont customer
+    //     $user->assignRole('customer');
 
-        // Connexion automatique
-        Auth::login($user);
+    //     // Connexion automatique
+    //     Auth::login($user);
 
-        $request->session()->regenerate();
+    //     $request->session()->regenerate();
 
-        return redirect()->route('shop.products');
-    }
+    //     return redirect()->route('shop.products');
+    // }
 }
