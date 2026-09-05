@@ -36,7 +36,7 @@ Route::middleware('guest')->group(function () {
 });
 
 
-
+// new
 /*
 |--------------------------------------------------------------------------
 | Boutique (publique)
