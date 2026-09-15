@@ -24,29 +24,29 @@ class RegisteredUserController extends Controller
      * Enregistrer un nouvel utilisateur.
      */
     public function store(Request $request)
-{
-    $validated = $request->validate([
-        'name' => ['required', 'string', 'max:255'],
-        'email' => ['required', 'email', 'max:255', 'unique:users,email'],
-        'password' => ['required', 'confirmed'],
-    ]);
+    {
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', 'max:255', 'unique:users,email'],
+            'password' => ['required', 'confirmed'],
+        ]);
 
-    $user = User::create([
-        'name' => $validated['name'],
-        'email' => $validated['email'],
-        'password' => Hash::make($validated['password']),
-    ]);
+        $user = User::create([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'password' => Hash::make($validated['password']),
+        ]);
 
-    // Attribution du rôle par Spatie
-    $user->assignRole('customer');
+        // Attribution du rôle par Spatie
+        $user->assignRole('customer');
 
-    // Connexion automatique
-    Auth::login($user);
+        // Connexion automatique
+        Auth::login($user);
 
-    // Régénération de la session
-    $request->session()->regenerate();
+        // Régénération de la session
+        $request->session()->regenerate();
 
-    // Redirection vers la boutique
-    return redirect()->route('shop.products');
-}
+        // Redirection vers la boutique
+        return redirect()->route('shop.products');
+    }
 }
