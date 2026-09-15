@@ -1,15 +1,45 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Shop\ProductController as ShopProductController;
+use App\http\Controllers\Auth\RegisterController;
+
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Auth\RegisteredUserController;
 
 /*
+Enregistremtn et Connexion  utilisateur
+|-------------------------------------------------------------------------- 
+*/
+
+ Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+ Route::post('/login', [AuthController::class, 'login']);
+
+ Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
+ Route::post('/register', [AuthController::class, 'register']);
+
+ Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth');
+
+ Route::get('/dashboard', function () {
+     return \Inertia\Inertia::render('Dashboard');
+ })->middleware('auth');
+
+Route::middleware('guest')->group(function () {
+
+    Route::get('/register', [RegisteredUserController::class, 'create'])
+        ->name('register');
+
+    Route::post('/register', [RegisteredUserController::class, 'store']);
+});
+
+
+// new
+/*
 |--------------------------------------------------------------------------
-| Boutique
+| Boutique (publique)
 |--------------------------------------------------------------------------
 */
 
@@ -26,7 +56,7 @@ Route::get('/shop', [ShopProductController::class, 'index'])
 |--------------------------------------------------------------------------
 */
 
-Route::middleware(['auth', 'role:admin|manager'])
+Route::middleware(['auth', 'role:admin'||'role.manager'])
     ->prefix('admin')
     ->name('admin.')
     ->group(function () {
@@ -35,7 +65,12 @@ Route::middleware(['auth', 'role:admin|manager'])
             ->name('dashboard');
 
         Route::resource('products', AdminProductController::class);
+
+        // Plus tard
     });
+
+
+
 
 
 /*
@@ -45,7 +80,6 @@ Route::middleware(['auth', 'role:admin|manager'])
 */
 
 Route::middleware('auth')->group(function () {
-
     Route::get('/profile', [ProfileController::class, 'edit'])
         ->name('profile.edit');
 
@@ -55,12 +89,5 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])
         ->name('profile.destroy');
 });
-
-
-/*
-|--------------------------------------------------------------------------
-| Authentification
-|--------------------------------------------------------------------------
-*/
 
 require __DIR__ . '/auth.php';
