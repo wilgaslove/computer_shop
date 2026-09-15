@@ -28,33 +28,9 @@ class AuthenticatedSessionController extends Controller
     /**
      * Handle an incoming authentication request.
      */
-    // public function store(LoginRequest $request): RedirectResponse
-    // {
-    //     $request->authenticate();
+  
 
-    //     $request->session()->regenerate();
 
-    //     return redirect()->intended(route('dashboard', absolute: false));
-    // }
-
-    // public function store(LoginRequest $request): RedirectResponse
-    // {
-    //     $request->authenticate();
-
-    //     $request->session()->regenerate();
-
-    //     $user = Auth::user();
-
-    //     if ($user->role === 'admin') {
-    //         return redirect()->route('admin.dashboard');
-    //     }
-
-    //     if ($user->role === 'manager') {
-    //         return redirect()->route('admin.dashboard');
-    //     }
-
-    //     return redirect()->route('shop.products');
-    // }
 
     public function store(LoginRequest $request): RedirectResponse
 {
@@ -72,25 +48,7 @@ class AuthenticatedSessionController extends Controller
 }
 
 
-    // public function store(LoginRequest $request): RedirectResponse
-    // {
-    //     $request->authenticate();
-
-    //     $request->session()->regenerate();
-
-    //     $user = auth()->user();
-
-    //     if ($user->hasRole('admin')) {
-    //         return redirect()->route('admin.dashboard');
-    //     }
-
-    //     if ($user->hasRole('manager')) {
-    //         return redirect()->route('admin.dashboard');
-    //     }
-
-    //     return redirect()->route('shop.products');
-    // }
-
+    
     /**
      * Destroy an authenticated session.
      */

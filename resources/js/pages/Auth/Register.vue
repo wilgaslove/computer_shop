@@ -123,7 +123,7 @@ const submit = () => {
             </form>
 
             <div class="text-center mt-6 text-sm">
-                Déjà un compte ?
+                Vous avez déjà un compte ?
 
                 <Link
                     :href="route('login')"
