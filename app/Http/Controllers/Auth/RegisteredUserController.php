@@ -24,57 +24,29 @@ class RegisteredUserController extends Controller
      * Enregistrer un nouvel utilisateur.
      */
     public function store(Request $request)
-    {
-        $validated = $request->validate(
-            [
-                'name' => [
-                    'required',
-                    'string',
-                    'max:255',
-                ],
+{
+    $validated = $request->validate([
+        'name' => ['required', 'string', 'max:255'],
+        'email' => ['required', 'email', 'max:255', 'unique:users,email'],
+        'password' => ['required', 'confirmed'],
+    ]);
 
-                'email' => [
-                    'required',
-                    'string',
-                    'email',
-                    'max:255',
-                    'unique:users,email',
-                ],
+    $user = User::create([
+        'name' => $validated['name'],
+        'email' => $validated['email'],
+        'password' => Hash::make($validated['password']),
+    ]);
 
-                'password' => [
-                    'required',
-                    'confirmed',
-                    Password::defaults(),
-                ],
-            ],
-            [
-                'name.required' => 'Le nom est obligatoire.',
-                'name.max' => 'Le nom ne peut pas dépasser 255 caractères.',
+    // Attribution du rôle par Spatie
+    $user->assignRole('customer');
 
-                'email.required' => 'L’adresse email est obligatoire.',
-                'email.email' => 'L’adresse email n’est pas valide.',
-                'email.unique' => 'Cette adresse email est déjà utilisée.',
+    // Connexion automatique
+    Auth::login($user);
 
-                'password.required' => 'Le mot de passe est obligatoire.',
-                'password.confirmed' => 'Les mots de passe ne correspondent pas.',
-            ]
-        );
+    // Régénération de la session
+    $request->session()->regenerate();
 
-        $user = User::create([
-            'name' => $validated['name'],
-            'email' => $validated['email'],
-            'password' => Hash::make($validated['password']),
-        ]);
-
-        // Attribution du rôle par Spatie
-        $user->assignRole('customer');
-
-        // Connexion automatique
-        Auth::login($user);
-
-        // Régénération de la session
-        $request->session()->regenerate();
-
-        return redirect()->route('shop.products');
-    }
+    // Redirection vers la boutique
+    return redirect()->route('shop.products');
+}
 }
