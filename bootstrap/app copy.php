@@ -3,7 +3,6 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
-use App\Http\Middleware\HandleInertiaRequests;
 use Spatie\Permission\Middleware\PermissionMiddleware;
 use Spatie\Permission\Middleware\RoleMiddleware;
 use Spatie\Permission\Middleware\RoleOrPermissionMiddleware;
@@ -16,22 +15,14 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
 
+   
     ->withMiddleware(function (Middleware $middleware) {
-
-        // Middleware Inertia
-        $middleware->web(append: [
-            HandleInertiaRequests::class,
-        ]);
-
-        // Middleware Spatie Permission
         $middleware->alias([
             'role' => RoleMiddleware::class,
             'permission' => PermissionMiddleware::class,
             'role_or_permission' => RoleOrPermissionMiddleware::class,
         ]);
     })
-
     ->withExceptions(function (Exceptions $exceptions): void {
         //
-    })
-    ->create();
+    })->create();
