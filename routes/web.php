@@ -38,6 +38,8 @@ Route::middleware(['auth', 'role:admin|manager'])
         Route::resource('products', AdminProductController::class);
     });
 
+
+// route pour basculer l'état d'activation d'un HeroSlider
 Route::post(
     'hero-sliders/{heroSlider}/toggle',
     [HeroSliderController::class, 'toggle']
