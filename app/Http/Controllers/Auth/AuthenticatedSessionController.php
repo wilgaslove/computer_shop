@@ -38,7 +38,7 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        $user = Auth::user();
+        $user = $request->user();
 
         if ($user->hasAnyRole(['admin', 'manager'])) {
             return redirect()->route('admin.dashboard');
@@ -46,7 +46,6 @@ class AuthenticatedSessionController extends Controller
 
         return redirect()->route('shop.products');
     }
-
 
 
     /**
