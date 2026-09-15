@@ -20,9 +20,16 @@ const submit = () => {
 <template>
     <Head title="Inscription" />
 
-    <div class="min-h-screen flex items-center justify-center bg-gray-100 px-4">
-        <div class="w-full max-w-md bg-white rounded-2xl shadow-lg p-8">
+    <div
+        class="min-h-screen flex items-center justify-center
+               bg-gray-100 px-4"
+    >
+        <div
+            class="w-full max-w-md bg-white rounded-2xl
+                   shadow-lg p-8"
+        >
 
+            <!-- TITRE -->
             <h1 class="text-3xl font-bold text-center mb-2">
                 Créer un compte
             </h1>
@@ -31,19 +38,33 @@ const submit = () => {
                 Créez votre compte pour continuer
             </p>
 
-            <form @submit.prevent="submit" class="space-y-5">
+            <form
+                @submit.prevent="submit"
+                class="space-y-5"
+            >
 
-                <!-- Nom -->
+                <!-- NOM -->
                 <div>
-                    <label class="block text-sm font-medium mb-2">
+                    <label
+                        for="name"
+                        class="block text-sm font-medium mb-2"
+                    >
                         Nom
                     </label>
 
                     <input
+                        id="name"
                         v-model="form.name"
                         type="text"
-                        class="w-full border rounded-xl px-4 py-3"
+                        autocomplete="name"
                         placeholder="Votre nom"
+                        class="w-full rounded-xl px-4 py-3 border
+                               focus:outline-none focus:ring-2"
+                        :class="
+                            form.errors.name
+                                ? 'border-red-500 focus:ring-red-200'
+                                : 'border-gray-300 focus:border-blue-500 focus:ring-blue-100'
+                        "
                     >
 
                     <div
@@ -54,17 +75,28 @@ const submit = () => {
                     </div>
                 </div>
 
-                <!-- Email -->
+                <!-- EMAIL -->
                 <div>
-                    <label class="block text-sm font-medium mb-2">
-                        Email
+                    <label
+                        for="email"
+                        class="block text-sm font-medium mb-2"
+                    >
+                        Adresse email
                     </label>
 
                     <input
+                        id="email"
                         v-model="form.email"
                         type="email"
-                        class="w-full border rounded-xl px-4 py-3"
+                        autocomplete="email"
                         placeholder="vous@example.com"
+                        class="w-full rounded-xl px-4 py-3 border
+                               focus:outline-none focus:ring-2"
+                        :class="
+                            form.errors.email
+                                ? 'border-red-500 focus:ring-red-200'
+                                : 'border-gray-300 focus:border-blue-500 focus:ring-blue-100'
+                        "
                     >
 
                     <div
@@ -75,17 +107,28 @@ const submit = () => {
                     </div>
                 </div>
 
-                <!-- Password -->
+                <!-- PASSWORD -->
                 <div>
-                    <label class="block text-sm font-medium mb-2">
+                    <label
+                        for="password"
+                        class="block text-sm font-medium mb-2"
+                    >
                         Mot de passe
                     </label>
 
                     <input
+                        id="password"
                         v-model="form.password"
                         type="password"
-                        class="w-full border rounded-xl px-4 py-3"
+                        autocomplete="new-password"
                         placeholder="••••••••"
+                        class="w-full rounded-xl px-4 py-3 border
+                               focus:outline-none focus:ring-2"
+                        :class="
+                            form.errors.password
+                                ? 'border-red-500 focus:ring-red-200'
+                                : 'border-gray-300 focus:border-blue-500 focus:ring-blue-100'
+                        "
                     >
 
                     <div
@@ -96,38 +139,64 @@ const submit = () => {
                     </div>
                 </div>
 
-                <!-- Confirmation -->
+                <!-- CONFIRMATION -->
                 <div>
-                    <label class="block text-sm font-medium mb-2">
+                    <label
+                        for="password_confirmation"
+                        class="block text-sm font-medium mb-2"
+                    >
                         Confirmer le mot de passe
                     </label>
 
                     <input
+                        id="password_confirmation"
                         v-model="form.password_confirmation"
                         type="password"
-                        class="w-full border rounded-xl px-4 py-3"
+                        autocomplete="new-password"
                         placeholder="••••••••"
+                        class="w-full rounded-xl px-4 py-3 border
+                               focus:outline-none focus:ring-2"
+                        :class="
+                            form.errors.password_confirmation
+                                ? 'border-red-500 focus:ring-red-200'
+                                : 'border-gray-300 focus:border-blue-500 focus:ring-blue-100'
+                        "
                     >
+
+                    <div
+                        v-if="form.errors.password_confirmation"
+                        class="text-red-500 text-sm mt-1"
+                    >
+                        {{ form.errors.password_confirmation }}
+                    </div>
                 </div>
 
+                <!-- BOUTON -->
                 <button
                     type="submit"
                     :disabled="form.processing"
                     class="w-full bg-blue-600 hover:bg-blue-700
-                           text-white py-3 rounded-xl font-semibold
-                           disabled:opacity-50"
+                           text-white py-3 rounded-xl
+                           font-semibold transition
+                           disabled:opacity-50
+                           disabled:cursor-not-allowed"
                 >
-                    {{ form.processing ? 'Création...' : 'Créer mon compte' }}
+                    {{
+                        form.processing
+                            ? 'Création du compte...'
+                            : 'Créer mon compte'
+                    }}
                 </button>
 
             </form>
 
-            <div class="text-center mt-6 text-sm">
+            <!-- LOGIN -->
+            <div class="text-center mt-6 text-sm text-gray-600">
                 Vous avez déjà un compte ?
 
                 <Link
                     :href="route('login')"
-                    class="text-blue-600 font-semibold"
+                    class="text-blue-600 font-semibold hover:text-blue-700"
                 >
                     Se connecter
                 </Link>
