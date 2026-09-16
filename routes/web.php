@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\HeroSliderController;
 use App\Http\Controllers\Shop\ProductController as ShopProductController;
 
@@ -58,6 +59,18 @@ Route::middleware(['auth', 'role:admin|manager'])
 
         Route::resource('hero-sliders', HeroSliderController::class);
     });
+
+/*
+    |--------------------------------------------------------------------------
+    | Utilisateurs
+    |--------------------------------------------------------------------------
+    */
+
+Route::get('/users', [AdminUserController::class, 'index'])
+    ->name('users.index');
+
+Route::patch('/users/{user}/role', [AdminUserController::class, 'updateRole'])
+    ->name('users.role.update');
 
 
 /*
