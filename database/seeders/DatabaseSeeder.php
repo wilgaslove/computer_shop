@@ -15,16 +15,21 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        User::factory()->create([
-            'name' => 'Wilgas',
-            'email' => 'test@gmail.com',
-            'password' => bcrypt('a'), 
-        ]);
+        // Crée d'abord les rôles et permissions
         $this->call([
             RolePermissionSeeder::class,
         ]);
+
+        // User::factory(10)->create();
+
+        $user = User::factory()->create([
+            'name' => 'Boss',
+            'email' => 'Wilman@gmail.com',
+            'password' => bcrypt('a'),
+        ]);
+
+        // Assigner le rôle admin (nécessite spatie/laravel-permission)
+        $user->assignRole('admin');
     }
 
 
