@@ -29,12 +29,6 @@ Route::get('/shop', [ShopProductController::class, 'index'])
 |--------------------------------------------------------------------------
 */
 
-/*
-|--------------------------------------------------------------------------
-| Administration
-|--------------------------------------------------------------------------
-*/
-
 Route::middleware(['auth', 'role:admin|manager'])
     ->prefix('admin')
     ->name('admin.')
@@ -79,14 +73,13 @@ Route::middleware(['auth', 'role:admin|manager'])
         |--------------------------------------------------------------------------
         */
         Route::middleware('role:admin')->group(function () {
-          
-        Route::get('/users', [AdminUserController::class, 'index'])
-            ->name('users.index');
 
-        Route::patch('/users/{user}/role', [AdminUserController::class, 'updateRole'])
-            ->name('users.role.update');
+            Route::get('/users', [AdminUserController::class, 'index'])
+                ->name('users.index');
+
+            Route::patch('/users/{user}/role', [AdminUserController::class, 'updateRole'])
+                ->name('users.role.update');
         });
-
     });
 /*
 |--------------------------------------------------------------------------
