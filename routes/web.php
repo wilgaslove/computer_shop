@@ -29,13 +29,26 @@ Route::get('/shop', [ShopProductController::class, 'index'])
 |--------------------------------------------------------------------------
 */
 
+/*
+|--------------------------------------------------------------------------
+| Administration
+|--------------------------------------------------------------------------
+*/
+
 Route::middleware(['auth', 'role:admin|manager'])
     ->prefix('admin')
     ->name('admin.')
     ->group(function () {
 
+        /*
+        |--------------------------------------------------------------------------
+        | Dashboard
+        |--------------------------------------------------------------------------
+        */
+
         Route::get('/dashboard', [DashboardController::class, 'index'])
             ->name('dashboard');
+
 
         /*
         |--------------------------------------------------------------------------
@@ -58,21 +71,23 @@ Route::middleware(['auth', 'role:admin|manager'])
         )->name('hero-sliders.toggle');
 
         Route::resource('hero-sliders', HeroSliderController::class);
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Utilisateurs
+        |--------------------------------------------------------------------------
+        */
+        Route::middleware('role:admin')->group(function () {
+          
+        Route::get('/users', [AdminUserController::class, 'index'])
+            ->name('users.index');
+
+        Route::patch('/users/{user}/role', [AdminUserController::class, 'updateRole'])
+            ->name('users.role.update');
+        });
+
     });
-
-/*
-    |--------------------------------------------------------------------------
-    | Utilisateurs
-    |--------------------------------------------------------------------------
-    */
-
-Route::get('/users', [AdminUserController::class, 'index'])
-    ->name('users.index');
-
-Route::patch('/users/{user}/role', [AdminUserController::class, 'updateRole'])
-    ->name('users.role.update');
-
-
 /*
 |--------------------------------------------------------------------------
 | Profil

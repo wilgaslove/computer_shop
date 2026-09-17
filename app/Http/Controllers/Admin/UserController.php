@@ -48,11 +48,11 @@ class UserController extends Controller
         ]);
 
         // Empêcher l'admin de modifier son propre rôle
-        if ($user->id === auth()->id()) {
-            return back()->withErrors([
-                'role' => 'Vous ne pouvez pas modifier votre propre rôle.',
-            ]);
-        }
+        // if ($user->id === auth()->id()) {
+        //     return back()->withErrors([
+        //         'role' => 'Vous ne pouvez pas modifier votre propre rôle.',
+        //     ]);
+        // }
 
         $user->syncRoles([$validated['role']]);
 
