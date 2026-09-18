@@ -41,7 +41,7 @@ class RolePermissionSeeder extends Seeder
         foreach ($permissions as $permission) {
             Permission::firstOrCreate(['name' => $permission]);
         }
-        
+
 
         // Roles
         $admin = Role::firstOrCreate(['name' => 'admin']);
@@ -54,11 +54,23 @@ class RolePermissionSeeder extends Seeder
         // Manager → permissions limitées (à adapter ensuite)
         $manager->syncPermissions([
             'dashboard.view',
+
             'product.view',
             'product.create',
             'product.edit',
+            'product.delete',
+
+
             'category.view',
+            'category.create',
+            'category.edit',
+            'category.delete',
+
             'hero-slider.view',
+            'hero-slider.create',
+            'hero-slider.edit',
+            'hero-slider.delete',
+
         ]);
 
         // Customer → aucune permission d'administration
