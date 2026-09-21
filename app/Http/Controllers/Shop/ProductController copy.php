@@ -12,21 +12,19 @@ use Inertia\Inertia;
 
 class ProductController extends Controller
 {
-    
+
     public function index()
     {
-        $products = Product::where('active', true)
-            ->latest()
-            ->paginate(12);
-
-        $heroSliders = HeroSlider::where('active', true)
-            ->orderBy('position')
-            ->orderBy('id')
-            ->get();
-
         return Inertia::render('Shop/Products/Index', [
-            'products' => $products,
-            'heroSliders' => $heroSliders,
+
+            'products' => Product::where('active', true)
+                ->latest()
+                ->paginate(12),
+
+            'sliders' => HeroSlider::where('active', true)
+                ->orderBy('position')
+                ->get(),
+
         ]);
     }
 
