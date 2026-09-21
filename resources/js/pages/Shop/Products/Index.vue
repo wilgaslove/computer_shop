@@ -191,11 +191,36 @@ defineProps({
 
             </div>
 
-            <!-- TON CODE PRODUITS EXISTANT -->
-            <!-- garde ici ta grille actuelle -->
+            
 
         </section>
 
     </div>
     </ShopLayout>
 </template>
+
+<style scoped>
+.hero-swiper :deep(.swiper-button-next),
+.hero-swiper :deep(.swiper-button-prev) {
+    width: 44px;
+    height: 44px;
+    border-radius: 9999px;
+    background: rgba(255, 255, 255, 0.9);
+}
+
+.hero-swiper :deep(.swiper-button-next::after),
+.hero-swiper :deep(.swiper-button-prev::after) {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.hero-swiper :deep(.swiper-pagination-bullet) {
+    width: 9px;
+    height: 9px;
+}
+
+.hero-swiper :deep(.swiper-pagination-bullet-active) {
+    width: 24px;
+    border-radius: 9999px;
+}
+</style>
