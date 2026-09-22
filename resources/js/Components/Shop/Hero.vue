@@ -21,7 +21,7 @@ const props = defineProps({
 
 <template>
 
-```
+
 <!--
     Aucun slider actif :
     on n'affiche rien.
@@ -160,7 +160,7 @@ const props = defineProps({
     </Swiper>
 
 </section>
-```
+
 
 </template>
 
