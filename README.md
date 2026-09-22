@@ -124,3 +124,42 @@ Shop/
 ├── Cart.vue
 ├── Checkout.vue
 └── Orders/
+
+
+1. 🛍️ Catalogue public
+   ├── ProductCard professionnel
+   ├── catégories
+   ├── recherche
+   ├── filtrage
+   ├── tri
+   └── pagination
+
+2. 📦 Page détail produit
+   ├── image
+   ├── nom
+   ├── prix
+   ├── description
+   ├── stock
+   ├── catégorie
+   └── Ajouter au panier
+
+3. 🛒 Panier
+   ├── ajout
+   ├── suppression
+   ├── quantité
+   ├── sous-total
+   └── total
+
+4. 👤 Espace client
+   ├── profil
+   ├── commandes
+   └── détail commande
+
+5. 💳 Commande / checkout
+
+6. 📊 Administration
+   ├── statistiques
+   ├── commandes
+   ├── produits
+   ├── catégories
+   └── utilisateurs
