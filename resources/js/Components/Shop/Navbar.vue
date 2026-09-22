@@ -21,7 +21,7 @@ const user = computed(() => page.props?.auth?.user ?? null)
 
                     <!-- Logo -->
 
-                    <Link :href="route('home')" class="text-3xl font-extrabold whitespace-nowrap">
+                    <Link :href="route('shop.products.index')" class="text-3xl font-extrabold whitespace-nowrap">
                         💻 ComputerShop
                     </Link>
 
@@ -115,7 +115,7 @@ const user = computed(() => page.props?.auth?.user ?? null)
 
                 <nav class="flex gap-8 h-14 items-center px-6">
 
-                    <Link :href="route('home')">
+                    <Link :href="route('shop.products.index')">
                         Accueil
                     </Link>
 
