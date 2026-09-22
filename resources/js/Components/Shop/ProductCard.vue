@@ -10,99 +10,127 @@ defineProps({
 </script>
 
 <template>
-    <div
-        class="group bg-white rounded-2xl overflow-hidden border border-gray-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
+    <article
+        class="group relative overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
     >
-        <!-- Badge -->
-        <div class="absolute z-10 m-3">
+        <!-- Badge disponibilité -->
+        <div class="absolute left-3 top-3 z-10">
             <span
                 v-if="product.stock > 0"
-                class="bg-green-600 text-white text-xs px-3 py-1 rounded-full"
+                class="rounded-full bg-green-600 px-3 py-1 text-xs font-semibold text-white"
             >
                 Disponible
             </span>
 
             <span
                 v-else
-                class="bg-red-600 text-white text-xs px-3 py-1 rounded-full"
+                class="rounded-full bg-red-600 px-3 py-1 text-xs font-semibold text-white"
             >
                 Rupture
             </span>
         </div>
 
         <!-- Image -->
-        <div class="relative h-60 bg-gray-100 overflow-hidden">
+        <Link
+            :href="route('shop.products.show', product.id)"
+            class="block"
+        >
+            <div class="relative h-60 overflow-hidden bg-gray-100">
 
-            <img
-                v-if="product.image"
-                :src="`/storage/${product.image}`"
-                :alt="product.name"
-                class="w-full h-full object-cover group-hover:scale-105 transition duration-500"
-            />
+                <img
+                    v-if="product.image"
+                    :src="`/storage/${product.image}`"
+                    :alt="product.name"
+                    class="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                />
 
-            <div
-                v-else
-                class="flex items-center justify-center h-full text-gray-400"
-            >
-                Aucune image
+                <div
+                    v-else
+                    class="flex h-full items-center justify-center text-gray-400"
+                >
+                    <div class="text-center">
+                        <div class="text-4xl">
+                            💻
+                        </div>
+
+                        <p class="mt-2 text-sm">
+                            Aucune image
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Favoris -->
+                <button
+                    type="button"
+                    class="absolute right-3 top-3 rounded-full bg-white p-2 shadow transition hover:bg-red-50"
+                    @click.prevent
+                >
+                    ❤️
+                </button>
             </div>
-
-            <!-- Favoris -->
-            <button
-                class="absolute top-3 right-3 bg-white rounded-full shadow p-2 hover:bg-red-50"
-            >
-                ❤️
-            </button>
-
-        </div>
+        </Link>
 
         <!-- Informations -->
         <div class="p-5">
 
-            <p class="text-sm text-blue-600 font-semibold">
-                {{ product.category?.name }}
+            <!-- Catégorie -->
+            <p
+                v-if="product.category"
+                class="text-sm font-semibold text-blue-600"
+            >
+                {{ product.category.name }}
             </p>
 
-            <h2
-                class="mt-2 text-lg font-bold text-gray-900 line-clamp-2"
+            <!-- Nom -->
+            <Link
+                :href="route('shop.products.show', product.id)"
+                class="mt-2 block"
             >
-                {{ product.name }}
-            </h2>
+                <h2
+                    class="line-clamp-2 text-lg font-bold text-gray-900 transition hover:text-blue-600"
+                >
+                    {{ product.name }}
+                </h2>
+            </Link>
 
+            <!-- Description -->
             <p
-                class="mt-2 text-sm text-gray-500 line-clamp-2"
+                v-if="product.description"
+                class="mt-2 line-clamp-2 text-sm text-gray-500"
             >
                 {{ product.description }}
             </p>
 
-            <div class="mt-4 flex justify-between items-center">
+            <!-- Prix / stock -->
+            <div class="mt-4 flex items-center justify-between gap-3">
 
-                <span
-                    class="text-2xl font-bold text-blue-700"
-                >
-                    {{ Number(product.price).toLocaleString() }} FCFA
+                <span class="text-xl font-bold text-blue-700">
+                    {{ Number(product.price).toLocaleString('fr-FR') }}
+                    FCFA
                 </span>
 
-                <span
-                    class="text-xs text-gray-500"
-                >
+                <span class="text-xs text-gray-500">
                     Stock :
-                    <strong>{{ product.stock }}</strong>
+                    <strong>
+                        {{ product.stock }}
+                    </strong>
                 </span>
 
             </div>
 
+            <!-- Actions -->
             <div class="mt-5 grid grid-cols-2 gap-2">
 
                 <Link
                     :href="route('shop.products.show', product.id)"
-                    class="text-center bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg transition"
+                    class="rounded-lg bg-blue-600 py-2 text-center font-medium text-white transition hover:bg-blue-700"
                 >
                     Voir
                 </Link>
 
                 <button
-                    class="bg-gray-900 hover:bg-black text-white py-2 rounded-lg transition"
+                    type="button"
+                    class="rounded-lg bg-gray-900 py-2 font-medium text-white transition hover:bg-black disabled:cursor-not-allowed disabled:opacity-50"
                     :disabled="product.stock <= 0"
                 >
                     🛒 Panier
@@ -111,5 +139,5 @@ defineProps({
             </div>
 
         </div>
-    </div>
+    </article>
 </template>
