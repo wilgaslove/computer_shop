@@ -8,7 +8,7 @@ use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\HeroSliderController;
 use App\Http\Controllers\Shop\ProductController as ShopProductController;
-
+use App\Http\Controllers\Shop\ProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -105,5 +105,19 @@ Route::middleware('auth')->group(function () {
 | Authentification
 |--------------------------------------------------------------------------
 */
+
+
+/*|--------------------------------------------------------------------------
+| Route Publique
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/', [ProductController::class, 'index'])
+    ->name('shop.products.index');
+
+
+Route::get('/products/{product}', [ProductController::class, 'show'])
+    ->name('shop.products.show');
+
 
 require __DIR__ . '/auth.php';
