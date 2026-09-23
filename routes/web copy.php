@@ -9,7 +9,6 @@ use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\HeroSliderController;
 use App\Http\Controllers\Shop\ProductController as ShopProductController;
 use App\Http\Controllers\Shop\ProductController;
-use App\Http\Controllers\Shop\CartController;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,11 +51,6 @@ Route::middleware(['auth', 'role:admin|manager'])
         */
 
         Route::resource('products', AdminProductController::class);
-
-        Route::delete(
-            'products/{product}/images/{image}',
-            [AdminProductController::class, 'destroyImage']
-        )->name('products.images.destroy');
 
 
         /*
@@ -124,33 +118,6 @@ Route::get('/', [ProductController::class, 'index'])
 
 Route::get('/products/{product}', [ProductController::class, 'show'])
     ->name('shop.products.show');
-
-
-/*
-|--------------------------------------------------------------------------
-| Panier
-|--------------------------------------------------------------------------
-*/
-
-Route::prefix('cart')
-    ->name('cart.')
-    ->group(function () {
-
-        Route::get('/', [CartController::class, 'index'])
-            ->name('index');
-
-        Route::post('/{product}', [CartController::class, 'store'])
-            ->name('store');
-
-        Route::patch('/{product}', [CartController::class, 'update'])
-            ->name('update');
-
-        Route::delete('/{product}', [CartController::class, 'destroy'])
-            ->name('destroy');
-
-        Route::delete('/', [CartController::class, 'clear'])
-            ->name('clear');
-    });
 
 
 require __DIR__ . '/auth.php';
