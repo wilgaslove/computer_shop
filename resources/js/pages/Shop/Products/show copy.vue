@@ -1,6 +1,5 @@
 <script setup>
-import { Head, Link, router } from '@inertiajs/vue3'
-import { computed, ref } from 'vue'
+import { Head, Link } from '@inertiajs/vue3'
 import ShopLayout from '@/Layouts/ShopLayout.vue'
 
 const props = defineProps({
@@ -9,65 +8,6 @@ const props = defineProps({
         required: true,
     },
 })
-
-// Liste des images à afficher : galerie si elle existe, sinon l'image
-// de couverture (ou rien).
-const gallery = computed(() => {
-    if (props.product.images?.length) {
-        return props.product.images.map((img) => `/storage/${img.path}`)
-    }
-
-    if (props.product.cover_image) {
-        return [`/storage/${props.product.cover_image}`]
-    }
-
-    return []
-})
-
-const activeIndex = ref(0)
-const activeImage = computed(() => gallery.value[activeIndex.value] ?? null)
-
-function selectImage(index) {
-    activeIndex.value = index
-}
-
-// Lightbox (zoom / détail de l'image)
-const lightboxOpen = ref(false)
-
-function openLightbox() {
-    if (activeImage.value) lightboxOpen.value = true
-}
-
-function closeLightbox() {
-    lightboxOpen.value = false
-}
-
-// Panier
-const quantity = ref(1)
-const adding = ref(false)
-
-function increment() {
-    if (quantity.value < props.product.stock) quantity.value++
-}
-
-function decrement() {
-    if (quantity.value > 1) quantity.value--
-}
-
-function addToCart() {
-    if (props.product.stock <= 0 || adding.value) return
-
-    adding.value = true
-
-    router.post(
-        route('cart.store', props.product.id),
-        { quantity: quantity.value },
-        {
-            preserveScroll: true,
-            onFinish: () => { adding.value = false },
-        }
-    )
-}
 </script>
 
 <template>
@@ -108,25 +48,23 @@ function addToCart() {
                 class="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-6 lg:grid-cols-2 lg:px-8"
             >
 
-                <!-- Galerie d'images -->
+                <!-- Image -->
                 <div>
 
                     <div
                         class="overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-sm"
                     >
 
-                        <button
-                            v-if="activeImage"
-                            type="button"
-                            class="block aspect-square w-full cursor-zoom-in"
-                            @click="openLightbox"
+                        <div
+                            v-if="props.product.image"
+                            class="aspect-square"
                         >
                             <img
-                                :src="activeImage"
+                                :src="`/storage/${props.product.image}`"
                                 :alt="props.product.name"
                                 class="h-full w-full object-cover"
                             >
-                        </button>
+                        </div>
 
                         <div
                             v-else
@@ -145,29 +83,6 @@ function addToCart() {
                             </div>
                         </div>
 
-                    </div>
-
-                    <!-- Vignettes -->
-                    <div
-                        v-if="gallery.length > 1"
-                        class="mt-4 grid grid-cols-5 gap-3"
-                    >
-                        <button
-                            v-for="(src, index) in gallery"
-                            :key="index"
-                            type="button"
-                            class="aspect-square overflow-hidden rounded-xl border-2 bg-white transition"
-                            :class="index === activeIndex
-                                ? 'border-blue-600'
-                                : 'border-gray-200 hover:border-blue-300'"
-                            @click="selectImage(index)"
-                        >
-                            <img
-                                :src="src"
-                                :alt="`${props.product.name} ${index + 1}`"
-                                class="h-full w-full object-cover"
-                            >
-                        </button>
                     </div>
 
                 </div>
@@ -265,46 +180,15 @@ function addToCart() {
                         </p>
                     </div>
 
-                    <!-- Sélecteur de quantité -->
-                    <div
-                        v-if="props.product.stock > 0"
-                        class="mt-6 flex items-center gap-3"
-                    >
-                        <span class="text-sm font-medium text-gray-700">Quantité</span>
-
-                        <div class="flex items-center rounded-xl border border-gray-300">
-                            <button
-                                type="button"
-                                class="px-3 py-2 text-lg font-semibold text-gray-600 hover:text-blue-600"
-                                @click="decrement"
-                            >
-                                −
-                            </button>
-
-                            <span class="w-10 text-center font-semibold text-gray-900">
-                                {{ quantity }}
-                            </span>
-
-                            <button
-                                type="button"
-                                class="px-3 py-2 text-lg font-semibold text-gray-600 hover:text-blue-600"
-                                @click="increment"
-                            >
-                                +
-                            </button>
-                        </div>
-                    </div>
-
                     <!-- Actions -->
                     <div class="mt-8 flex flex-col gap-3 sm:flex-row">
 
                         <button
                             type="button"
-                            :disabled="props.product.stock <= 0 || adding"
+                            :disabled="props.product.stock <= 0"
                             class="flex-1 rounded-xl bg-blue-600 px-6 py-3 font-semibold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
-                            @click="addToCart"
                         >
-                            {{ adding ? 'Ajout...' : '🛒 Ajouter au panier' }}
+                            🛒 Ajouter au panier
                         </button>
 
                         <button
@@ -329,42 +213,6 @@ function addToCart() {
             </div>
 
         </section>
-
-        <!-- Lightbox : détail / zoom de l'image -->
-        <div
-            v-if="lightboxOpen"
-            class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-6"
-            @click.self="closeLightbox"
-        >
-            <button
-                type="button"
-                class="absolute right-6 top-6 rounded-full bg-white/10 p-2 text-2xl text-white hover:bg-white/20"
-                @click="closeLightbox"
-            >
-                ✕
-            </button>
-
-            <img
-                :src="activeImage"
-                :alt="props.product.name"
-                class="max-h-[85vh] max-w-full rounded-lg object-contain"
-            >
-
-            <div
-                v-if="gallery.length > 1"
-                class="absolute bottom-6 flex gap-2"
-            >
-                <button
-                    v-for="(src, index) in gallery"
-                    :key="index"
-                    type="button"
-                    class="h-2.5 w-2.5 rounded-full"
-                    :class="index === activeIndex ? 'bg-white' : 'bg-white/40'"
-                    @click="selectImage(index)"
-                >
-                </button>
-            </div>
-        </div>
 
     </ShopLayout>
 </template>
