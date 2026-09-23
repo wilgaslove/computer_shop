@@ -29,7 +29,7 @@ defineProps({
           <td>{{ product.name }}</td>
           <td>{{ product.price }} FCFA</td>
           <td>
-            <img v-if="product.image" :src="`/storage/${product.image}`" class="w-16 h-16 object-cover rounded" />
+            <img v-if="product.cover_image" :src="`/storage/${product.cover_image}`" class="w-16 h-16 object-cover rounded" />
           </td>
 
           <td class="space-x-2">
