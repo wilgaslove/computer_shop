@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
+use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\HeroSliderController;
 use App\Http\Controllers\Shop\ProductController as ShopProductController;
@@ -43,6 +44,15 @@ Route::middleware(['auth', 'role:admin|manager'])
 
         Route::get('/dashboard', [DashboardController::class, 'index'])
             ->name('dashboard');
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Catégories
+        |--------------------------------------------------------------------------
+        */
+
+        Route::resource('categories', AdminCategoryController::class);
 
 
         /*
