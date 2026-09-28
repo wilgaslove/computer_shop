@@ -21,6 +21,7 @@ class ProductController extends Controller
         $this->middleware('permission:product.create')->only(['create', 'store']);
         $this->middleware('permission:product.edit')->only(['edit', 'update']);
         $this->middleware('permission:product.delete')->only(['destroy']);
+        $this->middleware('permission:product.edit')->only(['destroyImage']);
     }
 
     /**
@@ -67,15 +68,37 @@ class ProductController extends Controller
             'category_id' => 'required|exists:categories,id',
             'description' => 'nullable|string',
             'image'       => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'images'      => 'nullable|array',
+            'images.*'    => 'image|mimes:jpg,jpeg,png,webp|max:2048',
             'active'      => 'boolean',
         ]);
+
+        $galleryFiles = $request->file('images', []);
+        unset($validated['images']);
 
         if ($request->hasFile('image')) {
             $validated['image'] = $request->file('image')
                 ->store('products', 'public');
         }
 
-        Product::create($validated);
+        $product = Product::create($validated);
+
+        foreach ($galleryFiles as $position => $file) {
+            $path = $file->store('products/gallery', 'public');
+
+            $product->images()->create([
+                'path'     => $path,
+                'position' => $position,
+            ]);
+        }
+
+        // Si aucune image de couverture n'a été fournie, on utilise
+        // la première image de la galerie comme couverture.
+        if (! $product->image && $product->images()->exists()) {
+            $product->update([
+                'image' => $product->images()->first()->path,
+            ]);
+        }
 
         return redirect()
             ->route('admin.products.index')
@@ -89,7 +112,7 @@ class ProductController extends Controller
     public function show(Product $product)
     {
         return Inertia::render('Admin/Products/Show', [
-            'product' => $product->load('category'),
+            'product' => $product->load(['category', 'images']),
         ]);
     }
 
@@ -107,7 +130,7 @@ class ProductController extends Controller
     public function edit(Product $product)
     {
         return Inertia::render('Admin/Products/Edit', [
-            'product' => $product->load('category'),
+            'product' => $product->load(['category', 'images']),
             'categories' => Category::all(),
         ]);
     }
@@ -125,8 +148,13 @@ class ProductController extends Controller
             'category_id' => 'required|exists:categories,id',
             'description' => 'nullable|string',
             'image'       => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'images'      => 'nullable|array',
+            'images.*'    => 'image|mimes:jpg,jpeg,png,webp|max:2048',
             'active'      => 'boolean',
         ]);
+
+        $galleryFiles = $request->file('images', []);
+        unset($validated['images']);
 
         if ($request->hasFile('image')) {
             if ($product->image) {
@@ -140,9 +168,51 @@ class ProductController extends Controller
 
         $product->update($validated);
 
+        if (! empty($galleryFiles)) {
+            $nextPosition = (int) $product->images()->max('position') + 1;
+
+            foreach ($galleryFiles as $file) {
+                $path = $file->store('products/gallery', 'public');
+
+                $product->images()->create([
+                    'path'     => $path,
+                    'position' => $nextPosition++,
+                ]);
+            }
+        }
+
+        if (! $product->image && $product->images()->exists()) {
+            $product->update([
+                'image' => $product->images()->first()->path,
+            ]);
+        }
+
         return redirect()
             ->route('admin.products.index')
             ->with('success', 'Produit mis à jour');
+    }
+
+    /**
+     * Supprimer une image de la galerie d'un produit.
+     */
+    public function destroyImage(Product $product, \App\Models\ProductImage $image)
+    {
+        abort_unless($image->product_id === $product->id, 404);
+
+        Storage::disk('public')->delete($image->path);
+        $image->delete();
+
+        // Si l'image de couverture supprimée était celle-ci, on la
+        // remplace par la prochaine image disponible de la galerie.
+        if ($product->image === $image->path) {
+            $next = $product->images()->first();
+
+            $product->update([
+                'image' => $next?->path,
+            ]);
+        }
+
+        return back()->with('success', 'Image supprimée');
     }
 
 
