@@ -16,9 +16,35 @@ class Product extends Model
         'image',
     ];
 
+    protected $appends = [
+        'cover_image',
+    ];
+
 
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function images()
+    {
+        return $this->hasMany(ProductImage::class)->orderBy('position');
+    }
+
+    /**
+     * Image principale du produit : le champ "image" (aperçu/couverture)
+     * s'il existe, sinon la première image de la galerie.
+     */
+    public function getCoverImageAttribute()
+    {
+        if ($this->image) {
+            return $this->image;
+        }
+
+        $first = $this->relationLoaded('images')
+            ? $this->images->first()
+            : $this->images()->first();
+
+        return $first?->path;
     }
 }
