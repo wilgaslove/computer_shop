@@ -1,27 +1,46 @@
 <script setup>
-import { router } from '@inertiajs/vue3'
+import { useForm, Link } from '@inertiajs/vue3'
 
-defineProps({ categories: Array })
+const props = defineProps({ category: Object })
 
-const destroy = id => {
-  if (confirm('Supprimer cette catégorie ?')) {
-    router.delete(`/categories/${id}`)
-  }
+const form = useForm({ name: props.category.name })
+
+function submit() {
+  form.put(route('admin.categories.update', props.category.id))
 }
 </script>
 
 <template>
-  <div>
-    <h1 class="text-xl font-bold mb-4">Catégories</h1>
+  <div class="mx-auto max-w-lg p-6">
+    <h1 class="mb-6 text-2xl font-bold text-gray-900">Modifier la catégorie</h1>
 
-    <a href="/categories/create">+ Ajouter</a>
+    <form @submit.prevent="submit" class="space-y-4">
+      <div>
+        <label class="mb-1 block text-sm font-medium text-gray-700">Nom</label>
+        <input
+          v-model="form.name"
+          type="text"
+          class="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-blue-500 focus:outline-none"
+        />
+        <div v-if="form.errors.name" class="mt-1 text-sm text-red-600">{{ form.errors.name }}</div>
+      </div>
 
-    <ul>
-      <li v-for="c in categories" :key="c.id">
-        {{ c.name }}
-        <a :href="`/categories/${c.id}/edit`">✏️</a>
-        <button @click="destroy(c.id)">🗑️</button>
-      </li>
-    </ul>
+      <div class="flex gap-4 pt-2">
+        <button
+          type="submit"
+          class="rounded-lg bg-blue-600 px-5 py-2.5 font-semibold text-white transition hover:bg-blue-700 disabled:opacity-50"
+          :disabled="form.processing"
+        >
+          Mettre à jour
+        </button>
+
+        <Link
+          :href="route('admin.categories.index')"
+          class="rounded-lg border border-gray-300 px-5 py-2.5 font-semibold text-gray-700 hover:bg-gray-50"
+        >
+          Annuler
+        </Link>
+      </div>
+    </form>
   </div>
 </template>

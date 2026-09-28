@@ -1,12 +1,32 @@
 <script setup>
-import { Link } from '@inertiajs/vue3'
+import { Link, router } from '@inertiajs/vue3'
+import { ref } from 'vue'
 
-defineProps({
+const props = defineProps({
     product: {
         type: Object,
         required: true,
     },
 })
+
+const adding = ref(false)
+const imageFailed = ref(false)
+
+function addToCart() {
+    if (props.product.stock <= 0 || adding.value) return
+
+    adding.value = true
+
+    router.post(
+        route('cart.store', props.product.id),
+        { quantity: 1 },
+        {
+            preserveScroll: true,
+            onFinish: () => { adding.value = false },
+            onError: (errors) => { console.error('Erreur ajout panier :', errors) },
+        }
+    )
+}
 </script>
 
 <template>
@@ -38,10 +58,11 @@ defineProps({
             <div class="relative h-60 overflow-hidden bg-gray-100">
 
                 <img
-                    v-if="product.image"
-                    :src="`/storage/${product.image}`"
+                    v-if="product.cover_image && !imageFailed"
+                    :src="`/storage/${product.cover_image}`"
                     :alt="product.name"
                     class="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                    @error="imageFailed = true"
                 />
 
                 <div
@@ -131,9 +152,10 @@ defineProps({
                 <button
                     type="button"
                     class="rounded-lg bg-gray-900 py-2 font-medium text-white transition hover:bg-black disabled:cursor-not-allowed disabled:opacity-50"
-                    :disabled="product.stock <= 0"
+                    :disabled="product.stock <= 0 || adding"
+                    @click="addToCart"
                 >
-                    🛒 Panier
+                    {{ adding ? '...' : '🛒 Panier' }}
                 </button>
 
             </div>

@@ -26,9 +26,15 @@ const gallery = computed(() => {
 
 const activeIndex = ref(0)
 const activeImage = computed(() => gallery.value[activeIndex.value] ?? null)
+const imageFailed = ref(false)
+
+function onImageError() {
+    imageFailed.value = true
+}
 
 function selectImage(index) {
     activeIndex.value = index
+    imageFailed.value = false
 }
 
 // Lightbox (zoom / détail de l'image)
@@ -65,6 +71,7 @@ function addToCart() {
         {
             preserveScroll: true,
             onFinish: () => { adding.value = false },
+            onError: (errors) => { console.error('Erreur ajout panier :', errors) },
         }
     )
 }
@@ -116,7 +123,7 @@ function addToCart() {
                     >
 
                         <button
-                            v-if="activeImage"
+                            v-if="activeImage && !imageFailed"
                             type="button"
                             class="block aspect-square w-full cursor-zoom-in"
                             @click="openLightbox"
@@ -125,6 +132,7 @@ function addToCart() {
                                 :src="activeImage"
                                 :alt="props.product.name"
                                 class="h-full w-full object-cover"
+                                @error="onImageError"
                             >
                         </button>
 
@@ -139,7 +147,9 @@ function addToCart() {
                                 </div>
 
                                 <p class="mt-4">
-                                    Aucune image disponible
+                                    {{ imageFailed
+                                        ? "L'image n'a pas pu être chargée (vérifiez le lien de stockage : php artisan storage:link)"
+                                        : 'Aucune image disponible' }}
                                 </p>
 
                             </div>

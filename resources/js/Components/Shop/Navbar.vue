@@ -5,6 +5,7 @@ import { computed } from 'vue'
 const page = usePage()
 
 const user = computed(() => page.props?.auth?.user ?? null)
+const cartCount = computed(() => page.props?.cart?.count ?? 0)
 </script>
 
 <template>
@@ -50,16 +51,16 @@ const user = computed(() => page.props?.auth?.user ?? null)
 
                     <!-- Panier -->
 
-                    <button class="relative text-xl hover:text-blue-400">
+                    <Link :href="route('cart.index')" class="relative text-xl hover:text-blue-400">
 
                         🛒
 
                         <span
                             class="absolute -top-2 -right-2 bg-red-500 text-xs h-5 w-5 rounded-full flex items-center justify-center">
-                            0
+                            {{ cartCount }}
                         </span>
 
-                    </button>
+                    </Link>
 
                     <!-- Utilisateur -->
 
