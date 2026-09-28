@@ -1,6 +1,7 @@
 <script setup>
 import Navbar from '@/Components/Shop/Navbar.vue'
 import Footer from '@/Components/Shop/Footer.vue'
+import Toast from '@/Components/Shop/Toast.vue'
 
 </script>
 
@@ -17,6 +18,9 @@ import Footer from '@/Components/Shop/Footer.vue'
 
         <!-- Pied de page -->
         <Footer />
+
+        <!-- Notifications -->
+        <Toast />
 
     </div>
 </template>
