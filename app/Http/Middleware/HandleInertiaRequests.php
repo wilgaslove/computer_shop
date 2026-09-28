@@ -24,6 +24,13 @@ class HandleInertiaRequests extends Middleware
                     ],
                 ],
             ],
+            'cart' => [
+                'count' => array_sum(session('cart', [])),
+            ],
+            'flash' => [
+                'success' => fn () => $request->session()->get('success'),
+                'error'   => fn () => $request->session()->get('error'),
+            ],
         ]);
     }
 
