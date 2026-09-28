@@ -15,7 +15,8 @@ class ProductController extends Controller
 
     public function index()
     {
-        $products = Product::where('active', true)
+        $products = Product::with('images')
+            ->where('active', true)
             ->latest()
             ->paginate(12);
 
@@ -61,7 +62,7 @@ class ProductController extends Controller
     {
         abort_if(! $product->active, 404);
 
-        $product->load('category');
+        $product->load(['category', 'images']);
 
         return Inertia::render('Shop/Products/Show', [
             'product' => $product,
