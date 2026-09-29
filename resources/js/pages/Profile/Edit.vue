@@ -1,37 +1,29 @@
 <script setup>
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import DeleteUserForm from './Partials/DeleteUserForm.vue';
-import UpdatePasswordForm from './Partials/UpdatePasswordForm.vue';
-import UpdateProfileInformationForm from './Partials/UpdateProfileInformationForm.vue';
-import { Head } from '@inertiajs/vue3';
+import { Head } from '@inertiajs/vue3'
+import ShopLayout from '@/Layouts/ShopLayout.vue'
+import AccountNav from '@/Components/Shop/AccountNav.vue'
+import DeleteUserForm from './Partials/DeleteUserForm.vue'
+import UpdatePasswordForm from './Partials/UpdatePasswordForm.vue'
+import UpdateProfileInformationForm from './Partials/UpdateProfileInformationForm.vue'
 
 defineProps({
-    mustVerifyEmail: {
-        type: Boolean,
-    },
-    status: {
-        type: String,
-    },
-});
+    mustVerifyEmail: { type: Boolean },
+    status: { type: String },
+})
 </script>
 
 <template>
-    <Head title="Profile" />
+    <Head title="Mon profil" />
 
-    <AuthenticatedLayout>
-        <template #header>
-            <h2
-                class="text-xl font-semibold leading-tight text-gray-800"
-            >
-                Profile
-            </h2>
-        </template>
+    <ShopLayout>
+        <div class="grid grid-cols-1 gap-8 lg:grid-cols-4">
 
-        <div class="py-12">
-            <div class="mx-auto max-w-7xl space-y-6 sm:px-6 lg:px-8">
-                <div
-                    class="bg-white p-4 shadow sm:rounded-lg sm:p-8"
-                >
+            <AccountNav class="h-fit" />
+
+            <section class="space-y-6 lg:col-span-3">
+                <h1 class="text-2xl font-bold text-gray-900">Mon profil</h1>
+
+                <div class="rounded-2xl border border-gray-200 bg-white p-6 sm:p-8">
                     <UpdateProfileInformationForm
                         :must-verify-email="mustVerifyEmail"
                         :status="status"
@@ -39,18 +31,15 @@ defineProps({
                     />
                 </div>
 
-                <div
-                    class="bg-white p-4 shadow sm:rounded-lg sm:p-8"
-                >
+                <div class="rounded-2xl border border-gray-200 bg-white p-6 sm:p-8">
                     <UpdatePasswordForm class="max-w-xl" />
                 </div>
 
-                <div
-                    class="bg-white p-4 shadow sm:rounded-lg sm:p-8"
-                >
+                <div class="rounded-2xl border border-gray-200 bg-white p-6 sm:p-8">
                     <DeleteUserForm class="max-w-xl" />
                 </div>
-            </div>
+            </section>
+
         </div>
-    </AuthenticatedLayout>
+    </ShopLayout>
 </template>
