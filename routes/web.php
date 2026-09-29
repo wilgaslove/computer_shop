@@ -12,6 +12,7 @@ use App\Http\Controllers\Shop\ProductController as ShopProductController;
 use App\Http\Controllers\Shop\ProductController;
 use App\Http\Controllers\Shop\CartController;
 use App\Http\Controllers\Shop\CheckoutController;
+use App\Http\Controllers\Shop\AccountOrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -183,6 +184,28 @@ Route::middleware('auth')
 
         Route::get('/confirmation/{order}', [CheckoutController::class, 'success'])
             ->name('success');
+    });
+
+
+/*
+|--------------------------------------------------------------------------
+| Espace client
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware('auth')
+    ->prefix('account')
+    ->name('account.')
+    ->group(function () {
+
+        Route::get('/orders', [AccountOrderController::class, 'index'])
+            ->name('orders.index');
+
+        Route::get('/orders/{order}', [AccountOrderController::class, 'show'])
+            ->name('orders.show');
+
+        Route::patch('/orders/{order}/cancel', [AccountOrderController::class, 'cancel'])
+            ->name('orders.cancel');
     });
 
 
