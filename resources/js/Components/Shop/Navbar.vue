@@ -170,10 +170,6 @@ function search() {
                         Produits
                     </Link>
 
-                    <!-- <Link :href="route('admin.hero-sliders.index')" class="flex items-center gap-2">
-                        🖼 Hero Slider
-                    </Link> -->
-
                     <Link :href="route('shop.products', { q: 'HP' })">
                         HP
                     </Link>
