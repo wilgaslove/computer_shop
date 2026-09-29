@@ -6,11 +6,11 @@
 */
 return [
     'contact' => [
-        'phone'     => env('CONTACT_PHONE', '+229 00 00 00 00'),
-        'whatsapp'  => env('CONTACT_WHATSAPP', '+229 00 00 00 00'),
-        'email'     => env('CONTACT_EMAIL', 'contact@example.com'),
+        'phone'     => env('CONTACT_PHONE', '+229 01 96 74 05 12'),
+        'whatsapp'  => env('CONTACT_WHATSAPP', '+229 01 95 47 92 36'),
+        'email'     => env('CONTACT_EMAIL', 'Wilgas216@gmail.com'),
         'address'   => env('CONTACT_ADDRESS', 'Cotonou, Bénin'),
-        'hours'     => env('CONTACT_HOURS', 'Lun – Sam : 8h – 19h'),
+        'hours'     => env('CONTACT_HOURS', 'Lun – Sam : 8h – 20h'),
 
         // Position de la carte (Cotonou par défaut)
         'map_lat'   => (float) env('CONTACT_MAP_LAT', 6.3703),
