@@ -1,4 +1,5 @@
 <script setup>
+import AdminLayout from '@/Layouts/AdminLayout.vue'
 import { useForm, Link } from '@inertiajs/vue3'
 
 const form = useForm({ name: '' })
@@ -9,6 +10,7 @@ function submit() {
 </script>
 
 <template>
+<AdminLayout>
   <div class="mx-auto max-w-lg p-6">
     <h1 class="mb-6 text-2xl font-bold text-gray-900">Nouvelle catégorie</h1>
 
@@ -42,4 +44,5 @@ function submit() {
       </div>
     </form>
   </div>
+</AdminLayout>
 </template>
