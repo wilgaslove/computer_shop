@@ -80,6 +80,14 @@ function addToCart() {
                     </div>
                 </div>
 
+                <!-- Réduction -->
+                <span
+                    v-if="product.is_on_promotion"
+                    class="absolute bottom-3 left-3 rounded-full bg-red-600 px-3 py-1 text-sm font-bold text-white shadow"
+                >
+                    -{{ product.discount_percent }}%
+                </span>
+
                 <!-- Favoris -->
                 <button
                     type="button"
@@ -125,10 +133,22 @@ function addToCart() {
             <!-- Prix / stock -->
             <div class="mt-4 flex items-center justify-between gap-3">
 
-                <span class="text-xl font-bold text-blue-700">
-                    {{ Number(product.price).toLocaleString('fr-FR') }}
-                    FCFA
-                </span>
+                <div>
+                    <span
+                        class="text-xl font-bold"
+                        :class="product.is_on_promotion ? 'text-red-600' : 'text-blue-700'"
+                    >
+                        {{ Number(product.current_price).toLocaleString('fr-FR') }}
+                        FCFA
+                    </span>
+
+                    <span
+                        v-if="product.is_on_promotion"
+                        class="block text-sm text-gray-400 line-through"
+                    >
+                        {{ Number(product.price).toLocaleString('fr-FR') }} FCFA
+                    </span>
+                </div>
 
                 <span class="text-xs text-gray-500">
                     Stock :
