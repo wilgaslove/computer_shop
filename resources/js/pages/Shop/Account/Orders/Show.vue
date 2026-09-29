@@ -100,6 +100,21 @@ function cancelOrder() {
                     </div>
                 </div>
 
+                <!-- Aide -->
+                <div class="flex flex-col items-start justify-between gap-3 rounded-2xl border border-blue-100 bg-blue-50 p-6 sm:flex-row sm:items-center">
+                    <div>
+                        <h2 class="font-semibold text-gray-900">Un problème avec cette commande ?</h2>
+                        <p class="text-sm text-gray-600">Notre équipe reçoit votre message avec la référence déjà renseignée.</p>
+                    </div>
+
+                    <Link
+                        :href="route('contact', { order: props.order.reference })"
+                        class="whitespace-nowrap rounded-xl bg-blue-600 px-5 py-2 text-sm font-semibold text-white transition hover:bg-blue-700"
+                    >
+                        Contacter le service client
+                    </Link>
+                </div>
+
                 <!-- Annulation -->
                 <div v-if="props.canCancel" class="text-right">
                     <button

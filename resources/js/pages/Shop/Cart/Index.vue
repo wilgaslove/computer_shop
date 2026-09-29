@@ -132,7 +132,16 @@ function clearCart() {
                                 </Link>
 
                                 <p class="mt-1 text-sm text-gray-500">
-                                    {{ formatFcfa(item.product.price) }} / unité
+                                    {{ formatFcfa(item.product.current_price) }} / unité
+                                    <span v-if="item.product.is_on_promotion" class="ml-1 text-gray-400 line-through">
+                                        {{ formatFcfa(item.product.price) }}
+                                    </span>
+                                    <span
+                                        v-if="item.product.is_on_promotion"
+                                        class="ml-1 rounded bg-red-100 px-1.5 py-0.5 text-xs font-semibold text-red-700"
+                                    >
+                                        -{{ item.product.discount_percent }}%
+                                    </span>
                                 </p>
 
                                 <p
