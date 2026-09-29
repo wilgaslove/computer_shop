@@ -1,11 +1,13 @@
 <script setup>
 import { Link, usePage } from '@inertiajs/vue3'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 
 const page = usePage()
 
 const user = computed(() => page.props?.auth?.user ?? null)
 const cartCount = computed(() => page.props?.cart?.count ?? 0)
+const isStaff = computed(() => page.props?.auth?.is_staff ?? false)
+const menuOpen = ref(false)
 </script>
 
 <template>
@@ -64,26 +66,49 @@ const cartCount = computed(() => page.props?.cart?.count ?? 0)
 
                     <!-- Utilisateur -->
 
-                    <div v-if="user">
+                    <div v-if="user" class="relative">
 
-                        <div class="flex items-center gap-3">
+                        <button type="button" class="flex items-center gap-3" @click="menuOpen = !menuOpen">
 
                             <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center font-bold">
                                 {{ user.name.charAt(0).toUpperCase() }}
                             </div>
 
-                            <div>
-
-                                <div class="text-sm">
-                                    Bonjour
-                                </div>
-
-                                <div class="font-semibold">
-                                    {{ user.name }}
-                                </div>
-
+                            <div class="text-left">
+                                <div class="text-sm">Bonjour</div>
+                                <div class="font-semibold">{{ user.name }} ▾</div>
                             </div>
 
+                        </button>
+
+                        <!-- Fermeture au clic à l'extérieur -->
+                        <div v-if="menuOpen" class="fixed inset-0 z-40" @click="menuOpen = false"></div>
+
+                        <div
+                            v-if="menuOpen"
+                            class="absolute right-0 z-50 mt-3 w-56 overflow-hidden rounded-xl bg-white py-1 text-sm text-gray-800 shadow-lg"
+                            @click="menuOpen = false"
+                        >
+                            <Link v-if="isStaff" :href="route('admin.dashboard')" class="block px-4 py-2 hover:bg-gray-100">
+                                ⚙️ Administration
+                            </Link>
+
+                            <Link :href="route('account.orders.index')" class="block px-4 py-2 hover:bg-gray-100">
+                                📦 Mes commandes
+                            </Link>
+
+                            <Link :href="route('profile.edit')" class="block px-4 py-2 hover:bg-gray-100">
+                                👤 Mon profil
+                            </Link>
+
+                            <Link
+                                :href="route('logout')"
+                                method="post"
+                                as="button"
+                                class="block w-full border-t border-gray-100 px-4 py-2 text-left text-red-600 hover:bg-red-50"
+                            >
+                                🚪 Déconnexion
+                            </Link>
                         </div>
 
                     </div>
