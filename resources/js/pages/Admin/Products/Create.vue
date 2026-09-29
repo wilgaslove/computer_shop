@@ -10,6 +10,7 @@ const props = defineProps({
 const form = useForm({
   name: '',
   price: '',
+  promo_price: '',
   stock: '',
   category_id: '',
   description: '',
@@ -91,6 +92,22 @@ function submit() {
           />
           <div v-if="form.errors.stock" class="mt-1 text-sm text-red-600">{{ form.errors.stock }}</div>
         </div>
+      </div>
+
+      <!-- Prix promotionnel -->
+      <div>
+        <label class="mb-1 block text-sm font-medium text-gray-700">Prix promotionnel (FCFA)</label>
+        <p class="mb-2 text-xs text-gray-500">
+          Facultatif. Doit être inférieur au prix normal : le produit apparaît alors dans « Promotions » avec son prix barré. Laissez vide pour retirer la promotion.
+        </p>
+        <input
+          v-model="form.promo_price"
+          type="number"
+          step="0.01"
+          min="0"
+          class="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-blue-500 focus:outline-none sm:w-1/2"
+        />
+        <div v-if="form.errors.promo_price" class="mt-1 text-sm text-red-600">{{ form.errors.promo_price }}</div>
       </div>
 
       <!-- Catégorie -->

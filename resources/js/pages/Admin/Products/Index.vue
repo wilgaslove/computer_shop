@@ -74,7 +74,13 @@ function destroy(product) {
                         </td>
 
                         <td class="p-4 text-gray-600">{{ product.category?.name ?? '—' }}</td>
-                        <td class="whitespace-nowrap p-4 font-semibold">{{ formatFcfa(product.price) }}</td>
+                        <td class="whitespace-nowrap p-4 font-semibold">
+                            <template v-if="product.is_on_promotion">
+                                <span class="text-red-600">{{ formatFcfa(product.promo_price) }}</span>
+                                <span class="block text-xs font-normal text-gray-400 line-through">{{ formatFcfa(product.price) }}</span>
+                            </template>
+                            <template v-else>{{ formatFcfa(product.price) }}</template>
+                        </td>
 
                         <td class="p-4">
                             <span :class="product.stock <= 0 ? 'font-semibold text-red-600' : product.stock <= 5 ? 'font-semibold text-amber-600' : 'text-gray-700'">
