@@ -44,7 +44,8 @@ class AuthenticatedSessionController extends Controller
             return redirect()->route('admin.dashboard');
         }
 
-        return redirect()->route('shop.products');
+        // Ramène le client là où il allait (ex : checkout) avant la connexion
+        return redirect()->intended(route('shop.products'));
     }
 
 
