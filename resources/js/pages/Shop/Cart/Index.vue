@@ -200,8 +200,15 @@ function clearCart() {
                         </div>
 
                         <Link
+                            :href="route('checkout.index')"
+                            class="mt-6 block rounded-xl bg-blue-600 py-3 text-center font-semibold text-white transition hover:bg-blue-700"
+                        >
+                            Passer la commande
+                        </Link>
+
+                        <Link
                             :href="route('shop.products.index')"
-                            class="mt-6 block rounded-xl border border-gray-300 py-3 text-center font-semibold text-gray-700 hover:bg-gray-50"
+                            class="mt-3 block rounded-xl border border-gray-300 py-3 text-center font-semibold text-gray-700 hover:bg-gray-50"
                         >
                             ← Continuer mes achats
                         </Link>

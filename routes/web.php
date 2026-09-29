@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\HeroSliderController;
 use App\Http\Controllers\Shop\ProductController as ShopProductController;
 use App\Http\Controllers\Shop\ProductController;
 use App\Http\Controllers\Shop\CartController;
+use App\Http\Controllers\Shop\CheckoutController;
 
 /*
 |--------------------------------------------------------------------------
@@ -160,6 +161,28 @@ Route::prefix('cart')
 
         Route::delete('/', [CartController::class, 'clear'])
             ->name('clear');
+    });
+
+
+/*
+|--------------------------------------------------------------------------
+| Checkout (client connecté)
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware('auth')
+    ->prefix('checkout')
+    ->name('checkout.')
+    ->group(function () {
+
+        Route::get('/', [CheckoutController::class, 'index'])
+            ->name('index');
+
+        Route::post('/', [CheckoutController::class, 'store'])
+            ->name('store');
+
+        Route::get('/confirmation/{order}', [CheckoutController::class, 'success'])
+            ->name('success');
     });
 
 
