@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\ContactMessage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Middleware;
@@ -25,6 +26,12 @@ class HandleInertiaRequests extends Middleware
                         'delete' => Gate::allows('product.delete') ?? false,
                     ],
                 ],
+            ],
+            // Pastille « nouveaux messages » du menu admin (uniquement pour l'équipe)
+            'admin' => [
+                'new_messages' => fn () => $request->user()?->hasAnyRole(['admin', 'manager'])
+                    ? ContactMessage::where('status', 'new')->count()
+                    : 0,
             ],
             'cart' => [
                 'count' => array_sum(session('cart', [])),
