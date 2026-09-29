@@ -186,13 +186,21 @@ function search() {
                         Asus
                     </Link>
 
-                    <a href="#">
-                        Promotions
-                    </a>
+                    <Link
+                        :href="route('shop.promotions')"
+                        class="font-semibold text-red-600 hover:text-red-700"
+                        :class="{ 'underline underline-offset-8': route().current('shop.promotions') }"
+                    >
+                        🔥 Promotions
+                    </Link>
 
-                    <a href="#">
-                        Contact
-                    </a>
+                    <Link
+                        :href="route('contact')"
+                        class="hover:text-blue-600"
+                        :class="{ 'font-semibold text-blue-600': route().current('contact') }"
+                    >
+                        Contactez-Nous
+                    </Link>
 
                 </nav>
 
