@@ -1,4 +1,5 @@
 <script setup>
+import AdminLayout from '@/Layouts/AdminLayout.vue'
 import { Head, Link, router } from '@inertiajs/vue3'
 
 const props = defineProps({
@@ -33,6 +34,7 @@ function deleteSlider(id) {
 </script>
 
 <template>
+<AdminLayout>
     <Head title="Bannières" />
 
     <div class="max-w-7xl mx-auto p-8">
@@ -303,4 +305,5 @@ function deleteSlider(id) {
         </div>
 
     </div>
+</AdminLayout>
 </template>
