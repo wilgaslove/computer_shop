@@ -1,4 +1,5 @@
 <script setup>
+import AdminLayout from '@/Layouts/AdminLayout.vue'
 import { ref } from 'vue'
 import { Head, Link, useForm } from '@inertiajs/vue3'
 
@@ -33,6 +34,7 @@ function submit() {
 </script>
 
 <template>
+<AdminLayout>
     <Head title="Nouvelle bannière" />
 
     <div class="max-w-5xl mx-auto p-8">
@@ -283,4 +285,5 @@ function submit() {
         </form>
 
     </div>
+</AdminLayout>
 </template>
