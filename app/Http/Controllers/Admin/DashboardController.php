@@ -31,7 +31,8 @@ class DashboardController extends Controller
             'recentOrders' => Order::with('user:id,name')
                 ->latest()
                 ->limit(5)
-                ->get(['id', 'reference', 'user_id', 'status', 'total', 'created_at']),
+                // ->get(['id', 'reference', 'user_id', 'status', 'total', 'created_at']),
+                ->get(['id', 'reference', 'user_id', 'status', 'payment_method', 'payment_status', 'total', 'created_at']),
             'lowStock' => Product::where('active', true)
                 ->where('stock', '<=', 5)
                 ->orderBy('stock')

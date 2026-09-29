@@ -76,19 +76,19 @@ class Order extends Model
         return $this->hasMany(OrderItem::class);
     }
 
-    public function getStatusLabelAttribute(): string
+    public function getStatusLabelAttribute(): ?string
     {
-        return self::STATUSES[$this->status] ?? $this->status;
+        return self::STATUSES[$this->status ?? ''] ?? $this->status;
     }
 
-    public function getPaymentMethodLabelAttribute(): string
+    public function getPaymentMethodLabelAttribute(): ?string
     {
-        return self::PAYMENT_METHODS[$this->payment_method] ?? $this->payment_method;
+        return self::PAYMENT_METHODS[$this->payment_method ?? ''] ?? $this->payment_method;
     }
 
-    public function getPaymentStatusLabelAttribute(): string
+    public function getPaymentStatusLabelAttribute(): ?string
     {
-        return self::PAYMENT_STATUSES[$this->payment_status] ?? $this->payment_status;
+        return self::PAYMENT_STATUSES[$this->payment_status ?? ''] ?? $this->payment_status;
     }
 
     /**
