@@ -14,6 +14,8 @@ use App\Http\Controllers\Shop\ProductController;
 use App\Http\Controllers\Shop\CartController;
 use App\Http\Controllers\Shop\CheckoutController;
 use App\Http\Controllers\Shop\AccountOrderController;
+use App\Http\Controllers\Shop\ContactController;
+use App\Http\Controllers\Admin\ContactMessageController as AdminContactMessageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -93,6 +95,28 @@ Route::middleware(['auth', 'role:admin|manager'])
 
         /*
         |--------------------------------------------------------------------------
+        | Messages de contact
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get('contact-messages', [AdminContactMessageController::class, 'index'])
+            ->name('contact-messages.index');
+
+        Route::get('contact-messages/{contactMessage}', [AdminContactMessageController::class, 'show'])
+            ->name('contact-messages.show');
+
+        Route::post('contact-messages/{contactMessage}/reply', [AdminContactMessageController::class, 'reply'])
+            ->name('contact-messages.reply');
+
+        Route::patch('contact-messages/{contactMessage}/status', [AdminContactMessageController::class, 'updateStatus'])
+            ->name('contact-messages.status');
+
+        Route::get('contact-messages/{contactMessage}/attachment', [AdminContactMessageController::class, 'attachment'])
+            ->name('contact-messages.attachment');
+
+
+        /*
+        |--------------------------------------------------------------------------
         | Hero Sliders
         |--------------------------------------------------------------------------
         */
@@ -156,6 +180,31 @@ Route::get('/', [ProductController::class, 'index'])
 
 Route::get('/products/{product}', [ProductController::class, 'show'])
     ->name('shop.products.show');
+
+
+/*
+|--------------------------------------------------------------------------
+| Promotions
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/promotions', [ProductController::class, 'promotions'])
+    ->name('shop.promotions');
+
+
+/*
+|--------------------------------------------------------------------------
+| Contact (public)
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/contact', [ContactController::class, 'show'])
+    ->name('contact');
+
+// Limite anti-spam : 5 messages toutes les 10 minutes par visiteur
+Route::post('/contact', [ContactController::class, 'store'])
+    ->middleware('throttle:5,10')
+    ->name('contact.store');
 
 
 /*

@@ -201,17 +201,28 @@ function addToCart() {
                     </h1>
 
                     <!-- Prix -->
-                    <div class="mt-6">
+                    <div class="mt-6 flex flex-wrap items-baseline gap-x-4 gap-y-1">
 
                         <span
-                            class="text-4xl font-bold text-blue-700"
+                            class="text-4xl font-bold"
+                            :class="props.product.is_on_promotion ? 'text-red-600' : 'text-blue-700'"
                         >
                             {{
-                                Number(props.product.price)
+                                Number(props.product.current_price)
                                     .toLocaleString('fr-FR')
                             }}
                             FCFA
                         </span>
+
+                        <template v-if="props.product.is_on_promotion">
+                            <span class="text-xl text-gray-400 line-through">
+                                {{ Number(props.product.price).toLocaleString('fr-FR') }} FCFA
+                            </span>
+
+                            <span class="rounded-full bg-red-600 px-3 py-1 text-sm font-bold text-white">
+                                -{{ props.product.discount_percent }}%
+                            </span>
+                        </template>
 
                     </div>
 

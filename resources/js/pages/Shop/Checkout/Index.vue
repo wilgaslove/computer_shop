@@ -176,7 +176,7 @@ function submit() {
                                 <div>
                                     <p class="font-medium text-gray-900">{{ item.product.name }}</p>
                                     <p class="text-gray-500">
-                                        {{ item.quantity }} × {{ formatFcfa(item.product.price) }}
+                                        {{ item.quantity }} × {{ formatFcfa(item.product.current_price) }}
                                     </p>
                                 </div>
                                 <span class="whitespace-nowrap font-semibold text-gray-900">
