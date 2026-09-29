@@ -46,7 +46,7 @@ class CartController extends Controller
                 return [
                     'product'  => $product,
                     'quantity' => $quantity,
-                    'subtotal' => $product->price * $quantity,
+                    'subtotal' => $product->current_price * $quantity,
                 ];
             })
             ->values();
