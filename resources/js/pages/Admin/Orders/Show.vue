@@ -131,8 +131,11 @@ const nextPayment = () => props.order.payment_status === 'paid' ? 'unpaid' : 'pa
                 <!-- Client / livraison -->
                 <div class="rounded-2xl bg-white p-6 text-sm shadow-sm">
                     <h2 class="mb-3 text-lg font-semibold text-gray-900">Client</h2>
-                    <p class="font-medium text-gray-900">{{ props.order.user?.name }}</p>
-                    <p class="mb-4 text-gray-600">{{ props.order.user?.email }}</p>
+                    <template v-if="props.order.user">
+                        <p class="font-medium text-gray-900">{{ props.order.user.name }}</p>
+                        <p class="mb-4 text-gray-600">{{ props.order.user.email }}</p>
+                    </template>
+                    <p v-else class="mb-4 text-gray-500">Compte client supprimé</p>
 
                     <h2 class="mb-2 text-lg font-semibold text-gray-900">Livraison</h2>
                     <p class="font-medium text-gray-900">{{ props.order.shipping_name }}</p>

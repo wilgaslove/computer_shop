@@ -1,4 +1,5 @@
 <script setup>
+import AdminLayout from '@/Layouts/AdminLayout.vue'
 import { router } from '@inertiajs/vue3'
 
 const props = defineProps({
@@ -32,6 +33,7 @@ function changeRole(user, role) {
 </script>
 
 <template>
+<AdminLayout>
 
     <div class="max-w-7xl mx-auto p-8">
 
@@ -136,4 +138,5 @@ function changeRole(user, role) {
 
     </div>
 
+</AdminLayout>
 </template>

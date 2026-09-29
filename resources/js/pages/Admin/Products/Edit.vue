@@ -1,4 +1,5 @@
 <script setup>
+import AdminLayout from '@/Layouts/AdminLayout.vue'
 import { useForm, Link, router } from '@inertiajs/vue3'
 import { ref } from 'vue'
 
@@ -60,6 +61,7 @@ function deleteExistingImage(image) {
 </script>
 
 <template>
+<AdminLayout>
   <div class="mx-auto max-w-3xl p-6">
     <h1 class="mb-6 text-2xl font-bold text-gray-900">Modifier le produit</h1>
 
@@ -215,4 +217,5 @@ function deleteExistingImage(image) {
 
     </form>
   </div>
+</AdminLayout>
 </template>

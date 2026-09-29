@@ -1,4 +1,5 @@
 <script setup>
+import AdminLayout from '@/Layouts/AdminLayout.vue'
 import { useForm, Link } from '@inertiajs/vue3'
 import { ref } from 'vue'
 
@@ -50,6 +51,7 @@ function submit() {
 </script>
 
 <template>
+<AdminLayout>
   <div class="mx-auto max-w-3xl p-6">
     <h1 class="mb-6 text-2xl font-bold text-gray-900">Nouveau produit</h1>
 
@@ -183,4 +185,5 @@ function submit() {
     </form>
   </div>
   
+</AdminLayout>
 </template>

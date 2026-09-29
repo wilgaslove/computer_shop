@@ -135,7 +135,7 @@ const hasFilters = () => form.q || form.status || form.payment_status
                         <td class="p-4 font-semibold text-gray-900">{{ order.reference }}</td>
                         <td class="p-4">
                             <p class="text-gray-900">{{ order.shipping_name }}</p>
-                            <p class="text-xs text-gray-500">{{ order.user?.email }}</p>
+                            <p class="text-xs text-gray-500">{{ order.user?.email ?? 'Compte supprimé' }}</p>
                         </td>
                         <td class="p-4 text-gray-600">{{ formatDate(order.created_at) }}</td>
                         <td class="whitespace-nowrap p-4 font-semibold">{{ formatFcfa(order.total) }}</td>
