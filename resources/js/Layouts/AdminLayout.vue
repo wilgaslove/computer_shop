@@ -7,10 +7,12 @@ const page = usePage()
 const user = computed(() => page.props.auth?.user)
 const isAdmin = computed(() => page.props.auth?.is_admin ?? false)
 const menuOpen = ref(false)
+const newMessages = computed(() => page.props.admin?.new_messages ?? 0)
 
 const links = computed(() => [
     { label: 'Tableau de bord', icon: '📊', href: route('admin.dashboard'), active: route().current('admin.dashboard') },
     { label: 'Commandes', icon: '🧾', href: route('admin.orders.index'), active: route().current('admin.orders.*') },
+    { label: 'Messages', icon: '✉️', href: route('admin.contact-messages.index'), active: route().current('admin.contact-messages.*'), badge: newMessages.value },
     { label: 'Produits', icon: '💻', href: route('admin.products.index'), active: route().current('admin.products.*') },
     { label: 'Catégories', icon: '🗂️', href: route('admin.categories.index'), active: route().current('admin.categories.*') },
     { label: 'Bannières', icon: '🖼️', href: route('admin.hero-sliders.index'), active: route().current('admin.hero-sliders.*') },
@@ -50,6 +52,12 @@ const links = computed(() => [
                 >
                     <span>{{ link.icon }}</span>
                     {{ link.label }}
+                    <span
+                        v-if="link.badge"
+                        class="ml-auto rounded-full bg-red-500 px-2 py-0.5 text-xs font-bold text-white"
+                    >
+                        {{ link.badge }}
+                    </span>
                 </Link>
 
                 <div class="my-3 border-t border-slate-700" />
