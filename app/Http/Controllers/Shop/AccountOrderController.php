@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Shop;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class AccountOrderController extends Controller
@@ -49,26 +48,10 @@ class AccountOrderController extends Controller
     {
         $this->authorizeOwner($request, $order);
 
-        if ($order->status !== 'pending') {
+        // Le client ne peut annuler que tant que la commande est « en attente ».
+        if ($order->status !== 'pending' || ! $order->cancelAndRestock()) {
             return back()->with('error', 'Cette commande ne peut plus être annulée.');
         }
-
-        DB::transaction(function () use ($order) {
-            // Verrouille la commande : évite une double annulation (double clic) qui rendrait le stock deux fois.
-            $locked = Order::whereKey($order->id)->lockForUpdate()->first();
-
-            if ($locked->status !== 'pending') {
-                return;
-            }
-
-            foreach ($locked->items as $item) {
-                if ($item->product_id) {
-                    $item->product()->increment('stock', $item->quantity);
-                }
-            }
-
-            $locked->update(['status' => 'cancelled']);
-        });
 
         return back()->with('success', 'Votre commande a été annulée.');
     }
