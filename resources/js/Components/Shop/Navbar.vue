@@ -1,6 +1,6 @@
 <script setup>
-import { Link, usePage } from '@inertiajs/vue3'
-import { computed, ref } from 'vue'
+import { Link, router, usePage } from '@inertiajs/vue3'
+import { computed, ref, watch } from 'vue'
 
 const page = usePage()
 
@@ -8,6 +8,26 @@ const user = computed(() => page.props?.auth?.user ?? null)
 const cartCount = computed(() => page.props?.cart?.count ?? 0)
 const isStaff = computed(() => page.props?.auth?.is_staff ?? false)
 const menuOpen = ref(false)
+
+// Recherche : la valeur reflète toujours le paramètre ?q= de l'URL courante
+const searchQuery = ref('')
+
+function currentQuery() {
+    try {
+        return new URL(page.url, 'http://local').searchParams.get('q') ?? ''
+    } catch {
+        return ''
+    }
+}
+
+watch(() => page.url, () => { searchQuery.value = currentQuery() }, { immediate: true })
+
+function search() {
+    const q = searchQuery.value.trim()
+
+    router.get(route('shop.products'), q ? { q } : {})
+}
+
 </script>
 
 <template>
@@ -30,20 +50,21 @@ const menuOpen = ref(false)
 
                     <!-- Recherche -->
 
-                    <div class="flex-1">
+                    <form class="flex-1" role="search" @submit.prevent="search">
 
                         <div class="flex">
 
-                            <input class="w-full px-4 py-3 rounded-l-lg text-black outline-none"
+                            <input v-model="searchQuery" type="search" maxlength="100"
+                                class="w-full px-4 py-3 rounded-l-lg text-black outline-none"
                                 placeholder="Rechercher un ordinateur...">
 
-                            <button class="bg-blue-600 hover:bg-blue-700 px-6 rounded-r-lg">
+                            <button type="submit" class="bg-blue-600 hover:bg-blue-700 px-6 rounded-r-lg" aria-label="Rechercher">
                                 🔍
                             </button>
 
                         </div>
 
-                    </div>
+                    </form>
 
                     <!-- Favoris -->
 
@@ -153,21 +174,21 @@ const menuOpen = ref(false)
                         🖼 Hero Slider
                     </Link> -->
 
-                    <a href="#">
+                    <Link :href="route('shop.products', { q: 'HP' })">
                         HP
-                    </a>
+                    </Link>
 
-                    <a href="#">
+                    <Link :href="route('shop.products', { q: 'Dell' })">
                         Dell
-                    </a>
+                    </Link>
 
-                    <a href="#">
+                    <Link :href="route('shop.products', { q: 'Lenovo' })">
                         Lenovo
-                    </a>
+                    </Link>
 
-                    <a href="#">
+                    <Link :href="route('shop.products', { q: 'Asus' })">
                         Asus
-                    </a>
+                    </Link>
 
                     <a href="#">
                         Promotions
