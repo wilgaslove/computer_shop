@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\HeroSliderController;
+use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Shop\ProductController as ShopProductController;
 use App\Http\Controllers\Shop\ProductController;
 use App\Http\Controllers\Shop\CartController;
@@ -69,6 +70,25 @@ Route::middleware(['auth', 'role:admin|manager'])
             'products/{product}/images/{image}',
             [AdminProductController::class, 'destroyImage']
         )->name('products.images.destroy');
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Commandes
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get('orders', [AdminOrderController::class, 'index'])
+            ->name('orders.index');
+
+        Route::get('orders/{order}', [AdminOrderController::class, 'show'])
+            ->name('orders.show');
+
+        Route::patch('orders/{order}/status', [AdminOrderController::class, 'updateStatus'])
+            ->name('orders.status');
+
+        Route::patch('orders/{order}/payment', [AdminOrderController::class, 'updatePayment'])
+            ->name('orders.payment');
 
 
         /*
