@@ -16,6 +16,7 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
                 'is_staff' => $request->user()?->hasAnyRole(['admin', 'manager']) ?? false,
+                'is_admin' => $request->user()?->hasRole('admin') ?? false,
                 'can' => [
                     'product' => [
                         'view'   => Gate::allows('product.view') ?? false,
