@@ -84,6 +84,51 @@ class ProductController extends Controller
         ]);
     }
 
+    /**
+     * Page « Promotions » : uniquement les produits actifs dont le prix promo est renseigné.
+     */
+    public function promotions(Request $request)
+    {
+        $sorts = [
+            'discount'   => 'Meilleures réductions',
+            'price_asc'  => 'Prix croissant',
+            'price_desc' => 'Prix décroissant',
+            'latest'     => 'Nouveautés',
+        ];
+
+        $sort = $request->query('sort');
+        $sort = (is_string($sort) && isset($sorts[$sort])) ? $sort : 'discount';
+
+        $query = Product::with(['images', 'category'])->onPromotion();
+
+        match ($sort) {
+            // Pourcentage de réduction, du plus fort au plus faible
+            'discount'   => $query->orderByRaw('(price - promo_price) / price DESC'),
+            'price_asc'  => $query->orderBy('promo_price', 'asc'),
+            'price_desc' => $query->orderBy('promo_price', 'desc'),
+            'latest'     => $query->orderBy('created_at', 'desc'),
+        };
+
+        $products = $query
+            ->orderBy('id', 'desc') // ordre stable entre les pages
+            ->paginate(12)
+            ->withQueryString();
+
+        return Inertia::render('Shop/Promotions', [
+            'products'    => $products,
+            // Plus forte réduction du catalogue (affichée dans la bannière)
+            'maxDiscount' => (int) round((float) (
+                Product::onPromotion()
+                    ->selectRaw('MAX((price - promo_price) / price * 100) as max_discount')
+                    ->first()?->max_discount ?? 0
+            )),
+            'sort'        => $sort,
+            'sorts'    => collect($sorts)
+                ->map(fn ($label, $value) => ['value' => $value, 'label' => $label])
+                ->values(),
+        ]);
+    }
+
     public function show(Product $product)
     {
         abort_if(! $product->active, 404);

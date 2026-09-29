@@ -87,14 +87,14 @@ class CheckoutController extends Controller
                     ]);
                 }
 
-                $subtotal = $product->price * $quantity;
+                $subtotal = $product->current_price * $quantity;
                 $total   += $subtotal;
 
                 $lines[] = [
                     'product_id'    => $product->id,
                     'product_name'  => $product->name,
                     'product_image' => $product->cover_image,
-                    'price'         => $product->price,
+                    'price'         => $product->current_price,
                     'quantity'      => $quantity,
                     'subtotal'      => $subtotal,
                 ];
@@ -163,7 +163,7 @@ class CheckoutController extends Controller
                 return [
                     'product'  => $product,
                     'quantity' => $quantity,
-                    'subtotal' => $product->price * $quantity,
+                    'subtotal' => $product->current_price * $quantity,
                 ];
             })
             ->filter()
