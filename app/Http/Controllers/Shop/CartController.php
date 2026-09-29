@@ -11,23 +11,37 @@ class CartController extends Controller
 {
     /**
      * Afficher le contenu du panier.
+     * Le panier est resynchronisé avec le catalogue : produit désactivé, supprimé,
+     * en rupture ou quantité supérieure au stock => corrigé automatiquement.
      */
     public function index()
     {
-        $cart = session('cart', []);
-
+        $cart     = session('cart', []);
         $products = Product::with('category')
             ->whereIn('id', array_keys($cart))
             ->get()
             ->keyBy('id');
 
-        $items = collect($cart)
+        $cleaned = [];
+
+        foreach ($cart as $productId => $quantity) {
+            $product = $products->get($productId);
+
+            if (! $product || ! $product->active || $product->stock <= 0) {
+                continue;
+            }
+
+            $cleaned[$productId] = min((int) $quantity, $product->stock);
+        }
+
+        if ($cleaned !== $cart) {
+            session(['cart' => $cleaned]);
+            session()->now('error', 'Votre panier a été mis à jour selon la disponibilité des produits.');
+        }
+
+        $items = collect($cleaned)
             ->map(function ($quantity, $productId) use ($products) {
                 $product = $products->get($productId);
-
-                if (! $product) {
-                    return null;
-                }
 
                 return [
                     'product'  => $product,
@@ -35,7 +49,6 @@ class CartController extends Controller
                     'subtotal' => $product->price * $quantity,
                 ];
             })
-            ->filter()
             ->values();
 
         return Inertia::render('Shop/Cart/Index', [
@@ -53,17 +66,18 @@ class CartController extends Controller
             'quantity' => 'nullable|integer|min:1',
         ]);
 
-        $quantity = $data['quantity'] ?? 1;
-
-        $cart = session('cart', []);
-        $current = $cart[$product->id] ?? 0;
-        $newQuantity = $current + $quantity;
-
-        if ($product->stock > 0) {
-            $newQuantity = min($newQuantity, $product->stock);
+        if (! $product->active || $product->stock <= 0) {
+            return back()->with('error', 'Ce produit n\'est pas disponible.');
         }
 
-        $cart[$product->id] = $newQuantity;
+        $cart    = session('cart', []);
+        $current = $cart[$product->id] ?? 0;
+
+        if ($current >= $product->stock) {
+            return back()->with('error', 'Vous avez déjà la quantité maximale disponible dans votre panier.');
+        }
+
+        $cart[$product->id] = min($current + ($data['quantity'] ?? 1), $product->stock);
         session(['cart' => $cart]);
 
         return back()->with('success', 'Produit ajouté au panier');
@@ -82,13 +96,14 @@ class CartController extends Controller
 
         abort_unless(isset($cart[$product->id]), 404);
 
-        $quantity = $data['quantity'];
+        if (! $product->active || $product->stock <= 0) {
+            unset($cart[$product->id]);
+            session(['cart' => $cart]);
 
-        if ($product->stock > 0) {
-            $quantity = min($quantity, $product->stock);
+            return back()->with('error', 'Ce produit n\'est plus disponible et a été retiré du panier.');
         }
 
-        $cart[$product->id] = $quantity;
+        $cart[$product->id] = min($data['quantity'], $product->stock);
         session(['cart' => $cart]);
 
         return back()->with('success', 'Panier mis à jour');
