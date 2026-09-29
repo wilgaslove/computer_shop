@@ -15,6 +15,7 @@ class HandleInertiaRequests extends Middleware
         return array_merge(parent::share($request), [
             'auth' => [
                 'user' => $request->user(),
+                'is_staff' => $request->user()?->hasAnyRole(['admin', 'manager']) ?? false,
                 'can' => [
                     'product' => [
                         'view'   => Gate::allows('product.view') ?? false,
