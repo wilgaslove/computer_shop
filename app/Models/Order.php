@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class Order extends Model
@@ -13,6 +14,17 @@ class Order extends Model
         'shipped'   => 'Expédiée',
         'delivered' => 'Livrée',
         'cancelled' => 'Annulée',
+    ];
+
+    /**
+     * Changements de statut autorisés (une commande livrée ou annulée est terminée).
+     */
+    public const TRANSITIONS = [
+        'pending'   => ['confirmed', 'cancelled'],
+        'confirmed' => ['shipped', 'cancelled'],
+        'shipped'   => ['delivered'],
+        'delivered' => [],
+        'cancelled' => [],
     ];
 
     public const PAYMENT_METHODS = [
@@ -77,6 +89,46 @@ class Order extends Model
     public function getPaymentStatusLabelAttribute(): string
     {
         return self::PAYMENT_STATUSES[$this->payment_status] ?? $this->payment_status;
+    }
+
+    /**
+     * Statuts vers lesquels cette commande peut évoluer.
+     */
+    public function allowedTransitions(): array
+    {
+        return self::TRANSITIONS[$this->status] ?? [];
+    }
+
+    public function canBeCancelled(): bool
+    {
+        return in_array('cancelled', $this->allowedTransitions(), true);
+    }
+
+    /**
+     * Annule la commande et remet les quantités en stock, en une seule transaction.
+     * Retourne false si la commande n'est plus annulable (ex : déjà annulée par un double clic).
+     */
+    public function cancelAndRestock(): bool
+    {
+        return DB::transaction(function () {
+            // Verrou : deux annulations simultanées ne peuvent pas remettre le stock deux fois.
+            $fresh = static::whereKey($this->id)->lockForUpdate()->first();
+
+            if (! $fresh->canBeCancelled()) {
+                return false;
+            }
+
+            foreach ($fresh->items as $item) {
+                if ($item->product_id) {
+                    $item->product()->increment('stock', $item->quantity);
+                }
+            }
+
+            $fresh->update(['status' => 'cancelled']);
+            $this->refresh();
+
+            return true;
+        });
     }
 
     /**
