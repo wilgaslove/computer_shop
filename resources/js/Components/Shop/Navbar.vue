@@ -8,6 +8,7 @@ const user = computed(() => page.props?.auth?.user ?? null)
 const cartCount = computed(() => page.props?.cart?.count ?? 0)
 const isStaff = computed(() => page.props?.auth?.is_staff ?? false)
 const menuOpen = ref(false)
+const newMessages = computed(() => page.props?.admin?.new_messages ?? 0)
 
 // Recherche : la valeur reflète toujours le paramètre ?q= de l'URL courante
 const searchQuery = ref('')
@@ -199,7 +200,23 @@ function search() {
                         class="hover:text-blue-600"
                         :class="{ 'font-semibold text-blue-600': route().current('contact') }"
                     >
-                        Contactez-Nous
+                        Contact
+                    </Link>
+
+                    <!-- Accès direct à l'administration (équipe uniquement) -->
+                    <Link
+                        v-if="isStaff"
+                        :href="route('admin.dashboard')"
+                        class="ml-auto flex items-center gap-2 rounded-lg bg-slate-900 px-4 py-1.5 text-sm font-semibold text-white transition hover:bg-slate-700"
+                    >
+                        ⚙️ Administration
+                        <span
+                            v-if="newMessages"
+                            class="rounded-full bg-red-500 px-2 py-0.5 text-xs font-bold"
+                            :title="`${newMessages} nouveau(x) message(s)`"
+                        >
+                            {{ newMessages }}
+                        </span>
                     </Link>
 
                 </nav>

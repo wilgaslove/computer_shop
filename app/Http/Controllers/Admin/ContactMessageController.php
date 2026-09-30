@@ -25,7 +25,7 @@ class ContactMessageController extends Controller
         $messages = ContactMessage::with('order:id,reference')
             ->when(
                 array_key_exists($status, ContactMessage::STATUSES),
-                fn($query) => $query->where('status', $status)
+                fn ($query) => $query->where('status', $status)
             )
             ->search($q)
             ->latest()
@@ -135,7 +135,7 @@ class ContactMessageController extends Controller
     private function statusOptions(): array
     {
         return collect(ContactMessage::STATUSES)
-            ->map(fn($label, $value) => ['value' => $value, 'label' => $label])
+            ->map(fn ($label, $value) => ['value' => $value, 'label' => $label])
             ->values()
             ->all();
     }
