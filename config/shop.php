@@ -8,7 +8,7 @@ return [
     'contact' => [
         'phone'     => env('CONTACT_PHONE', '+229 01 96 74 05 12'),
         'whatsapp'  => env('CONTACT_WHATSAPP', '+229 01 95 47 92 36'),
-        'email'     => env('CONTACT_EMAIL', 'Wilgas216@gmail.com'),
+        'email'     => env('CONTACT_EMAIL', 'Loginovatech216@gmail.com'),
         'address'   => env('CONTACT_ADDRESS', 'Cotonou, Bénin'),
         'hours'     => env('CONTACT_HOURS', 'Lun – Sam : 8h – 20h'),
 
