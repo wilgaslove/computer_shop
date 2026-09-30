@@ -34,7 +34,14 @@ composant `ContactStatusBadge.vue`.
 `Shop/ProductController` (méthode `promotions`), `CartController` et `CheckoutController` (facturation au prix promo),
 `Admin/ProductController` (validation `promo_price`), `HandleInertiaRequests` (compteur de nouveaux messages),
 `routes/web.php`, `Navbar.vue`, `ProductCard.vue`, `AdminLayout.vue`, formulaires/liste produits admin,
-fiche produit, panier, checkout, détail de commande client.
+fiche produit, panier, checkout, détail de commande client,
+`Admin/DashboardController` + `Admin/Dashboard.vue` (cartes cliquables, bloc « Messages à traiter », accès rapides).
+
+## Navigation admin (sans passer par l'URL)
+
+- **Boutique** : bouton « ⚙️ Administration » dans le menu de la NavBar (visible seulement pour admin/manager), avec pastille des nouveaux messages.
+- **Menu latéral admin** : lien « ✉️ Messages » avec pastille rouge.
+- **Dashboard** : chaque carte de chiffres mène à sa section (dont « Messages à traiter »), plus un bloc des derniers messages et des accès rapides.
 
 ## 4. À tester
 
