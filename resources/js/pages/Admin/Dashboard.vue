@@ -46,7 +46,9 @@ const shortcuts = computed(() => [
     { icon: '🧾', label: 'Toutes les commandes', href: route('admin.orders.index') },
     { icon: '💻', label: 'Gérer les produits', href: route('admin.products.index') },
     ...(canCreateProduct.value ? [{ icon: '➕', label: 'Ajouter un produit', href: route('admin.products.create') }] : []),
+    { icon: '🏠', label: "Modifier la page d'accueil", href: route('admin.site-content.edit') },
     { icon: '🖼️', label: 'Bannières', href: route('admin.hero-sliders.index') },
+    { icon: '📬', label: 'Inscrits newsletter', href: route('admin.newsletter.index') },
     { icon: '🔥', label: 'Voir les promotions (boutique)', href: route('shop.promotions') },
 ])
 

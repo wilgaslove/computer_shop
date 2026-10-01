@@ -15,7 +15,9 @@ const links = computed(() => [
     { label: 'Messages', icon: '✉️', href: route('admin.contact-messages.index'), active: route().current('admin.contact-messages.*'), badge: newMessages.value },
     { label: 'Produits', icon: '💻', href: route('admin.products.index'), active: route().current('admin.products.*') },
     { label: 'Catégories', icon: '🗂️', href: route('admin.categories.index'), active: route().current('admin.categories.*') },
+    { label: 'Accueil du site', icon: '🏠', href: route('admin.site-content.edit'), active: route().current('admin.site-content.*') },
     { label: 'Bannières', icon: '🖼️', href: route('admin.hero-sliders.index'), active: route().current('admin.hero-sliders.*') },
+    { label: 'Newsletter', icon: '📬', href: route('admin.newsletter.index'), active: route().current('admin.newsletter.*') },
     ...(isAdmin.value
         ? [{ label: 'Utilisateurs', icon: '👥', href: route('admin.users.index'), active: route().current('admin.users.*') }]
         : []),
@@ -63,7 +65,7 @@ const links = computed(() => [
                 <div class="my-3 border-t border-slate-700" />
 
                 <Link
-                    :href="route('shop.products.index')"
+                    :href="route('home')"
                     class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm text-slate-300 hover:bg-slate-800"
                 >
                     <span>🛍️</span> Voir la boutique
