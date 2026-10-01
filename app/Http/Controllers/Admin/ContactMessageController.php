@@ -121,10 +121,7 @@ class ContactMessageController extends Controller
 
         $extension = pathinfo($contactMessage->attachment, PATHINFO_EXTENSION);
 
-        // return $disk->download(
-        //     $contactMessage->attachment,
-        //     "piece-jointe-message-{$contactMessage->id}." . $extension
-        // );
+       
 
         return response()->download(
             $disk->path($contactMessage->attachment),
