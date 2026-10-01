@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Shop;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\HeroSlider;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -26,6 +27,12 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $filters    = $this->filters($request);
+        $hasFilters = $filters['q'] !== ''
+            || $filters['category'] !== ''
+            || $filters['min_price'] !== ''
+            || $filters['max_price'] !== ''
+            || $filters['sort'] !== 'latest'
+            || $filters['in_stock'];
 
         [$column, $direction] = self::SORTS[$filters['sort']];
 
@@ -70,6 +77,10 @@ class ProductController extends Controller
                 'min' => (float) ($range->min ?? 0),
                 'max' => (float) ($range->max ?? 0),
             ],
+            // La bannière n'apparaît que sur le catalogue « nu », pas sur une recherche.
+            'heroSliders' => $hasFilters
+                ? []
+                : HeroSlider::where('active', true)->orderBy('position')->orderBy('id')->get(),
         ]);
     }
 

@@ -15,6 +15,10 @@ use App\Http\Controllers\Shop\CartController;
 use App\Http\Controllers\Shop\CheckoutController;
 use App\Http\Controllers\Shop\AccountOrderController;
 use App\Http\Controllers\Shop\ContactController;
+use App\Http\Controllers\Shop\HomeController;
+use App\Http\Controllers\Shop\NewsletterController;
+use App\Http\Controllers\Admin\SiteContentController;
+use App\Http\Controllers\Admin\NewsletterSubscriberController as AdminNewsletterController;
 use App\Http\Controllers\Admin\ContactMessageController as AdminContactMessageController;
 
 /*
@@ -23,8 +27,11 @@ use App\Http\Controllers\Admin\ContactMessageController as AdminContactMessageCo
 |--------------------------------------------------------------------------
 */
 
-Route::get('/', [ShopProductController::class, 'index'])
+// Page d'accueil (contenu modifiable depuis Admin > Accueil du site)
+Route::get('/', [HomeController::class, 'index'])
     ->name('home');
+
+// Catalogue
 
 Route::get('/shop', [ShopProductController::class, 'index'])
     ->name('shop.products');
@@ -117,6 +124,35 @@ Route::middleware(['auth', 'role:admin|manager'])
 
         /*
         |--------------------------------------------------------------------------
+        | Contenu du site (page d'accueil, coordonnées, pied de page)
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get('site-content', [SiteContentController::class, 'edit'])
+            ->name('site-content.edit');
+
+        Route::put('site-content', [SiteContentController::class, 'update'])
+            ->name('site-content.update');
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Newsletter
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get('newsletter', [AdminNewsletterController::class, 'index'])
+            ->name('newsletter.index');
+
+        Route::get('newsletter/export', [AdminNewsletterController::class, 'export'])
+            ->name('newsletter.export');
+
+        Route::delete('newsletter/{subscriber}', [AdminNewsletterController::class, 'destroy'])
+            ->name('newsletter.destroy');
+
+
+        /*
+        |--------------------------------------------------------------------------
         | Hero Sliders
         |--------------------------------------------------------------------------
         */
@@ -174,10 +210,6 @@ Route::middleware('auth')->group(function () {
 |--------------------------------------------------------------------------
 */
 
-Route::get('/', [ProductController::class, 'index'])
-    ->name('shop.products.index');
-
-
 Route::get('/products/{product}', [ProductController::class, 'show'])
     ->name('shop.products.show');
 
@@ -205,6 +237,17 @@ Route::get('/contact', [ContactController::class, 'show'])
 Route::post('/contact', [ContactController::class, 'store'])
     ->middleware('throttle:5,10')
     ->name('contact.store');
+
+
+/*
+|--------------------------------------------------------------------------
+| Newsletter (public)
+|--------------------------------------------------------------------------
+*/
+
+Route::post('/newsletter', [NewsletterController::class, 'store'])
+    ->middleware('throttle:5,10')
+    ->name('newsletter.subscribe');
 
 
 /*

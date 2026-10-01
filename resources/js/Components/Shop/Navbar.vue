@@ -8,6 +8,7 @@ const user = computed(() => page.props?.auth?.user ?? null)
 const cartCount = computed(() => page.props?.cart?.count ?? 0)
 const isStaff = computed(() => page.props?.auth?.is_staff ?? false)
 const menuOpen = ref(false)
+const brand = computed(() => page.props?.site?.brand ?? 'ComputerShop')
 const newMessages = computed(() => page.props?.admin?.new_messages ?? 0)
 
 // Recherche : la valeur reflète toujours le paramètre ?q= de l'URL courante
@@ -45,8 +46,8 @@ function search() {
 
                     <!-- Logo -->
 
-                    <Link :href="route('shop.products.index')" class="text-3xl font-extrabold whitespace-nowrap">
-                        💻 ComputerShop
+                    <Link :href="route('home')" class="text-3xl font-extrabold whitespace-nowrap">
+                        💻 {{ brand }}
                     </Link>
 
                     <!-- Recherche -->
@@ -163,7 +164,10 @@ function search() {
 
                 <nav class="flex gap-8 h-14 items-center px-6">
 
-                    <Link :href="route('shop.products.index')">
+                    <Link
+                        :href="route('home')"
+                        :class="{ 'font-semibold text-blue-600': route().current('home') }"
+                    >
                         Accueil
                     </Link>
 

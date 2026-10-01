@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Models\ContactMessage;
+use App\Support\SiteContent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Middleware;
@@ -33,6 +34,8 @@ class HandleInertiaRequests extends Middleware
                     ? ContactMessage::where('status', 'new')->count()
                     : 0,
             ],
+            // Marque, coordonnées et colonnes du pied de page (modifiables depuis l'admin)
+            'site' => fn () => SiteContent::get('shop'),
             'cart' => [
                 'count' => array_sum(session('cart', [])),
             ],
