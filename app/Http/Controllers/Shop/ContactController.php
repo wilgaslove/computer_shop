@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Shop;
 use App\Http\Controllers\Controller;
 use App\Models\ContactMessage;
 use App\Models\Order;
+use App\Support\SiteContent;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
@@ -49,7 +50,8 @@ class ContactController extends Controller
         }
 
         return Inertia::render('Shop/Contact', [
-            'contact'       => config('shop.contact'),
+            'contact'       => SiteContent::get('shop'),
+            'faq'           => SiteContent::get('home')['faq'],
             'orders'        => $orders->map(fn (Order $order) => $this->orderSummary($order))->values(),
             'selectedOrder' => $selectedOrder,
             'defaults'      => [
