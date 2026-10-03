@@ -81,9 +81,14 @@ function linkClass(link) {
                     <!-- Logo -->
                     <Link
                         :href="route('home')"
-                        class="min-w-0 flex-shrink truncate text-lg font-extrabold sm:text-2xl lg:text-3xl"
+                        class="flex flex-shrink-0 items-center"
+                        :aria-label="brand"
                     >
-                        💻 {{ brand }}
+                        <img
+                            src="/images/logo-navbar.png"
+                            :alt="brand"
+                            class="h-10 w-auto sm:h-12 lg:h-14"
+                        >
                     </Link>
 
                     <!-- Recherche (desktop) -->

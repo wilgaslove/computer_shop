@@ -27,7 +27,7 @@ const socials = computed(() => [
 
                 <!-- Marque + coordonnées -->
                 <div class="lg:col-span-2">
-                    <p class="text-2xl font-extrabold text-white">💻 {{ site.brand }}</p>
+                    <img src="/images/logo-navbar.png" :alt="site.brand" class="h-14 w-auto">
                     <p v-if="site.tagline" class="mt-2 text-slate-400">{{ site.tagline }}</p>
 
                     <ul class="mt-6 space-y-2 text-sm">
