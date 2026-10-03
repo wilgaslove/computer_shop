@@ -12,7 +12,7 @@ import Toast from '@/Components/Shop/Toast.vue'
         <Navbar />
 
         <!-- Contenu -->
-        <main class="flex-1 max-w-7xl mx-auto w-full px-4 py-8">
+        <main class="flex-1 max-w-7xl mx-auto w-full px-4 py-6 sm:py-8">
             <slot />
         </main>
 

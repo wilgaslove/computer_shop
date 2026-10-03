@@ -37,10 +37,10 @@ function deleteSlider(id) {
 <AdminLayout>
     <Head title="Bannières" />
 
-    <div class="max-w-7xl mx-auto p-8">
+    <div class="max-w-7xl mx-auto p-4 sm:p-8">
 
         <!-- HEADER -->
-        <div class="flex items-center justify-between mb-8">
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-8">
 
             <div>
                 <h1 class="text-3xl font-bold text-gray-900">

@@ -37,10 +37,10 @@ function submit() {
 <AdminLayout>
     <Head title="Nouvelle bannière" />
 
-    <div class="max-w-5xl mx-auto p-8">
+    <div class="max-w-5xl mx-auto p-4 sm:p-8">
 
         <!-- Header -->
-        <div class="flex items-center justify-between mb-8">
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-8">
 
             <div>
                 <h1 class="text-3xl font-bold">
@@ -64,7 +64,7 @@ function submit() {
         <!-- Formulaire -->
         <form
             @submit.prevent="submit"
-            class="bg-white rounded-2xl shadow p-8 space-y-6"
+            class="bg-white rounded-2xl shadow p-5 sm:p-8 space-y-6"
         >
 
             <!-- Titre -->
