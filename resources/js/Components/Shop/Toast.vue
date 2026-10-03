@@ -27,7 +27,7 @@ watch(
     <transition name="fade">
         <div
             v-if="message"
-            class="fixed bottom-6 right-6 z-[100] rounded-xl px-5 py-3 font-semibold text-white shadow-lg"
+            class="fixed inset-x-4 bottom-4 z-[100] rounded-xl px-5 py-3 text-center font-semibold text-white shadow-lg sm:inset-x-auto sm:bottom-6 sm:right-6 sm:text-left"
             :class="type === 'success' ? 'bg-green-600' : 'bg-red-600'"
         >
             {{ message }}

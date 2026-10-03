@@ -55,7 +55,7 @@ function addToCart() {
             :href="route('shop.products.show', product.id)"
             class="block"
         >
-            <div class="relative h-60 overflow-hidden bg-gray-100">
+            <div class="relative h-52 overflow-hidden bg-gray-100 sm:h-60">
 
                 <img
                     v-if="product.cover_image && !imageFailed"
@@ -91,7 +91,7 @@ function addToCart() {
                 <!-- Favoris -->
                 <button
                     type="button"
-                    class="absolute right-3 top-3 rounded-full bg-white p-2 shadow transition hover:bg-red-50"
+                    class="absolute right-3 top-3 rounded-full bg-white p-2.5 shadow transition hover:bg-red-50"
                     @click.prevent
                 >
                     ❤️
@@ -100,7 +100,7 @@ function addToCart() {
         </Link>
 
         <!-- Informations -->
-        <div class="p-5">
+        <div class="p-4 sm:p-5">
 
             <!-- Catégorie -->
             <p

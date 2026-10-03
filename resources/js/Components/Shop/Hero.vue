@@ -53,7 +53,8 @@ const props = defineProps({
 
             <div
                 class="relative
-                       h-[420px]
+                       h-[340px]
+                       sm:h-[420px]
                        md:h-[500px]
                        lg:h-[560px]
                        overflow-hidden
@@ -87,7 +88,8 @@ const props = defineProps({
                            h-full
                            max-w-7xl
                            mx-auto
-                           px-6
+                           px-4
+                           sm:px-6
                            lg:px-8
                            flex
                            items-center"
@@ -100,7 +102,8 @@ const props = defineProps({
 
                         <!-- TITRE -->
                         <h1
-                            class="text-4xl
+                            class="text-3xl
+                                   sm:text-4xl
                                    md:text-5xl
                                    lg:text-6xl
                                    font-bold
@@ -114,7 +117,8 @@ const props = defineProps({
                         <p
                             v-if="slider.subtitle"
                             class="mt-5
-                                   text-lg
+                                   text-base
+                                   sm:text-lg
                                    md:text-xl
                                    text-gray-100
                                    max-w-xl"
@@ -132,8 +136,8 @@ const props = defineProps({
                             :href="slider.button_link"
                             class="inline-flex
                                    items-center
-                                   mt-8
-                                   px-6
+                                   mt-6 sm:mt-8
+                                   px-5 sm:px-6
                                    py-3
                                    rounded-xl
                                    bg-blue-600
@@ -225,6 +229,14 @@ const props = defineProps({
 .hero-swiper :deep(.swiper-pagination-bullet-active) {
     width: 24px;
     border-radius: 9999px;
+}
+
+/* Mobile : on masque les flèches (on glisse au doigt, la pagination suffit) */
+@media (max-width: 639px) {
+    .hero-swiper :deep(.swiper-button-next),
+    .hero-swiper :deep(.swiper-button-prev) {
+        display: none;
+    }
 }
 
 </style>
