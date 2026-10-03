@@ -63,7 +63,7 @@ function deleteExistingImage(image) {
 
 <template>
 <AdminLayout>
-  <div class="mx-auto max-w-3xl p-6">
+  <div class="mx-auto max-w-3xl p-4 sm:p-6">
     <h1 class="mb-6 text-2xl font-bold text-gray-900">Modifier le produit</h1>
 
     <form @submit.prevent="submit" class="space-y-6">
@@ -80,7 +80,7 @@ function deleteExistingImage(image) {
       </div>
 
       <!-- Prix / Stock -->
-      <div class="grid grid-cols-2 gap-4">
+      <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>
           <label class="mb-1 block text-sm font-medium text-gray-700">Prix (FCFA)</label>
           <input
@@ -164,7 +164,7 @@ function deleteExistingImage(image) {
       <div v-if="product.images?.length">
         <label class="mb-2 block text-sm font-medium text-gray-700">Galerie actuelle</label>
 
-        <div class="grid grid-cols-4 gap-3">
+        <div class="grid grid-cols-2 gap-3 sm:grid-cols-4">
           <div
             v-for="image in product.images"
             :key="image.id"
@@ -189,7 +189,7 @@ function deleteExistingImage(image) {
 
         <input type="file" accept="image/*" multiple @change="onGalleryChange" />
 
-        <div v-if="galleryPreviews.length" class="mt-3 grid grid-cols-4 gap-3">
+        <div v-if="galleryPreviews.length" class="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-4">
           <div
             v-for="(src, index) in galleryPreviews"
             :key="index"
@@ -215,7 +215,7 @@ function deleteExistingImage(image) {
       </div>
 
       <!-- Actions -->
-      <div class="flex gap-4 pt-2">
+      <div class="flex flex-wrap gap-3 pt-2 sm:gap-4">
         <button
           type="submit"
           class="rounded-lg bg-blue-600 px-5 py-2.5 font-semibold text-white transition hover:bg-blue-700 disabled:opacity-50"

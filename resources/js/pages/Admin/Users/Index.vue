@@ -35,11 +35,11 @@ function changeRole(user, role) {
 <template>
 <AdminLayout>
 
-    <div class="max-w-7xl mx-auto p-8">
+    <div class="max-w-7xl mx-auto p-4 sm:p-8">
 
         <div class="mb-8">
 
-            <h1 class="text-3xl font-bold">
+            <h1 class="text-2xl font-bold sm:text-3xl">
                 Utilisateurs
             </h1>
 
@@ -50,9 +50,9 @@ function changeRole(user, role) {
         </div>
 
 
-        <div class="bg-white rounded-2xl shadow overflow-hidden">
+        <div class="overflow-x-auto bg-white rounded-2xl shadow">
 
-            <table class="w-full">
+            <table class="w-full min-w-[640px]">
 
                 <thead class="bg-gray-50 border-b">
 

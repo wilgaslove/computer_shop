@@ -69,8 +69,8 @@ const nextPayment = () => props.order.payment_status === 'paid' ? 'unpaid' : 'pa
                             <div v-else class="flex h-full w-full items-center justify-center text-2xl text-gray-300">💻</div>
                         </div>
 
-                        <div class="flex-1 text-sm">
-                            <p class="font-medium text-gray-900">{{ item.product_name }}</p>
+                        <div class="min-w-0 flex-1 text-sm">
+                            <p class="break-words font-medium text-gray-900">{{ item.product_name }}</p>
                             <p class="text-gray-500">{{ item.quantity }} × {{ formatFcfa(item.price) }}</p>
                             <p v-if="!item.product_id" class="text-xs text-amber-600">Produit supprimé du catalogue</p>
                         </div>

@@ -37,7 +37,7 @@ function formatDate(value) {
                     <h3 class="mt-4 text-xl font-semibold text-gray-700">Aucune commande pour le moment</h3>
                     <p class="mt-2 text-gray-500">Vos commandes apparaîtront ici.</p>
                     <Link
-                        :href="route('shop.products.index')"
+                        :href="route('shop.products')"
                         class="mt-6 inline-block rounded-xl bg-blue-600 px-6 py-3 font-semibold text-white hover:bg-blue-700"
                     >
                         Voir les produits

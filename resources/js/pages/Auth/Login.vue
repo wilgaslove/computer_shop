@@ -122,7 +122,7 @@ const submit = () => {
             </div>
 
             <!-- ACTIONS -->
-            <div class="mt-6 flex items-center justify-end">
+            <div class="mt-6 flex flex-wrap items-center justify-end gap-y-3">
                 <Link
                     v-if="canResetPassword"
                     :href="route('password.request')"

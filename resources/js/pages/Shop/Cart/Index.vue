@@ -84,7 +84,7 @@ function clearCart() {
                     </p>
 
                     <Link
-                        :href="route('shop.products.index')"
+                        :href="route('shop.products')"
                         class="mt-6 inline-block rounded-xl bg-blue-600 px-6 py-3 font-semibold text-white transition hover:bg-blue-700"
                     >
                         Voir les produits
@@ -103,10 +103,11 @@ function clearCart() {
                             class="flex flex-col gap-4 rounded-2xl border border-gray-200 bg-white p-4 sm:flex-row sm:items-center"
                         >
 
+                            <div class="flex min-w-0 flex-1 items-center gap-4">
                             <!-- Image -->
                             <Link
                                 :href="route('shop.products.show', item.product.id)"
-                                class="h-24 w-24 flex-shrink-0 overflow-hidden rounded-xl bg-gray-100"
+                                class="h-20 w-20 flex-shrink-0 overflow-hidden rounded-xl bg-gray-100 sm:h-24 sm:w-24"
                             >
                                 <img
                                     v-if="item.product.cover_image"
@@ -123,10 +124,10 @@ function clearCart() {
                             </Link>
 
                             <!-- Infos -->
-                            <div class="flex-1">
+                            <div class="min-w-0 flex-1">
                                 <Link
                                     :href="route('shop.products.show', item.product.id)"
-                                    class="font-semibold text-gray-900 hover:text-blue-600"
+                                    class="break-words font-semibold text-gray-900 hover:text-blue-600"
                                 >
                                     {{ item.product.name }}
                                 </Link>
@@ -152,6 +153,8 @@ function clearCart() {
                                 </p>
                             </div>
 
+                            </div>
+                            <div class="flex items-center justify-between gap-4 sm:justify-end">
                             <!-- Quantité -->
                             <div class="flex items-center rounded-xl border border-gray-300">
                                 <button
@@ -176,7 +179,7 @@ function clearCart() {
                             </div>
 
                             <!-- Sous-total -->
-                            <div class="w-32 text-right font-bold text-blue-700">
+                            <div class="text-right font-bold text-blue-700 sm:w-32">
                                 {{ formatFcfa(item.subtotal) }}
                             </div>
 
@@ -189,6 +192,7 @@ function clearCart() {
                             >
                                 🗑️
                             </button>
+                            </div>
 
                         </div>
 
@@ -216,7 +220,7 @@ function clearCart() {
                         </Link>
 
                         <Link
-                            :href="route('shop.products.index')"
+                            :href="route('shop.products')"
                             class="mt-3 block rounded-xl border border-gray-300 py-3 text-center font-semibold text-gray-700 hover:bg-gray-50"
                         >
                             ← Continuer mes achats

@@ -41,7 +41,7 @@ function cancelOrder() {
                 <!-- En-tête -->
                 <div class="flex flex-col gap-3 rounded-2xl border border-gray-200 bg-white p-6 sm:flex-row sm:items-center sm:justify-between">
                     <div>
-                        <h1 class="text-xl font-bold text-gray-900">{{ props.order.reference }}</h1>
+                        <h1 class="break-all text-xl font-bold text-gray-900">{{ props.order.reference }}</h1>
                         <p class="mt-1 text-sm text-gray-500">Passée le {{ formatDate(props.order.created_at) }}</p>
                     </div>
                     <OrderStatusBadge :status="props.order.status" :label="props.order.status_label" />
@@ -67,8 +67,8 @@ function cancelOrder() {
                                 <div v-else class="flex h-full w-full items-center justify-center text-2xl text-gray-300">💻</div>
                             </div>
 
-                            <div class="flex-1 text-sm">
-                                <p class="font-medium text-gray-900">{{ item.product_name }}</p>
+                            <div class="min-w-0 flex-1 text-sm">
+                                <p class="break-words font-medium text-gray-900">{{ item.product_name }}</p>
                                 <p class="text-gray-500">{{ item.quantity }} × {{ formatFcfa(item.price) }}</p>
                             </div>
 
