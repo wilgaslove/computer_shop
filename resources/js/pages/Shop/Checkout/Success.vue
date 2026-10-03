@@ -72,7 +72,7 @@ function formatFcfa(value) {
 
                 <div class="mt-6 text-center">
                     <Link
-                        :href="route('shop.products.index')"
+                        :href="route('shop.products')"
                         class="inline-block rounded-xl bg-blue-600 px-6 py-3 font-semibold text-white transition hover:bg-blue-700"
                     >
                         Continuer mes achats

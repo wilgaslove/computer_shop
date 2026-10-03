@@ -87,10 +87,10 @@ function addToCart() {
             <div
                 class="mx-auto max-w-7xl px-6 py-4 lg:px-8"
             >
-                <div class="flex items-center gap-2 text-sm text-gray-500">
+                <div class="flex min-w-0 items-center gap-2 text-sm text-gray-500">
 
                     <Link
-                        :href="route('shop.products.index')"
+                        :href="route('shop.products')"
                         class="hover:text-blue-600"
                     >
                         Boutique
@@ -100,7 +100,7 @@ function addToCart() {
                         /
                     </span>
 
-                    <span class="text-gray-900">
+                    <span class="truncate text-gray-900">
                         {{ props.product.name }}
                     </span>
 
@@ -109,7 +109,7 @@ function addToCart() {
         </section>
 
         <!-- Produit -->
-        <section class="bg-gray-50 py-12">
+        <section class="bg-gray-50 py-8 lg:py-12">
 
             <div
                 class="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-6 lg:grid-cols-2 lg:px-8"
@@ -142,7 +142,7 @@ function addToCart() {
                         >
                             <div class="text-center text-gray-400">
 
-                                <div class="text-7xl">
+                                <div class="text-5xl sm:text-7xl">
                                     💻
                                 </div>
 
@@ -160,7 +160,7 @@ function addToCart() {
                     <!-- Vignettes -->
                     <div
                         v-if="gallery.length > 1"
-                        class="mt-4 grid grid-cols-5 gap-3"
+                        class="mt-4 grid grid-cols-4 gap-2 sm:grid-cols-5 sm:gap-3"
                     >
                         <button
                             v-for="(src, index) in gallery"
@@ -204,7 +204,7 @@ function addToCart() {
                     <div class="mt-6 flex flex-wrap items-baseline gap-x-4 gap-y-1">
 
                         <span
-                            class="text-4xl font-bold"
+                            class="text-3xl font-bold sm:text-4xl"
                             :class="props.product.is_on_promotion ? 'text-red-600' : 'text-blue-700'"
                         >
                             {{
@@ -339,7 +339,7 @@ function addToCart() {
 
                     <!-- Retour -->
                     <Link
-                        :href="route('shop.products.index')"
+                        :href="route('shop.products')"
                         class="mt-6 inline-flex items-center text-sm font-medium text-gray-500 hover:text-blue-600"
                     >
                         ← Retour à la boutique
