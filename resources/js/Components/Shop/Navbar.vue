@@ -8,7 +8,7 @@ const user = computed(() => page.props?.auth?.user ?? null)
 const cartCount = computed(() => page.props?.cart?.count ?? 0)
 const isStaff = computed(() => page.props?.auth?.is_staff ?? false)
 const newMessages = computed(() => page.props?.admin?.new_messages ?? 0)
-const brand = computed(() => page.props?.site?.brand ?? 'ComputerShop')
+const brand = computed(() => page.props?.site?.brand ?? 'LogInova Tech')
 
 const menuOpen = ref(false)    // menu du compte (avatar)
 const mobileOpen = ref(false)  // menu burger (mobile / tablette)
