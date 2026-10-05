@@ -6,6 +6,7 @@ import InputLabel from '@/Components/InputLabel.vue'
 import PrimaryButton from '@/Components/PrimaryButton.vue'
 import TextInput from '@/Components/TextInput.vue'
 import { Head, Link, useForm } from '@inertiajs/vue3'
+import PasswordInput from '@/Components/PasswordInput.vue'
 
 defineProps({
     canResetPassword: {
@@ -82,7 +83,7 @@ const submit = () => {
             </div>
 
             <!-- PASSWORD -->
-            <div class="mt-4">
+            <!-- <div class="mt-4">
                 <InputLabel
                     for="password"
                     value="Mot de passe"
@@ -105,7 +106,28 @@ const submit = () => {
                     class="mt-2"
                     :message="form.errors.password"
                 />
-            </div>
+            </div> -->
+
+            <!-- PASSWORD -->
+<div class="mt-4">
+    <InputLabel
+        for="password"
+        value="Mot de passe"
+    />
+
+    <PasswordInput
+        id="password"
+        v-model="form.password"
+        autocomplete="current-password"
+        :required="true"
+        :has-error="!!form.errors.password"
+    />
+
+    <InputError
+        class="mt-2"
+        :message="form.errors.password"
+    />
+</div>
 
             <!-- REMEMBER -->
             <div class="mt-4 block">

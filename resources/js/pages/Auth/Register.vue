@@ -1,5 +1,6 @@
 <script setup>
-import { Head, Link, useForm } from '@inertiajs/vue3'
+import { Head, Link, useForm } from '@inertiajs/vue3';
+import PasswordInput from '@/Components/PasswordInput.vue'
 
 const form = useForm({
     name: '',
@@ -108,68 +109,58 @@ const submit = () => {
                 </div>
 
                 <!-- PASSWORD -->
-                <div>
-                    <label
-                        for="password"
-                        class="block text-sm font-medium mb-2"
-                    >
-                        Mot de passe
-                    </label>
+               <!-- PASSWORD -->
+<div>
+    <label
+        for="password"
+        class="block text-sm font-medium mb-2"
+    >
+        Mot de passe
+    </label>
 
-                    <input
-                        id="password"
-                        v-model="form.password"
-                        type="password"
-                        autocomplete="new-password"
-                        placeholder="••••••••"
-                        class="w-full rounded-xl px-4 py-3 border
-                               focus:outline-none focus:ring-2"
-                        :class="
-                            form.errors.password
-                                ? 'border-red-500 focus:ring-red-200'
-                                : 'border-gray-300 focus:border-blue-500 focus:ring-blue-100'
-                        "
-                    >
+    <PasswordInput
+        id="password"
+        v-model="form.password"
+        autocomplete="new-password"
+        placeholder="••••••••"
+        :required="true"
+        :has-error="!!form.errors.password"
+    />
 
-                    <div
-                        v-if="form.errors.password"
-                        class="text-red-500 text-sm mt-1"
-                    >
-                        {{ form.errors.password }}
-                    </div>
-                </div>
+    <div
+        v-if="form.errors.password"
+        class="text-red-500 text-sm mt-1"
+    >
+        {{ form.errors.password }}
+    </div>
+</div>
 
                 <!-- CONFIRMATION -->
-                <div>
-                    <label
-                        for="password_confirmation"
-                        class="block text-sm font-medium mb-2"
-                    >
-                        Confirmer le mot de passe
-                    </label>
+                <!-- CONFIRMATION -->
+<div>
+    <label
+        for="password_confirmation"
+        class="block text-sm font-medium mb-2"
+    >
+        Confirmer le mot de passe
+    </label>
 
-                    <input
-                        id="password_confirmation"
-                        v-model="form.password_confirmation"
-                        type="password"
-                        autocomplete="new-password"
-                        placeholder="••••••••"
-                        class="w-full rounded-xl px-4 py-3 border
-                               focus:outline-none focus:ring-2"
-                        :class="
-                            form.errors.password_confirmation
-                                ? 'border-red-500 focus:ring-red-200'
-                                : 'border-gray-300 focus:border-blue-500 focus:ring-blue-100'
-                        "
-                    >
+    <PasswordInput
+        id="password_confirmation"
+        v-model="form.password_confirmation"
+        autocomplete="new-password"
+        placeholder="••••••••"
+        :required="true"
+        :has-error="!!form.errors.password_confirmation"
+    />
 
-                    <div
-                        v-if="form.errors.password_confirmation"
-                        class="text-red-500 text-sm mt-1"
-                    >
-                        {{ form.errors.password_confirmation }}
-                    </div>
-                </div>
+    <div
+        v-if="form.errors.password_confirmation"
+        class="text-red-500 text-sm mt-1"
+    >
+        {{ form.errors.password_confirmation }}
+    </div>
+</div>
 
                 <!-- BOUTON -->
                 <button
