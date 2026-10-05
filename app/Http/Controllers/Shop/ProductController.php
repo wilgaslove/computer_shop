@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use App\Support\Seo;
+use Illuminate\Support\Str;
 use Inertia\Inertia;
 
 class ProductController extends Controller
@@ -63,6 +65,7 @@ class ProductController extends Controller
             ->first();
 
         return Inertia::render('Shop/Products/Index', [
+            'seo'         => $this->catalogueSeo($filters, $products, $categories),
             'products'    => $products,
             'categories'  => $categories,
             'filters'     => $filters,
@@ -103,14 +106,17 @@ class ProductController extends Controller
             ->paginate(12)
             ->withQueryString();
 
+        // Plus forte réduction du catalogue (bannière + description SEO)
+        $maxDiscount = (int) round((float) (
+            Product::onPromotion()
+                ->selectRaw('MAX((price - promo_price) / price * 100) as max_discount')
+                ->first()?->max_discount ?? 0
+        ));
+
         return Inertia::render('Shop/Promotions', [
+            'seo'         => $this->promotionsSeo($products, $sort, $maxDiscount),
             'products'    => $products,
-            // Plus forte réduction du catalogue (affichée dans la bannière)
-            'maxDiscount' => (int) round((float) (
-                Product::onPromotion()
-                    ->selectRaw('MAX((price - promo_price) / price * 100) as max_discount')
-                    ->first()?->max_discount ?? 0
-            )),
+            'maxDiscount' => $maxDiscount,
             'sort'        => $sort,
             'sorts'    => collect($sorts)
                 ->map(fn ($label, $value) => ['value' => $value, 'label' => $label])
@@ -125,8 +131,88 @@ class ProductController extends Controller
         $product->load(['category', 'images']);
 
         return Inertia::render('Shop/Products/Show', [
+            'seo'     => Seo::product($product),
             'product' => $product,
         ]);
+    }
+
+    /**
+     * SEO du catalogue : une page par catégorie est indexée ;
+     * recherche, tri et filtres de prix sont en « noindex » (contenu dupliqué).
+     */
+    private function catalogueSeo(array $filters, $products, $categories): array
+    {
+        $locality = config('seo.locality');
+        $country  = config('seo.country_name');
+        $page     = $products->currentPage();
+        $category = $filters['category'] !== ''
+            ? $categories->firstWhere('id', (int) $filters['category'])
+            : null;
+
+        $filtered = $filters['q'] !== ''
+            || $filters['min_price'] !== ''
+            || $filters['max_price'] !== ''
+            || $filters['sort'] !== 'latest'
+            || $filters['in_stock'];
+
+        $params = [];
+        if ($category) {
+            $params['category'] = $category->id;
+        }
+        if ($page > 1) {
+            $params['page'] = $page;
+        }
+
+        if ($filters['q'] !== '') {
+            $title       = 'Recherche : ' . Str::limit($filters['q'], 40);
+            $description = 'Résultats pour « ' . Str::limit($filters['q'], 60) . ' » : ' . $products->total() . ' produit(s) informatique à ' . $locality . '.';
+        } elseif ($category) {
+            $title       = "{$category->name} à {$locality}, {$country} – prix en FCFA";
+            $description = "Découvrez notre sélection de {$category->name} : {$category->products_count} produit(s) disponible(s), prix en FCFA, livraison et paiement à la livraison à {$locality}.";
+        } else {
+            $title       = "Boutique informatique à {$locality} – ordinateurs, accessoires";
+            $description = config('seo.description');
+        }
+
+        if ($page > 1) {
+            $title .= " – page {$page}";
+        }
+
+        $crumbs = [['Accueil', url('/')], ['Boutique', route('shop.products')]];
+        if ($category) {
+            $crumbs[] = [$category->name, route('shop.products', ['category' => $category->id])];
+        }
+
+        return Seo::make($title, $description, [
+            'canonical' => route('shop.products', $params),
+            'noindex'   => $filtered,
+            'jsonld'    => [Seo::breadcrumbs($crumbs)],
+        ]);
+    }
+
+    private function promotionsSeo($products, string $sort, int $maxDiscount): array
+    {
+        $page = $products->currentPage();
+
+        $title = $maxDiscount > 0
+            ? "Promotions informatique : jusqu'à -{$maxDiscount} %"
+            : 'Promotions informatique';
+
+        if ($page > 1) {
+            $title .= " – page {$page}";
+        }
+
+        return Seo::make(
+            $title,
+            'Profitez de nos promotions sur les ordinateurs, PC gaming et accessoires'
+                . ($maxDiscount > 0 ? " : jusqu'à -{$maxDiscount} %" : '')
+                . ' chez ' . Seo::brand() . ', ' . config('seo.locality') . '. Prix en FCFA.',
+            [
+                'canonical' => route('shop.promotions', $page > 1 ? ['page' => $page] : []),
+                // Tri personnalisé ou aucune promo en cours : on évite d'indexer une page vide ou dupliquée
+                'noindex'   => $sort !== 'discount' || $products->total() === 0,
+            ]
+        );
     }
 
     /**
