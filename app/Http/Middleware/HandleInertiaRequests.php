@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Models\ContactMessage;
+use App\Support\Seo;
 use App\Support\SiteContent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -36,6 +37,8 @@ class HandleInertiaRequests extends Middleware
             ],
             // Marque, coordonnées et colonnes du pied de page (modifiables depuis l'admin)
             'site' => fn () => SiteContent::get('shop'),
+            // Balises SEO par défaut (les pages publiques fournissent les leurs)
+            'seo'  => fn () => Seo::forRequest($request),
             'cart' => [
                 'count' => array_sum(session('cart', [])),
             ],

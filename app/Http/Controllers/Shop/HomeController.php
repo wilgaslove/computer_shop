@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\HeroSlider;
 use App\Models\OrderItem;
 use App\Models\Product;
+use App\Support\Seo;
 use App\Support\SiteContent;
 use Illuminate\Support\Collection;
 use Inertia\Inertia;
@@ -19,6 +20,7 @@ class HomeController extends Controller
         $products = $content['products'];
 
         return Inertia::render('Shop/HomePage', [
+            'seo'      => Seo::home(),
             'content'  => $content,
             'sliders'  => HeroSlider::where('active', true)->orderBy('position')->orderBy('id')->get(),
 

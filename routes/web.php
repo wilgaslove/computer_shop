@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SeoController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
@@ -26,6 +27,10 @@ use App\Http\Controllers\Admin\ContactMessageController as AdminContactMessageCo
 | Boutique
 |--------------------------------------------------------------------------
 */
+
+// Référencement : sitemap + robots.txt (supprimer public/robots.txt)
+Route::get('/sitemap.xml', [SeoController::class, 'sitemap'])->name('sitemap');
+Route::get('/robots.txt', [SeoController::class, 'robots'])->name('robots');
 
 // Page d'accueil (contenu modifiable depuis Admin > Accueil du site)
 Route::get('/', [HomeController::class, 'index'])
