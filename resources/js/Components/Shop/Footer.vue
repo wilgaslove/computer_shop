@@ -66,8 +66,10 @@ const socials = computed(() => [
                 </nav>
             </div>
 
-            <div class="mt-10 border-t border-slate-700 pt-6 text-sm text-slate-400">
-                © {{ new Date().getFullYear() }} {{ site.brand }} — Tous droits réservés
+            <div class="text-center ">
+                <div class="mt-10 border-t border-slate-700 pt-6 text-sm text-slate-400 ">
+                    © {{ new Date().getFullYear() }} {{ site.brand }} — Tous droits réservés
+                </div>
             </div>
         </div>
     </footer>
