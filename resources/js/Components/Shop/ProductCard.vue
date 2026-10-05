@@ -61,6 +61,8 @@ function addToCart() {
                     v-if="product.cover_image && !imageFailed"
                     :src="`/storage/${product.cover_image}`"
                     :alt="product.name"
+                    loading="lazy"
+                    decoding="async"
                     class="h-full w-full object-cover transition duration-500 group-hover:scale-105"
                     @error="imageFailed = true"
                 />

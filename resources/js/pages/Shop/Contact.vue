@@ -124,7 +124,7 @@ const inputClass = 'w-full rounded-xl border-gray-300 focus:border-blue-500 focu
 </script>
 
 <template>
-    <Head title="Contact" />
+    <Head :title="$page.props.seo?.title ?? 'Contact'" />
 
     <ShopLayout>
         <!-- En-tête -->

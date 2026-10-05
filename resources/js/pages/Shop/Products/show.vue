@@ -78,7 +78,7 @@ function addToCart() {
 </script>
 
 <template>
-    <Head :title="props.product.name" />
+    <Head :title="$page.props.seo?.title ?? props.product.name" />
 
     <ShopLayout>
 

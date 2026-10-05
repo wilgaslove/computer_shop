@@ -22,7 +22,7 @@ function changeSort(event) {
 </script>
 
 <template>
-    <Head title="Promotions" />
+    <Head :title="$page.props.seo?.title ?? 'Promotions'" />
 
     <ShopLayout>
         <!-- Bannière -->

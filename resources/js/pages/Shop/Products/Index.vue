@@ -97,7 +97,7 @@ const priceChip = computed(() => {
 </script>
 
 <template>
-    <Head title="Boutique" />
+    <Head :title="$page.props.seo?.title ?? 'Boutique'" />
 
     <ShopLayout>
 

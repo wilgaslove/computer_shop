@@ -8,8 +8,13 @@ import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
+// La marque vient du serveur (balise og:site_name) : elle suit le nom saisi dans l'admin.
+const siteName = () =>
+    document.head.querySelector('meta[property="og:site_name"]')?.content || appName;
+
 createInertiaApp({
-    title: (title) => `${title} - ${appName}`,
+    // Un titre SEO complet (« Nom | Marque ») est utilisé tel quel ; les autres pages reçoivent « Titre | Marque ».
+    title: (title) => (!title ? siteName() : (title.includes('|') ? title : `${title} | ${siteName()}`)),
     resolve: (name) =>
         resolvePageComponent(
             `./pages/${name}.vue`,

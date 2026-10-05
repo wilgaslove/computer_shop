@@ -59,7 +59,7 @@ function subscribe() {
 </script>
 
 <template>
-    <Head title="Accueil" />
+    <Head :title="$page.props.seo?.title" />
 
     <ShopLayout>
         <div class="space-y-16">
