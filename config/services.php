@@ -22,6 +22,15 @@ return [
         'key' => env('RESEND_API_KEY'),
     ],
 
+    'kkiapay' => [
+        'public_key'     => env('KKIAPAY_PUBLIC_KEY'),
+        'private_key'    => env('KKIAPAY_PRIVATE_KEY'),
+        'secret'         => env('KKIAPAY_SECRET'),
+        // Secret saisi dans le dashboard KkiaPay > Webhooks (en-tête x-kkiapay-secret)
+        'webhook_secret' => env('KKIAPAY_WEBHOOK_SECRET'),
+        'sandbox'        => (bool) env('KKIAPAY_SANDBOX', true),
+    ],
+
     'ses' => [
         'key' => env('AWS_ACCESS_KEY_ID'),
         'secret' => env('AWS_SECRET_ACCESS_KEY'),
