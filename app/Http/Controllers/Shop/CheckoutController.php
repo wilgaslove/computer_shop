@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Shop;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\Product;
+use App\Services\KkiapayService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
@@ -16,7 +17,7 @@ class CheckoutController extends Controller
     /**
      * Page de validation de commande.
      */
-    public function index(Request $request)
+    public function index(Request $request, KkiapayService $kkiapay)
     {
         $items = $this->cartItems();
 
@@ -29,8 +30,20 @@ class CheckoutController extends Controller
         return Inertia::render('Shop/Checkout/Index', [
             'items'          => $items,
             'total'          => $items->sum('subtotal'),
-            'paymentMethods' => collect(Order::PAYMENT_METHODS)
-                ->map(fn ($label, $value) => ['value' => $value, 'label' => $label])
+            'paymentMethods' => collect([
+                [
+                    'value' => 'cash_on_delivery',
+                    'label' => Order::PAYMENT_METHODS['cash_on_delivery'],
+                    'hint'  => 'Vous réglez à la réception de votre commande.',
+                ],
+                [
+                    'value' => 'kkiapay',
+                    'label' => 'Payer en ligne',
+                    'hint'  => 'MTN, Moov, Celtis ou carte Visa. Paiement sécurisé par KkiaPay.',
+                ],
+            ])
+                // Le paiement en ligne n'est proposé que si les clés KkiaPay sont configurées.
+                ->filter(fn ($m) => $m['value'] !== 'kkiapay' || $kkiapay->isConfigured())
                 ->values(),
             'defaults'       => [
                 'shipping_name' => $request->user()->name,
@@ -49,8 +62,14 @@ class CheckoutController extends Controller
             'city'           => ['required', 'string', 'max:100'],
             'address'        => ['required', 'string', 'max:500'],
             'notes'          => ['nullable', 'string', 'max:1000'],
-            'payment_method' => ['required', Rule::in(array_keys(Order::PAYMENT_METHODS))],
+            'payment_method' => ['required', Rule::in(Order::CHECKOUT_METHODS)],
         ]);
+
+        if ($data['payment_method'] === 'kkiapay' && ! app(KkiapayService::class)->isConfigured()) {
+            throw ValidationException::withMessages([
+                'payment_method' => 'Le paiement en ligne n\'est pas disponible pour le moment.',
+            ]);
+        }
 
         $cart = session('cart', []);
 
@@ -122,6 +141,11 @@ class CheckoutController extends Controller
         });
 
         session()->forget('cart');
+
+        // Paiement en ligne : la commande est créée (stock réservé), le client règle sur la page suivante.
+        if ($order->payment_method === 'kkiapay') {
+            return redirect()->route('checkout.pay', $order);
+        }
 
         return redirect()->route('checkout.success', $order);
     }

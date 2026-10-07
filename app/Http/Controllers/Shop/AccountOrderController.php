@@ -36,7 +36,11 @@ class AccountOrderController extends Controller
 
         return Inertia::render('Shop/Account/Orders/Show', [
             'order'     => $order,
-            'canCancel' => $order->status === 'pending',
+            // Une commande déjà payée en ligne ne s'annule pas seule : il faut un remboursement.
+            'canCancel' => $order->status === 'pending' && $order->payment_status === 'unpaid',
+            'canPay'    => $order->status === 'pending'
+                && $order->payment_status === 'unpaid'
+                && $order->payment_method === 'kkiapay',
         ]);
     }
 
@@ -49,7 +53,7 @@ class AccountOrderController extends Controller
         $this->authorizeOwner($request, $order);
 
         // Le client ne peut annuler que tant que la commande est « en attente ».
-        if ($order->status !== 'pending' || ! $order->cancelAndRestock()) {
+        if ($order->status !== 'pending' || $order->payment_status !== 'unpaid' || ! $order->cancelAndRestock()) {
             return back()->with('error', 'Cette commande ne peut plus être annulée.');
         }
 
