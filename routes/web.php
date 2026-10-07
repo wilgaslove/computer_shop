@@ -3,7 +3,6 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\SeoController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
@@ -14,6 +13,7 @@ use App\Http\Controllers\Shop\ProductController as ShopProductController;
 use App\Http\Controllers\Shop\ProductController;
 use App\Http\Controllers\Shop\CartController;
 use App\Http\Controllers\Shop\CheckoutController;
+use App\Http\Controllers\Shop\PaymentController;
 use App\Http\Controllers\Shop\AccountOrderController;
 use App\Http\Controllers\Shop\ContactController;
 use App\Http\Controllers\Shop\HomeController;
@@ -27,10 +27,6 @@ use App\Http\Controllers\Admin\ContactMessageController as AdminContactMessageCo
 | Boutique
 |--------------------------------------------------------------------------
 */
-
-// Référencement : sitemap + robots.txt (supprimer public/robots.txt)
-Route::get('/sitemap.xml', [SeoController::class, 'sitemap'])->name('sitemap');
-Route::get('/robots.txt', [SeoController::class, 'robots'])->name('robots');
 
 // Page d'accueil (contenu modifiable depuis Admin > Accueil du site)
 Route::get('/', [HomeController::class, 'index'])
@@ -301,6 +297,13 @@ Route::middleware('auth')
 
         Route::get('/confirmation/{order}', [CheckoutController::class, 'success'])
             ->name('success');
+
+        // Paiement en ligne KkiaPay
+        Route::get('/pay/{order}', [PaymentController::class, 'show'])
+            ->name('pay');
+
+        Route::post('/pay/{order}/confirm', [PaymentController::class, 'confirm'])
+            ->name('pay.confirm');
     });
 
 

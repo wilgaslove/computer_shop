@@ -20,3 +20,7 @@
 //     AuthenticatedSessionController::class,
 //     'apiLogin'
 // ]);
+
+// Notification serveur KkiaPay (URL à saisir dans le dashboard : https://votre-domaine/api/webhooks/kkiapay)
+\Illuminate\Support\Facades\Route::post('/webhooks/kkiapay', \App\Http\Controllers\Webhooks\KkiapayWebhookController::class)
+    ->name('webhooks.kkiapay');

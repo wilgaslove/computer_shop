@@ -150,7 +150,10 @@ function submit() {
                                         :value="method.value"
                                         class="text-blue-600 focus:ring-blue-500"
                                     >
-                                    <span class="font-medium text-gray-900">{{ method.label }}</span>
+                                    <span>
+                                        <span class="block font-medium text-gray-900">{{ method.label }}</span>
+                                        <span v-if="method.hint" class="block text-sm text-gray-500">{{ method.hint }}</span>
+                                    </span>
                                 </label>
                             </div>
 
@@ -197,7 +200,7 @@ function submit() {
                             :disabled="form.processing"
                             class="mt-6 w-full rounded-xl bg-blue-600 py-3 font-semibold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60"
                         >
-                            {{ form.processing ? 'Validation…' : 'Confirmer la commande' }}
+                            {{ form.processing ? 'Validation…' : (form.payment_method === 'kkiapay' ? 'Continuer vers le paiement' : 'Confirmer la commande') }}
                         </button>
 
                         <Link

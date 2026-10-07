@@ -7,6 +7,7 @@ import OrderStatusBadge from '@/Components/Shop/OrderStatusBadge.vue'
 const props = defineProps({
     order: { type: Object, required: true },
     canCancel: { type: Boolean, default: false },
+    canPay: { type: Boolean, default: false },
 })
 
 function formatFcfa(value) {
@@ -112,6 +113,17 @@ function cancelOrder() {
                         class="whitespace-nowrap rounded-xl bg-blue-600 px-5 py-2 text-sm font-semibold text-white transition hover:bg-blue-700"
                     >
                         Contacter le service client
+                    </Link>
+                </div>
+
+                <!-- Paiement en ligne en attente -->
+                <div v-if="props.canPay" class="rounded-2xl border border-blue-200 bg-blue-50 p-5 text-center">
+                    <p class="mb-3 text-sm text-blue-900">Cette commande n'est pas encore payée.</p>
+                    <Link
+                        :href="route('checkout.pay', props.order.reference)"
+                        class="inline-block rounded-xl bg-blue-600 px-6 py-3 font-semibold text-white transition hover:bg-blue-700"
+                    >
+                        Payer maintenant
                     </Link>
                 </div>
 
