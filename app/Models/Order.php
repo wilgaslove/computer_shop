@@ -29,8 +29,12 @@ class Order extends Model
 
     public const PAYMENT_METHODS = [
         'cash_on_delivery' => 'Paiement à la livraison',
-        'mobile_money'     => 'Mobile Money',
+        'mobile_money'     => 'Mobile Money',          // ancien mode, conservé pour l'historique
+        'kkiapay'          => 'Paiement en ligne (KkiaPay)',
     ];
+
+    /** Modes proposés au checkout. */
+    public const CHECKOUT_METHODS = ['cash_on_delivery', 'kkiapay'];
 
     public const PAYMENT_STATUSES = [
         'unpaid' => 'Non payée',
@@ -43,6 +47,8 @@ class Order extends Model
         'status',
         'payment_method',
         'payment_status',
+        'kkiapay_transaction_id',
+        'paid_at',
         'total',
         'shipping_name',
         'phone',
@@ -52,7 +58,8 @@ class Order extends Model
     ];
 
     protected $casts = [
-        'total' => 'decimal:2',
+        'total'   => 'decimal:2',
+        'paid_at' => 'datetime',
     ];
 
     protected $appends = [
@@ -125,6 +132,38 @@ class Order extends Model
             }
 
             $fresh->update(['status' => 'cancelled']);
+            $this->refresh();
+
+            return true;
+        });
+    }
+
+    /**
+     * Enregistre un paiement en ligne reçu. Idempotent : sans effet si la commande est déjà payée.
+     * Une commande « en attente » passe automatiquement en « confirmée ».
+     */
+    public function markPaidOnline(string $transactionId): bool
+    {
+        return DB::transaction(function () use ($transactionId) {
+            $fresh = static::whereKey($this->id)->lockForUpdate()->first();
+
+            if ($fresh->payment_status === 'paid') {
+                $this->refresh();
+
+                return false;
+            }
+
+            $updates = [
+                'payment_status'         => 'paid',
+                'kkiapay_transaction_id' => $transactionId,
+                'paid_at'                => now(),
+            ];
+
+            if ($fresh->status === 'pending') {
+                $updates['status'] = 'confirmed';
+            }
+
+            $fresh->update($updates);
             $this->refresh();
 
             return true;
